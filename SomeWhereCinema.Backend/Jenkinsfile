@@ -4,6 +4,13 @@ pipeline{
         pollSCM("* * * * *")
     }
     stages{
+        stage("unitTest"){
+            steps{
+                echo "====++++executing dotnet test ++++===="
+                dotnet test
+            }
+            
+        }
         stage("Branch Build"){
             steps{
                 echo "====++++executing Branch Build++++===="
