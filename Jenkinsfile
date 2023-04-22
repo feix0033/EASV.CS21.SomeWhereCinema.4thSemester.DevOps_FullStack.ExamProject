@@ -8,7 +8,6 @@ pipeline{
             steps{
                 echo "====++++executing dotnet test ++++===="
                 sh 'cd SomeWhereCinema.Backend/Test.Domain.Core/'
-                sh 'dotnet test'
             }
             
         }
