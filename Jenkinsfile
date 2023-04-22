@@ -7,7 +7,7 @@ pipeline{
         stage("unitTest"){
             steps{
                 echo "====++++executing dotnet test ++++===="
-                sh 'cd ../Test.Domain.Core'
+                sh 'cd SomeWhereCinema.Backend/Test.Domain.Core/'
                 sh 'dotnet test'
             }
             
