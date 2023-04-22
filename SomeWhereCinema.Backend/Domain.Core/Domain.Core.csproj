@@ -4,7 +4,11 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>Security</RootNamespace>
     </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="IServices\"/>
+        <Folder Include="Models\"/>
+    </ItemGroup>
 
 </Project>
