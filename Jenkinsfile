@@ -14,6 +14,7 @@ pipeline{
     stages('feature'){
          stage("Branch Build"){
             steps{
+                sh 'git checkout feature_init_core'
                 dir('SomeWhereCinema.Backend'){
                     sh "dotnet build"
                 }
@@ -85,6 +86,10 @@ pipeline{
         stage("Main Build"){
             steps{
                 echo "====++++executing Main Build++++===="
+                sh 'git checkout main'
+                dir('SomeWhereCinema.Backend'){
+                    sh 'dotnet build'
+                }
             }
             post{
                 always{
@@ -153,7 +158,5 @@ pipeline{
         
             }
         }
-
-    }
     }
 }
