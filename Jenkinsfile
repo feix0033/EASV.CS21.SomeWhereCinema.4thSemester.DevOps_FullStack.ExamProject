@@ -10,11 +10,11 @@ pipeline{
 
          stage("Branch Build"){
             steps{
-                dotnet build
+                sh "dotnet build"
             }
             post{
                 always{
-                    echo "=== Build"
+                    echo "====++++ the first build stage ++++===="
                 }
                 success{
                     echo "=== Build are success"
