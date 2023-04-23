@@ -11,7 +11,7 @@ pipeline{
         PATH = "/usr/local/share/dotnet/:$PATH"
     }
 
-    stages{
+    stages('feature'){
          stage("Branch Build"){
             steps{
                 dir('SomeWhereCinema.Backend'){
@@ -79,6 +79,9 @@ pipeline{
             }
         }
 
+    }
+
+    stages('main'){
         stage("Main Build"){
             steps{
                 echo "====++++executing Main Build++++===="
@@ -151,5 +154,6 @@ pipeline{
             }
         }
 
+    }
     }
 }
