@@ -10,7 +10,7 @@ pipeline{
 
          stage("Branch Build"){
             steps{
-                sh "dotnet build"
+                sh "/usr/local/share/dotnet/dotnet build"
             }
             post{
                 always{
