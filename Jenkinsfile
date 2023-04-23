@@ -15,8 +15,6 @@ pipeline{
          stage("Branch Build"){
             steps{
                 dir('SomeWhereCinema.Backend'){
-                    sh 'pwd'
-                    sh 'ls'
                     sh "dotnet build"
                 }
             }
@@ -37,7 +35,9 @@ pipeline{
         stage("unitTest"){
             steps{
                 echo "====++++executing dotnet test ++++===="
-                sh 'cd SomeWhereCinema.Backend/Test.Domain.Core/'
+                dir('cd SomeWhereCinema.Backend/Test.Domain.Core/'){
+                    sh "dotnet test"
+                }
             }
             
         }
