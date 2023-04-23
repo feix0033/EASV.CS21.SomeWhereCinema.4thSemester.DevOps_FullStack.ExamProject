@@ -1,15 +1,13 @@
 pipeline{
 
     agent any
-    triggers{
-        pollSCM("* * * * *")
-    }
-
     environment {
         DOTNET_ROOT = "/usr/local/share/dotnet/"
         PATH = "/usr/local/share/dotnet/:$PATH"
     }
-
+    triggers{
+        pollSCM("* * * * *")
+    }
     stages{
          stage("Branch Build"){
             steps{
