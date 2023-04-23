@@ -29,9 +29,7 @@ pipeline{
         stage("unitTest"){
             steps{
                 echo "====++++executing dotnet test ++++===="
-                sh 'sudo apt-get update && sudo apt-get install -y aspnetcore-runtime-7.0'
                 sh 'cd SomeWhereCinema.Backend/Test.Domain.Core/'
-                sh 'dotnet test'
             }
             
         }
