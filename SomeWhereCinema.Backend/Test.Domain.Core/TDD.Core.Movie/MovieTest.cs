@@ -1,14 +1,16 @@
-using Domain.Core.Models;
-
-namespace Test.Domain.Core.TDD.Core.Move;
+namespace Test.Domain.Core.TDD.Core.Movie;
 
 public class MovieTest
 {
-    private readonly Movie _movie;
+    private readonly global::Domain.Core.Models.Movie _movie;
 
     public MovieTest()
     {
-        _movie = new Movie();
+        _movie = new global::Domain.Core.Models.Movie()
+        {
+            id = 1,
+            name = "test movie"
+        };
     }
 
     [Fact]
@@ -26,6 +28,7 @@ public class MovieTest
     [Fact]
     public void Movie_shouldHaveNameMustBeString()
     {
+        Assert.NotNull(_movie.name);
         Assert.True(_movie.name is string);
         
     }
