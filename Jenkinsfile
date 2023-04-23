@@ -6,14 +6,24 @@ pipeline{
         pollSCM("* * * * *")
     }
 
+    environment {
+        DOTNET_ROOT = "/usr/local/share/dotnet/"
+        PATH = "/usr/local/share/dotnet/:$PATH"
+    }
+
     stages{
 
          stage("Branch Build"){
             steps{
+                dir('SomeWhereCinema.Backend'){
+                    sh 'ls'
+                }
+            }
+            steps{
                 sh "ls"
-                sh "cd SomeWhereCinema.Backend/"
+                sh "cd SomeWhereCinema.Backend"
                 sh "ls"
-                sh "/usr/local/share/dotnet/dotnet build"
+                sh "dotnet build"
             }
             post{
                 always{
