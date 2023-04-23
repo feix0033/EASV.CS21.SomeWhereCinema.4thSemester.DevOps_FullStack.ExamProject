@@ -18,15 +18,15 @@ public class MovieTest
     }
 
     [Fact]
-    public void Movie_shouldHaveId()
+    public void Movie_shouldHaveIdMustBeInt()
     {
-        Assert.NotNull(_movie.id);
+        Assert.True(_movie.id is int);
     }
 
     [Fact]
-    public void Movie_shouldHaveName()
+    public void Movie_shouldHaveNameMustBeString()
     {
-        Assert.NotNull(_movie.name);
+        Assert.True(_movie.name is string);
         
     }
 }
