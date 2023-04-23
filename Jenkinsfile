@@ -11,6 +11,7 @@ pipeline{
          stage("Branch Build"){
             steps{
                 sh "cd SomeWhereCinema.Backend/"
+                sh "ls"
                 sh "/usr/local/share/dotnet/dotnet build"
             }
             post{
