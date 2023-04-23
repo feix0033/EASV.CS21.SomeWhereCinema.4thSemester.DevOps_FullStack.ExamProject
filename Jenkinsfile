@@ -1,9 +1,31 @@
 pipeline{
+
     agent any
+
     triggers{
         pollSCM("* * * * *")
     }
+
     stages{
+
+         stage("Branch Build"){
+            steps{
+                dotnet build
+            }
+            post{
+                always{
+                    echo "=== Build"
+                }
+                success{
+                    echo "=== Build are success"
+                }
+                failure{
+                    echo "=== Build failure"
+                }
+        
+            }
+        }
+
         stage("unitTest"){
             steps{
                 echo "====++++executing dotnet test ++++===="
@@ -13,23 +35,7 @@ pipeline{
             }
             
         }
-        stage("Branch Build"){
-            steps{
-                echo "====++++executing Branch Build++++===="
-            }
-            post{
-                always{
-                    echo "====++++always++++===="
-                }
-                success{
-                    echo "====++++Branch Build executed successfully++++===="
-                }
-                failure{
-                    echo "====++++Branch Build execution failed++++===="
-                }
-        
-            }
-        }
+       
 
         stage("Branch Test"){
             steps{
