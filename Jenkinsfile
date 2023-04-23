@@ -12,14 +12,12 @@ pipeline{
     }
 
     stages{
-
          stage("Branch Build"){
             steps{
                 dir('SomeWhereCinema.Backend'){
-                    sh 'ls'
+                    sh 'pwd'
                 }
-            }
-            steps{
+
                 sh "ls"
                 sh "cd SomeWhereCinema.Backend"
                 sh "ls"
