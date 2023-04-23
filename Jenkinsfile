@@ -35,7 +35,7 @@ pipeline{
         stage("unitTest"){
             steps{
                 echo "====++++executing dotnet test ++++===="
-                dir('cd SomeWhereCinema.Backend/Test.Domain.Core/'){
+                dir('SomeWhereCinema.Backend/Test.Domain.Core/'){
                     sh "dotnet test"
                 }
             }
