@@ -10,4 +10,10 @@ public class MovieTest
         var movie = new Movie();
         Assert.NotNull(movie);
     }
+
+    public void Movie_shouldHaveId()
+    {
+        var movie = new Movie();
+        Assert.NotNull(movie.id);
+    }
 }
