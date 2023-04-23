@@ -11,7 +11,7 @@ pipeline{
         PATH = "/usr/local/share/dotnet/:$PATH"
     }
 
-    stages('feature'){
+    stages{
          stage("Branch Build"){
             steps{
                 sh 'git checkout feature_init_core'
@@ -79,10 +79,6 @@ pipeline{
         
             }
         }
-
-    }
-
-    stages('main'){
         stage("Main Build"){
             steps{
                 echo "====++++executing Main Build++++===="
