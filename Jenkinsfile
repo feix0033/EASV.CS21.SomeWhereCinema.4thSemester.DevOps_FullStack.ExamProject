@@ -16,12 +16,9 @@ pipeline{
             steps{
                 dir('SomeWhereCinema.Backend'){
                     sh 'pwd'
+                    sh 'ls'
+                    sh "dotnet build"
                 }
-
-                sh "ls"
-                sh "cd SomeWhereCinema.Backend"
-                sh "ls"
-                sh "dotnet build"
             }
             post{
                 always{
