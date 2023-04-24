@@ -9,6 +9,9 @@ pipeline{
         pollSCM("* * * * *")
     }
     stages{
+        stage(cleanWs){
+            cleanWs()
+        }
         stage("unitTest"){
             steps{
                 echo "====++++executing dotnet test ++++===="
@@ -24,6 +27,8 @@ pipeline{
                     sh "dotnet build"
                 }
                 dir('SomeWhereCinema.Frontend'){
+                    sh 'npm i npm'
+                    sh 'npm i @angular/cli'
                     sh 'ng build'
                 }
             }
