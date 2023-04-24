@@ -24,8 +24,8 @@ pipeline{
                 //     sh "dotnet build"
                 // }
                 dir('SomeWhereCinema.Frontend'){
-                
-                    sh 'ng build'
+                    sh 'npm install'
+                    sh 'npm run build'
                 }
             }
             post{
