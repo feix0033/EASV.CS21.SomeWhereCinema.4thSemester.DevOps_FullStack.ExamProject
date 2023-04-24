@@ -9,7 +9,7 @@ pipeline{
         pollSCM("* * * * *")
     }
     stages{
-        stage(cleanWs){
+        stage("cleanWs"){
             cleanWs()
         }
         stage("unitTest"){
