@@ -23,6 +23,9 @@ pipeline{
                 dir('SomeWhereCinema.Backend'){
                     sh "dotnet build"
                 }
+                dir('SomeWhereCinema.Frontend'){
+                    sh 'ng build'
+                }
             }
             post{
                 always{
