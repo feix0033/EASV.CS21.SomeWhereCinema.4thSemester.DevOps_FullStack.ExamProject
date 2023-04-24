@@ -11,17 +11,30 @@ import * as config from '../../firebaseconfig';
 export class FireService {
   firebaseApplication;
   firestore: firebase.firestore.Firestore;
-  testDate: any;
+  testDate: any[] = [];
 
 
   constructor(){
     this.firebaseApplication = firebase.initializeApp(config.firebaseConfig);
     this.firestore = firebase.firestore();
+
+    this.getTestData();
   }
 
-  getTestData(){
-    this.testDate =
-    this.firestore.collection('testCollection').get();
+  async getTestData() {
+    this.firestore
+      .collection('testCollection')
+      .onSnapshot(snapshot => {
+        snapshot
+          .docChanges()
+          .forEach(change => {
+            this.testDate.push({
+              testFieldData: change.doc.get('testField2'),
+              data: change.doc.data(),
+              id: change.doc.id,
+            })
+          })
+      })
   }
 
 

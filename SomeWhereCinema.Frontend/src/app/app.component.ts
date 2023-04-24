@@ -10,6 +10,6 @@ export class AppComponent {
   title = 'SomeWhereCinema.Frontend';
 
 
-  constructor(private firebaseService: FireService) {
+  constructor(public firebaseService: FireService) {
   }
 }
