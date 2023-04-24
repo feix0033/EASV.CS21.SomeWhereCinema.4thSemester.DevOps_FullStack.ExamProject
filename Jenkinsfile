@@ -9,11 +9,6 @@ pipeline{
         pollSCM("* * * * *")
     }
     stages{
-        stage("cleanWs"){
-            steps{
-                cleanWs()
-            }
-        }
         stage("unitTest"){
             steps{
                 echo "====++++executing dotnet test ++++===="
