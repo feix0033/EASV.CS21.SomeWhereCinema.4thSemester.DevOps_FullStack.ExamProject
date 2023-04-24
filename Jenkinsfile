@@ -10,7 +10,9 @@ pipeline{
     }
     stages{
         stage("cleanWs"){
-            cleanWs()
+            steps{
+                cleanWs()
+            }
         }
         stage("unitTest"){
             steps{
