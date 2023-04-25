@@ -21,6 +21,7 @@ pipeline{
         }
          stage("Build"){
             steps{
+                echo "====++++executing dotnet build ++++===="
                 // dir('SomeWhereCinema.Backend'){
                 //     sh "dotnet build"
                 // }
