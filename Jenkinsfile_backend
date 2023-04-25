@@ -38,5 +38,12 @@ pipeline{
         
             }
         }
+        stage("merge branch"){
+            steps{
+                sh "git status"
+                sh "git rebase BackEnd BackEnd_Dev"
+                sh "git status"
+            }
+        }
     }
 }
