@@ -1,13 +1,15 @@
 pipeline{
-
     agent any
+
     environment {
         DOTNET_ROOT = "/usr/local/share/dotnet/"
         PATH = "/usr/local/share/dotnet/:$PATH"
     }
+
     triggers{
-        pollSCM("* * * * *")
+        cron("* * * * *")
     }
+
     stages{
         stage("unitTest"){
             steps{
