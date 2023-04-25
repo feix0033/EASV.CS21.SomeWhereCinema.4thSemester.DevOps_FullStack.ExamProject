@@ -6,7 +6,7 @@ public class MovieTest
 
     public MovieTest()
     {
-        _movie = new global::Domain.Core.Models.Movie()
+        _movie = new global::Domain.Core.Models.Movie
         {
             id = 1,
             name = "test movie"
@@ -30,6 +30,5 @@ public class MovieTest
     {
         Assert.NotNull(_movie.name);
         Assert.True(_movie.name is string);
-        
     }
 }
