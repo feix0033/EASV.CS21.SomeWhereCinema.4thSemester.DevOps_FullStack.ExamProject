@@ -8,8 +8,11 @@ import {FireService} from "./fire.service";
 })
 export class AppComponent {
   title = 'SomeWhereCinema.Frontend';
+  user;
 
 
   constructor(public firebaseService: FireService) {
   }
+
+  protected readonly FireService = FireService;
 }

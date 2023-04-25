@@ -1,41 +1,45 @@
 import { Injectable } from '@angular/core';
+
 import firebase from 'firebase/compat/app';
-import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
 
 import * as config from '../../firebaseconfig';
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class FireService {
   firebaseApplication;
   firestore: firebase.firestore.Firestore;
-  testDate: any[] = [];
+  firebaseAuth: firebase.auth.Auth;
 
 
   constructor(){
     this.firebaseApplication = firebase.initializeApp(config.firebaseConfig);
+    this.firebaseAuth = firebase.auth();
     this.firestore = firebase.firestore();
-
-    this.getTestData();
   }
 
-  async getTestData() {
-    this.firestore
-      .collection('testCollection')
-      .onSnapshot(snapshot => {
-        snapshot
-          .docChanges()
-          .forEach(change => {
-            this.testDate.push({
-              testFieldData: change.doc.get('testField2'),
-              data: change.doc.data(),
-              id: change.doc.id,
-            })
-          })
-      })
+  register(email:string, password: string){
+    this.firebaseAuth.createUserWithEmailAndPassword(email,password);
   }
+
+  signIn(email:string, password: string){
+    this.firebaseAuth.signInWithEmailAndPassword(email,password);
+  }
+
+  signOut(){
+    this.firebaseAuth.signOut();
+  }
+
+  getUser(){
+    return this.firebaseAuth.currentUser;
+  }
+
+
 
 
 }

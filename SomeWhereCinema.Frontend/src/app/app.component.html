@@ -1,6 +1,16 @@
 <h1>Some Where Cinema</h1>
+<a routerLink="">Home</a><br>
 
-<p *ngFor="let t of firebaseService.testDate">
-  data: {{t | json}}
-</p>
+<span *ngIf="firebaseService.firebaseAuth.currentUser else userLogIn">
+  <p>{{firebaseService.firebaseAuth.currentUser}}</p>
+  <a href=""></a>
+</span>
+
+<ng-template #userLogIn>
+  <a routerLink="user/userLogIn">Sign In</a> <br>
+  <a routerLink="user/userRegister">Sign Up</a>
+</ng-template>
+
+
+<router-outlet></router-outlet>
 
