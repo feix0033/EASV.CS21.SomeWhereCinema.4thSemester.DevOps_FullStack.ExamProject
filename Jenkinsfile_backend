@@ -45,7 +45,7 @@ pipeline{
                 sh "git fetch --all"
                 sh "git checkout BackEnd"
                 sh "git pull"
-                sh "git rebase BackEnd_Dev"
+                sh "git merge BackEnd_Dev"
                 sh "git push"
             }
         }
