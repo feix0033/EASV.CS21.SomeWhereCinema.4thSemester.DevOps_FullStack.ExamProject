@@ -27,4 +27,8 @@
         <ProjectReference Include="..\Domain.Service\Domain.Service.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="TDD.Core.User\" />
+    </ItemGroup>
+
 </Project>
