@@ -7,7 +7,7 @@ pipeline{
     }
 
     triggers{
-        cron(" * * * * * ")
+        pollSCM(" * * * * * ")
     }
     
     stages{
@@ -46,7 +46,6 @@ pipeline{
                 sh "git checkout BackEnd"
                 sh "git pull"
                 sh "git merge BackEnd_Dev"
-                sh "git remote -v"
                 sh "git push origin BackEnd"
             }
         }
