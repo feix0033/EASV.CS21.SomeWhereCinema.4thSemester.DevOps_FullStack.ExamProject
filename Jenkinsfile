@@ -9,23 +9,22 @@ pipeline{
         pollSCM("* * * * *")
     }
     stages{
-        // stage("unitTest"){
-        //     steps{
-        //         echo "====++++executing dotnet test ++++===="
-        //         dir('SomeWhereCinema.Backend/Test.Domain.Core/'){
-        //             sh "dotnet test"
-        //         }
-        //     }
+        stage("unitTest"){
+            steps{
+                echo "====++++executing dotnet test ++++===="
+                dir('SomeWhereCinema.Backend/Test.Domain.Core/'){
+                    sh "dotnet test"
+                }
+            }
             
-        // }
+        }
          stage("Build"){
             steps{
                 // dir('SomeWhereCinema.Backend'){
                 //     sh "dotnet build"
                 // }
                 dir('SomeWhereCinema.Frontend'){
-                    sh 'npm install'
-                    sh 'npm run build'
+                    
                 }
             }
             post{
