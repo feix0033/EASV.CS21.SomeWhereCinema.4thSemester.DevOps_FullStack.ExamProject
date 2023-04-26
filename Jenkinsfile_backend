@@ -41,9 +41,11 @@ pipeline{
         }
         stage("merge branch"){
             steps{
-                sh "git checkout BackEnd"
+                sh "git checkout BackEnd_Dev"
                 sh "git pull"
-                sh "git rebase BackEnd_Dev"
+                sh "git checkout BackEnd""
+                sh "git pull"
+                sh "git merge BackEnd_Dev"
                 sh "git push origin BackEnd"
             }
         }
