@@ -7,7 +7,7 @@ pipeline{
     }
 
     triggers{
-        cron("* * * * *")
+        cron(" * * * * * ")
     }
     
     stages{
@@ -43,7 +43,7 @@ pipeline{
             steps{
                 sh "git checkout BackEnd_Dev"
                 sh "git pull"
-                sh "git checkout BackEnd""
+                sh "git checkout BackEnd"
                 sh "git pull"
                 sh "git merge BackEnd_Dev"
                 sh "git push BackEnd"
