@@ -20,11 +20,11 @@ pipeline{
         }
          stage("Build"){
             steps{
-                // dir('SomeWhereCinema.Backend'){
-                //     sh "dotnet build"
-                // }
+                dir('SomeWhereCinema.Backend'){
+                    sh "dotnet build"
+                }
                 dir('SomeWhereCinema.Frontend'){
-                    
+                    echo "going on"
                 }
             }
             post{
