@@ -46,7 +46,10 @@ pipeline{
                 sh "git checkout BackEnd"
                 sh "git pull"
                 sh "git merge BackEnd_Dev"
-                // sh 'git commit -m "merge BackEnd_Dev to BackEnd"'
+                sh "git remote -v"
+                sh "git remote rm origin"
+                sh "git remote add origin git@github.com:feix0033/EASV.CS21.SomeWhereCinema.4thSemester.DevOps_FullStack.ExamProject.git"
+                sh "git remote -v"
                 sh "git push -u origin BackEnd"
             }
         }
