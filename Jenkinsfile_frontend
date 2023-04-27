@@ -1,0 +1,44 @@
+pipeline{
+
+    agent any
+    triggers{
+        pollSCM("* * * * *")
+    }
+    stages{
+        stage("Try to work"){
+            steps{
+                echo "====++++executing Branch Test++++===="
+            }
+            post{
+                always{
+                    echo "====++++always++++===="
+                }
+                success{
+                    echo "====++++Branch Test executed successfully++++===="
+                }
+                failure{
+                    echo "====++++Branch Test execution failed++++===="
+                }
+        
+            }
+        }
+
+        stage("Try the secend work to work"){
+            steps{
+                echo "====++++executing Branch Test++++===="
+            }
+            post{
+                always{
+                    echo "====++++always++++===="
+                }
+                success{
+                    echo "====++++Branch Test executed successfully++++===="
+                }
+                failure{
+                    echo "====++++Branch Test execution failed++++===="
+                }
+        
+            }
+        }
+    }
+}
