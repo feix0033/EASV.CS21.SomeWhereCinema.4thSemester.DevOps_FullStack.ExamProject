@@ -49,7 +49,7 @@ pipeline{
         stage("merge branch"){
             steps{
                 sh "git checkout BackEnd"
-                sh "git branch --set-upstream-to-origin/BackEnd BackEnd"
+                sh "git branch --set-upstream origin/BackEnd BackEnd"
                 sh "git pull"
                 sh "git merge BackEnd_Dev"
                 sh "git remote -v"
