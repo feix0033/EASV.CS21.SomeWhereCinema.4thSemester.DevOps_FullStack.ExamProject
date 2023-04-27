@@ -19,7 +19,7 @@ pipeline{
             steps{
                 // cleanWs()
                 sh "git checkout BackEnd_Dev"
-                sh "git branch --set-upstream-to-origin/BackEnd_Dev BackEnd_Dev"
+                sh "git branch --set-upstream- origin/BackEnd_Dev BackEnd_Dev"
                 echo "====++++executing dotnet test ++++===="
                 // dir('SomeWhereCinema.Backend/Test.Domain.Core/'){
                 //     sh "dotnet test"
