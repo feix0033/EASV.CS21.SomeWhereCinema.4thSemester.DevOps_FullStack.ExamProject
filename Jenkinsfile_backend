@@ -6,9 +6,9 @@ pipeline{
         PATH = "/usr/local/share/dotnet/:$PATH"
     }
 
-    options {
-        skipDefaultCheckout(ture)
-    }
+    // options {
+    //     skipDefaultCheckout(ture)
+    // }
 
     triggers{
         pollSCM(" 5 * * * * ")
@@ -17,7 +17,7 @@ pipeline{
     stages{
         stage("unitTest"){
             steps{
-                cleanWs()
+                // cleanWs()
                 sh "git checkout BackEnd_Dev"
                 echo "====++++executing dotnet test ++++===="
                 // dir('SomeWhereCinema.Backend/Test.Domain.Core/'){
