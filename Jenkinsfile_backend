@@ -6,6 +6,10 @@ pipeline{
         PATH = "/usr/local/share/dotnet/:$PATH"
     }
 
+    options {
+        skipDefaultCheckout(ture)
+    }
+
     triggers{
         pollSCM(" 5 * * * * ")
     }
@@ -13,6 +17,8 @@ pipeline{
     stages{
         stage("unitTest"){
             steps{
+                cleanWs()
+                sh "git checkout BackEnd_Dev"
                 echo "====++++executing dotnet test ++++===="
                 // dir('SomeWhereCinema.Backend/Test.Domain.Core/'){
                 //     sh "dotnet test"
@@ -41,7 +47,6 @@ pipeline{
         }
         stage("merge branch"){
             steps{
-                sh "git checkout BackEnd_Dev"
                 sh "git pull"
                 sh "git checkout BackEnd"
                 sh "git pull"
