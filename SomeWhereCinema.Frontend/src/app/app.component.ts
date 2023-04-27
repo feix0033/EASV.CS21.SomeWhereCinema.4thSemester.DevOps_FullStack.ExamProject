@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {FireService} from "./fire.service";
 
 @Component({
   selector: 'app-root',
@@ -8,11 +7,4 @@ import {FireService} from "./fire.service";
 })
 export class AppComponent {
   title = 'SomeWhereCinema.Frontend';
-  user;
-
-
-  constructor(public firebaseService: FireService) {
-  }
-
-  protected readonly FireService = FireService;
 }
