@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {FirestoreService} from "../../firebaseService/firestore.service";
 
 @Component({
   selector: 'app-user-login',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./user-login.component.scss']
 })
 export class UserLoginComponent {
-
+  email: any;
+  password: any;
+  constructor(public firestoreService:FirestoreService) {
+  }
 }
+
