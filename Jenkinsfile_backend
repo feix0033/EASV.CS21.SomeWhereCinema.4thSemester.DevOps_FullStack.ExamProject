@@ -48,14 +48,25 @@ pipeline{
         
             }
         }
-        stage("merge branch"){
+        stage("merge"){
+            when {
+                branch 'BackEnd'
+            }
             steps{
-                sh "git checkout BackEnd"
+
                 sh "git pull origin BackEnd"
                 sh "git merge BackEnd_Dev"
-                sh "git remote rm origin"
+
+            }
+        }
+        stage("Deploy"){
+            when{
+                branch 'BackEnd'
+            }
+            steps{
+                sh 'git remote rm origin'
                 sh "git remote add origin git@github.com:feix0033/EASV.CS21.SomeWhereCinema.4thSemester.DevOps_FullStack.ExamProject.git"
-                sh "git push -u origin BackEnd"
+                sh 'git push origin BackEnd'
             }
         }
     }
