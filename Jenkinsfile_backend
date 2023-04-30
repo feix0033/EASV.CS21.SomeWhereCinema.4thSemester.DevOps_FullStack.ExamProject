@@ -54,7 +54,7 @@ pipeline{
             }
             steps{
 
-                sh "git pull origin BackEnd"
+                sh "git fetch origin BackEnd"
                 sh "git merge BackEnd_Dev"
 
             }
