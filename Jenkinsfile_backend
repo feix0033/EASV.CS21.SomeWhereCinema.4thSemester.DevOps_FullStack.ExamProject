@@ -11,7 +11,7 @@ pipeline{
     // }
 
     triggers{
-        pollSCM(" H (20-30) * * * * ")
+        pollSCM(" * * * * * ")
     }
     
     stages{
@@ -48,14 +48,11 @@ pipeline{
         }
         stage("merge branch"){
             steps{
+                sh "git pull origin BackEnd"
                 sh "git checkout BackEnd"
-                sh "git branch --set-upstream-to origin/BackEnd BackEnd"
-                sh "git pull"
                 sh "git merge BackEnd_Dev"
-                sh "git remote -v"
                 sh "git remote rm origin"
                 sh "git remote add origin git@github.com:feix0033/EASV.CS21.SomeWhereCinema.4thSemester.DevOps_FullStack.ExamProject.git"
-                sh "git remote -v"
                 sh "git push -u origin BackEnd"
             }
         }
