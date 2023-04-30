@@ -4,6 +4,8 @@ pipeline{
     environment {
         DOTNET_ROOT = "/usr/local/share/dotnet/"
         PATH = "/usr/local/share/dotnet/:$PATH"
+        CI = 'true'
+
     }
 
     // options {
