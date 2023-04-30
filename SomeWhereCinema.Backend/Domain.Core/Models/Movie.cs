@@ -3,7 +3,6 @@ namespace Domain.Core.Models;
 
 public class Movie
 {
-    public int id;
-    public string name;
-    public DateTime date;
+    public int id { get; set; }
+    public string name { get; set; }
 }
