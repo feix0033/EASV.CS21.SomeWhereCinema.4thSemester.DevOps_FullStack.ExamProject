@@ -53,7 +53,10 @@ pipeline{
                 branch 'BackEnd'
             }
             steps{
-                sh 'git branch --set-upstream-to=origin/git@github.com:feix0033/EASV.CS21.SomeWhereCinema.4thSemester.DevOps_FullStack.ExamProject.git BackEnd_Dev'
+                sh 'git remote rm origin'
+                sh "git remote add origin git@github.com:feix0033/EASV.CS21.SomeWhereCinema.4thSemester.DevOps_FullStack.ExamProject.git"
+                sh 'git branch --set-upstream-to=origin/BackEnd BackEnd'
+
                 sh "git fetch origin BackEnd"
                 sh "git merge BackEnd_Dev"
 
