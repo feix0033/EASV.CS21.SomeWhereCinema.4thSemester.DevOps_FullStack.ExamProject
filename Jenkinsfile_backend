@@ -53,6 +53,9 @@ pipeline{
                 branch 'BackEnd'
             }
             steps{
+                sh 'git remote rm origin'
+                sh "git remote add origin git@github.com:feix0033/EASV.CS21.SomeWhereCinema.4thSemester.DevOps_FullStack.ExamProject.git"
+            
 
                 sh "git fetch origin BackEnd"
                 sh "git merge BackEnd_Dev"
@@ -64,8 +67,7 @@ pipeline{
                 branch 'BackEnd'
             }
             steps{
-                sh 'git remote rm origin'
-                sh "git remote add origin git@github.com:feix0033/EASV.CS21.SomeWhereCinema.4thSemester.DevOps_FullStack.ExamProject.git"
+                sh 'git pull'
                 sh 'git push origin BackEnd'
             }
         }
