@@ -1,6 +1,17 @@
-<h1>Some Where Cinema</h1>
+<span style="margin:20px">Some Where Cinema</span>
+<a routerLink="" style="margin:5px">Home</a>
+<a routerLink="user" style="margin:5px">User</a>
+<a routerLink="movie" style="margin:5px">Movie</a>
+<a routerLink="ordering" style="margin:5px">Order Ticket</a>
 
-<p *ngFor="let t of firebaseService.testDate">
-  data: {{t | json}}
-</p>
+<span *ngIf="(firebaseAuthService.auth.currentUser != null) else register">
+  Welcome {{firebaseAuthService.auth.currentUser}}<br>
+  <button routerLink="/"  (click)="firebaseAuthService.logOut()">Log Out</button>
+</span>
 
+<ng-template #register>
+  <a routerLink="userRegister" style="margin:5px">Register</a>
+  <a routerLink="userLogin" style="margin:5px">Login</a>
+</ng-template>
+
+<router-outlet></router-outlet>
