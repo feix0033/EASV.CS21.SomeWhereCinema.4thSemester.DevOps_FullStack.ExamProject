@@ -48,7 +48,10 @@ pipeline{
         
             }
         }
-        stage("merge branch"){
+        stage("merge"){
+            when {
+                branch 'BackEnd'
+            }
             steps{
                 sh "git checkout BackEnd"
                 sh "git pull origin BackEnd"
