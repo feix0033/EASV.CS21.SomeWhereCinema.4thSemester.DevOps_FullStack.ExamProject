@@ -2,12 +2,8 @@
 
 <input type="email" [(ngModel)]="email">
 <input type="password" [(ngModel)]="password">
-<button>Log In</button>
+<button (click)="firebaseAuthService.logIn(email,password)" routerLink="/">Log In</button>
+
 
 <br>
 
-<button (click)="firestoreService.read('user')">button</button>
-
-<p *ngFor="let v of firestoreService.values">
-  {{v | json}}
-</p>

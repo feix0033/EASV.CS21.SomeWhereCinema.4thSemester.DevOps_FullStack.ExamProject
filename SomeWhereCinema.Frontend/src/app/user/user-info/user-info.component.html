@@ -1,3 +1,10 @@
 <p>user-info works!</p>
 
-<button (click)="firebaseAuthService.logOut()">Log Out</button>
+<p *ngIf="firebaseAuthService.auth.currentUser else pleaseLogIn">
+   Welcome {{firebaseAuthService.auth.currentUser.email}}
+</p>
+
+<ng-template #pleaseLogIn>
+  Your we need your email to get info:
+  <button routerLink="userLogIn">LogIn</button>
+</ng-template>

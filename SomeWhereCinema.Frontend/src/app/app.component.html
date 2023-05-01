@@ -1,11 +1,13 @@
-<span style="margin:20px">Some Where Cinema</span>
-<a routerLink="" style="margin:5px">Home</a>
-<a routerLink="user" style="margin:5px">User</a>
-<a routerLink="movie" style="margin:5px">Movie</a>
-<a routerLink="ordering" style="margin:5px">Order Ticket</a>
+<span>
+  <span style="margin:20px">Some Where Cinema</span>
+  <a routerLink="" style="margin:5px">Home</a>
+  <a routerLink="user" style="margin:5px">User</a>
+  <a routerLink="movie" style="margin:5px">Movie</a>
+  <a routerLink="ordering" style="margin:5px">Order</a>
+</span>
 
 <span *ngIf="(firebaseAuthService.auth.currentUser != null) else register">
-  Welcome {{firebaseAuthService.auth.currentUser}}<br>
+  Welcome {{firebaseAuthService.auth.currentUser.email}}
   <button routerLink="/"  (click)="firebaseAuthService.logOut()">Log Out</button>
 </span>
 

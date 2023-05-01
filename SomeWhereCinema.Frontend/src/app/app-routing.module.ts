@@ -6,7 +6,7 @@ import {UserLoginComponent} from "./user/user-login/user-login.component";
 import {HomepageComponent} from "./homepage/homepage.component";
 
 const routes: Routes = [
-  {path: '',component: HomepageComponent},
+  {path: '', loadChildren: () => import('./homepage/homepage.module').then(l => l.HomepageModule)},
   {path: 'user', loadChildren: () => import('./user/user.module').then(l => l.UserModule)},
   {path: 'movie', loadChildren: () => import('./movie/movie.module').then(l => l.MovieModule)},
   {path: 'ordering', loadChildren: () => import('./ordering/ordering.module').then(l => l.OrderingModule)},
