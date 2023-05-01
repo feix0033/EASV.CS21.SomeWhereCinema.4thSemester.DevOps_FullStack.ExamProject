@@ -12,9 +12,7 @@ pipeline{
     }
 
     stages{
-        when {
-            branch ('FrontEnd')
-        }
+       
         stage("Build"){
             steps{
                 // dir('SomeWhereCinema.Backend'){
