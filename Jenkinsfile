@@ -24,10 +24,8 @@ pipeline{
                 //     sh "dotnet build"
                 // }
                 dir('SomeWhereCinema.Frontend'){
-                    sh 'apt update'
-                    sh 'apt install Node.js'
-                    sh 'apt install npm'
-                    sh 'npm install'
+                    sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash '
+                    sh 'nvm install node'
                 //     sh 'npm run build'
                 }
             }
