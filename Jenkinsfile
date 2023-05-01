@@ -7,7 +7,7 @@ pipeline{
         // PATH = "/usr/local/share/dotnet/:$PATH"
 
         NODE_ROOT = '/Users/evens/.nvm/versions/node/v16.20.0/bin/'
-        PATH = '/Users/evens/.nvm/versions/node/v16.20.0/bin/'
+        PATH = '$PATH:/Users/evens/.nvm/versions/node/v16.20.0/bin/'
     }
 
     tools {nodejs "NodeJS-local"}
@@ -24,8 +24,8 @@ pipeline{
                 //     sh "dotnet build"
                 // }
                 dir('SomeWhereCinema.Frontend'){
-                    ls
-                //     sh 'npm install'
+                    
+                    sh 'npm install'
                 //     sh 'npm run build'
                 }
             }
