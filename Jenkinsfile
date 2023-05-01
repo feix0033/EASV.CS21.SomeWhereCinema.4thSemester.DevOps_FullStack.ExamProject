@@ -7,7 +7,7 @@ pipeline{
         // PATH = "/usr/local/share/dotnet/:$PATH"
 
         NODE_ROOT = '/Users/evens/.nvm/versions/node/v16.20.0/bin/'
-        PATH = NODE_ROOT
+        PATH = '/Users/evens/.nvm/versions/node/v16.20.0/bin/'
     }
 
     tools {nodejs "NodeJS-local"}
