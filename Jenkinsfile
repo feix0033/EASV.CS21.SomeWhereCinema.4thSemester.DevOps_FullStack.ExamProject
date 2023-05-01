@@ -27,7 +27,7 @@ pipeline{
                     echo 'yes'
                 //     sh 'npm install'
                 //     sh 'npm run build'
-                // }
+                }
             }
             post{
                 always{
