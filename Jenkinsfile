@@ -24,9 +24,9 @@ pipeline{
                 //     sh "dotnet build"
                 // }
                 dir('SomeWhereCinema.Frontend'){
-                    sh 'sudo apt update'
-                    sh 'sudo apt install Node.js'
-                    sh 'sudo apt install npm'
+                    sh 'apt update'
+                    sh 'apt install Node.js'
+                    sh 'apt install npm'
                     sh 'npm install'
                 //     sh 'npm run build'
                 }
