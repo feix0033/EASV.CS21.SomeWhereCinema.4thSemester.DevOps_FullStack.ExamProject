@@ -5,6 +5,9 @@ pipeline{
     environment {
         DOTNET_ROOT = "/usr/local/share/dotnet/"
         PATH = "/usr/local/share/dotnet/:$PATH"
+        
+        NODE_ROOT = '/Users/evens/.nvm/versions/node/v16.20.0/bin/'
+        PATH = '/Users/evens/.nvm/versions/node/v16.20.0/bin/:$PATH'
     }
 
     tools {nodejs "NodeJS-local"}
