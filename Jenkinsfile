@@ -1,23 +1,18 @@
 pipeline{
 
     agent any
+
     environment {
         DOTNET_ROOT = "/usr/local/share/dotnet/"
         PATH = "/usr/local/share/dotnet/:$PATH"
     }
+
     triggers{
         pollSCM("* * * * *")
     }
+
     stages{
-        // stage("unitTest"){
-        //     steps{
-        //         echo "====++++executing dotnet test ++++===="
-        //         dir('SomeWhereCinema.Backend/Test.Domain.Core/'){
-        //             sh "dotnet test"
-        //         }
-        //     }
-            
-        // }
+       
          stage("Build"){
             steps{
                 // dir('SomeWhereCinema.Backend'){
