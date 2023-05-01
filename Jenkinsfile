@@ -24,7 +24,7 @@ pipeline{
                 //     sh "dotnet build"
                 // }
                 dir('SomeWhereCinema.Frontend'){
-                    sh 'ls'
+                    ls
                 //     sh 'npm install'
                 //     sh 'npm run build'
                 }
