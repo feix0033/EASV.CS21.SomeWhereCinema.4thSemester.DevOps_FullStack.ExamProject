@@ -1,62 +1,9 @@
-pipeline{
-
-    agent any
-
-    environment {
-    //     // DOTNET_ROOT = "/usr/local/share/dotnet/"
-    //     // PATH = "/usr/local/share/dotnet/:$PATH"
-
-        PATH = '$HOME/.nvm/versions/node/v16.20.0/bin/'
-    }
-
-    tools {nodejs "NodeJS-local"}
-
-    triggers{
-        pollSCM("* * * * *")
-    }
-
-    stages{
-       
-        stage("Build"){
-            steps{
-                // dir('SomeWhereCinema.Backend'){
-                //     sh "dotnet build"
-                // }
-                dir('SomeWhereCinema.Frontend'){
-                    sh 'npm i'
-                //     sh 'npm run build'
-                }
-            }
-            post{
-                always{
-                    echo "====++++ the first build stage ++++===="
-                }
-                success{
-                    echo "=== Build are success"
-                }
-                failure{
-                    echo "=== Build failure"
-                }
-        
-            }
-        }
-       
-
-        stage("Branch Test"){
-            steps{
-                echo "====++++executing Branch Test++++===="
-            }
-            post{
-                always{
-                    echo "====++++always++++===="
-                }
-                success{
-                    echo "====++++Branch Test executed successfully++++===="
-                }
-                failure{
-                    echo "====++++Branch Test execution failed++++===="
-                }
-        
+pipeline {
+    agent { docker 'node:6.3' }
+    stages {
+        stage('build') {
+            steps {
+                sh 'npm --version'
             }
         }
     }
