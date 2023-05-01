@@ -2,13 +2,12 @@ pipeline{
 
     agent any
 
-    // environment {
+    environment {
     //     // DOTNET_ROOT = "/usr/local/share/dotnet/"
     //     // PATH = "/usr/local/share/dotnet/:$PATH"
 
-    //     // NODE_ROOT = '/Users/evens/.nvm/versions/node/v16.20.0/bin/'
-    //     // PATH = '/Users/evens/.nvm/versions/node/v16.20.0/bin/:$PATH'
-    // }
+        PATH = '$HOME/.nvm/versions/node/v16.20.0/bin/'
+    }
 
     tools {nodejs "NodeJS-local"}
 
@@ -24,8 +23,7 @@ pipeline{
                 //     sh "dotnet build"
                 // }
                 dir('SomeWhereCinema.Frontend'){
-                    sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash '
-                    sh 'nvm install node'
+                    sh 'npm i'
                 //     sh 'npm run build'
                 }
             }
