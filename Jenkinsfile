@@ -7,6 +7,8 @@ pipeline{
         PATH = "/usr/local/share/dotnet/:$PATH"
     }
 
+    tools {nodejs "nodejs"}
+
     triggers{
         pollSCM("* * * * *")
     }
