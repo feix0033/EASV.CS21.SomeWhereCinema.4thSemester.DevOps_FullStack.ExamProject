@@ -1,9 +1,9 @@
 pipeline {
     agent none
 
-    triggers{
-        pollSCM("H * * * *")
-    }
+    // triggers{
+    //     pollSCM("H * * * *")
+    // }
     
     environment {
         CI = 'true' 
