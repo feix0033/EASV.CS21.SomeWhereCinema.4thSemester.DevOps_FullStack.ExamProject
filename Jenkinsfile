@@ -24,12 +24,26 @@ pipeline {
         stage ('build dotnet'){
             agent any
             steps {
-                sh 'dotnet --version'
+                sh 'dotnet build'
             }
         }
         stage('Test') { 
             steps {
                 echo 'this is test process'
+            }
+        }
+        stage ('Deploy') {
+            steps {
+                echo 'merge branch'
+                sh ('git checkout BackEnd')
+                sh ('git branch')
+                sh ('git pull')
+                when {
+                    branch ('BackEnd')
+                }
+                sh ('git merge BackEnd_Dev')
+                sh ('git commit -a -m "merge BackEnd_Dev to BackEnd"')
+                sh ('git push origen BackEnd')
             }
         }
     }
