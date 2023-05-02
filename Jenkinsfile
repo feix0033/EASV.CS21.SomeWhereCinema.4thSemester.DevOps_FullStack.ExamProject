@@ -46,7 +46,7 @@ pipeline {
                 sh ('git merge BackEnd_Dev')
                 sh ('''
                     git remote remove origin
-                    git remote ad origin git@github.com:feix0033/EASV.CS21.SomeWhereCinema.4thSemester.DevOps_FullStack.ExamProject.git
+                    git remote add origin git@github.com:feix0033/EASV.CS21.SomeWhereCinema.4thSemester.DevOps_FullStack.ExamProject.git
                 ''')
                 sh ('git push origin BackEnd')
             }
