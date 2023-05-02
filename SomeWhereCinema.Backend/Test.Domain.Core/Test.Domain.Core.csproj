@@ -28,7 +28,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="TDD.Core.Movie\" />
       <Folder Include="TDD.Core.User\" />
     </ItemGroup>
 

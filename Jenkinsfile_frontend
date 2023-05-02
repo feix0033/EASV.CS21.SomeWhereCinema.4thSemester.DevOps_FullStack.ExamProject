@@ -26,6 +26,10 @@ pipeline{
     }
 }
 =======
+<<<<<<< HEAD
+    }
+}
+=======
 
         stage("Try the secend work to work"){
             steps{
@@ -47,3 +51,4 @@ pipeline{
     }
 }
 >>>>>>> main
+>>>>>>> BackEnd
