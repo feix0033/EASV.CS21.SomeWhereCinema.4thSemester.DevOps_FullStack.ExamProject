@@ -25,8 +25,9 @@ pipeline {
         stage ('build dotnet'){
             agent any
             steps {
+                sh ( 'git pull . origin')
                 dir( 'SomeWhereCinema.Backend'){
-                sh 'dotnet --version'
+                sh 'dotnet build'
                 }
             }
         }
@@ -38,16 +39,11 @@ pipeline {
         }
 
         stage ('Deploy') {
-            steps {
-                echo 'merge branch'
-                sh ('git checkout BackEnd')
-                sh ('git branch')
-                sh ('git pull')
-                sh ('git merge BackEnd_Dev')
-                sh ('''
-                    git remote -v
-                ''')
-                sh ('git push origin BackEnd')
+            when {
+                branch 'BackEnd'
+            } 
+            steps{
+                echo 'deploy'
             }
         }
     }
