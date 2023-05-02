@@ -28,10 +28,6 @@ pipeline {
                     sh 'npm install'
                     sh 'npm i -g @angular/cli'
                     sh 'ng build'
-                    catch (exception) {
-                        echo 'Caught: ${exception}'
-                        onCatch
-                    }
                 }
             }
             post{
