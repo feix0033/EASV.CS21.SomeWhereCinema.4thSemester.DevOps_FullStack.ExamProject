@@ -25,7 +25,7 @@ pipeline {
         stage ('build dotnet'){
             agent any
             steps {
-                sh ( 'git pull . origin')
+                sh ( 'git pull')
                 dir( 'SomeWhereCinema.Backend'){
                 sh 'dotnet build'
                 }
