@@ -25,8 +25,8 @@ pipeline {
 
                 dir ('SomeWhereCinema.Frontend'){
                     sh ('ls -l')
-                    sh 'npm install'
-                    sh 'ng build'
+                    sh 'npm --version'
+                    // sh 'ng build'
                 }
             }
         }
