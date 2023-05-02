@@ -79,7 +79,19 @@ pipeline {
         stage("Test BackEnd"){
             steps{
                 echo "====++++executing Test BackEnd++++===="
-                dir("")
+                dir("SomeWhereCinema.Backend") {
+                    echo 'remove histiory test results'
+                    sh 'rm -rf TestResults'
+                }
+            }
+            steps{
+                echo "start test"
+                sh 'pwd'
+                dir("SomewhereCinema.Backend"){
+                    sh 'pwd'
+                    sh 'dotnet add package coverlet.collector'
+                    sh "dotnet test --collect:'Xplat Code Coverage'"
+                }
             }
             post{
                 always{
@@ -87,11 +99,28 @@ pipeline {
                 }
                 success{
                     echo "====++++Test BackEnd executed successfully++++===="
+                    // defines where the test report should be stored.
+                    // tell jenkins to read the XML file
+                    archiveArtifacts "Tests/TestResults/*/coverage.cobertura.xml"
+
+                    // Definition of conditions
+                    publishCoverage adapters: [
+                        istanbulCoberturaAdapter(
+                            path: 'Tests/TestResults/*/coverage.cobertura.xml', 
+                            thresholds:[[
+                                failUnhealthy: true,
+                                thresholdTarget: 'Conditional',
+                                unhealthyThreshold: 80.0, // below 80%
+                                unstableThreshold: 50.0  // below 50%
+                            ]]
+                        )
+                    ],
+                    checksName: '',
+                    sourceFileResolver: sourceFile('NEVER_STORE')
                 }
                 failure{
                     echo "====++++Test BackEnd execution failed++++===="
                 }
-        
             }
         }
 
