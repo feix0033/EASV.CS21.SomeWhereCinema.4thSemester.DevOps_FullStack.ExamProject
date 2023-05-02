@@ -28,7 +28,7 @@ pipeline {
                     // sh ('npm cache clean --force')
                     // sh ('npm config set registry http://registry.npmjs.org/')
                     sh ('npm install ')
-                    // sh 'ng build'
+                    sh 'ng build'
                 }
             }
         }
