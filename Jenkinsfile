@@ -29,7 +29,7 @@ pipeline {
         
             }
         }
-        
+
         stage("Build FrontEnd"){
             agent {
                 docker {
@@ -134,18 +134,15 @@ pipeline {
     }
 
     post {
-        post{
-                always{
-                    echo "====++++always++++===="
-                    deleteDir()
-                }
-                success{
-                    echo "====++++Build BackEnd executed successfully++++===="
-                }
-                failure{
-                    echo "====++++Build BackEnd execution failed++++===="
-                }
-        
-            }
+        always{
+            echo "====++++always++++===="
+            deleteDir()
+        }
+        success{
+            echo "====++++Build BackEnd executed successfully++++===="
+        }
+        failure{
+            echo "====++++Build BackEnd execution failed++++===="
+        }
     }
 }
