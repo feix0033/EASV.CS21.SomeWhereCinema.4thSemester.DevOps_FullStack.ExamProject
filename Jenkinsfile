@@ -44,7 +44,6 @@ pipeline {
                 sh ('git branch')
                 sh ('git pull')
                 sh ('git merge BackEnd_Dev')
-                sh ("git commit -a -m 'merge BackEnd_Dev to BackEnd'")
                 sh ('git push origen BackEnd')
             }
         }
