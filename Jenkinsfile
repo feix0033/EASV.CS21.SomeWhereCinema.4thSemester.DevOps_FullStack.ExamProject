@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    triggers{
+        pollSCM("* * * * *")
+    }
+
     environment {
         CI = 'true' 
         DOTNET_ROOT="/usr/bin/dotnet"
@@ -25,7 +29,6 @@ pipeline {
         stage ('build dotnet'){
             agent any
             steps {
-                sh ( 'git pull')
                 dir( 'SomeWhereCinema.Backend'){
                 sh 'dotnet build'
                 }
