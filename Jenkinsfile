@@ -18,7 +18,7 @@ pipeline {
             }
             post{
                 always{
-                    echo "====++++always++++===="
+                    echo "====++++  Unit Test BackEnd Finish ++++===="
                 }
                 success{
                     echo "====++++Unit Test Back executed successfully++++===="
@@ -39,6 +39,7 @@ pipeline {
             }
             steps{
                 echo "====++++executing Build FrontEnd++++===="
+                sh 'cd SomeWhereCinema.Frontend'
                 dir ('SomeWhereCinema.Frontend') {
                     sh 'npm install'
                     sh 'npm i @angular/cli'
@@ -47,7 +48,7 @@ pipeline {
             }
             post{
                 always{
-                    echo "====++++always++++===="
+                    echo "====++++Build FrontEnd executed finish++++===="
                 }
                 success{
                     echo "====++++Build FrontEnd executed successfully++++===="
@@ -67,7 +68,7 @@ pipeline {
             }
             post{
                 always{
-                    echo "====++++always++++===="
+                    echo "====++++alwayBuild BackEnd executed finish++++===="
                 }
                 success{
                     echo "====++++Build BackEnd executed successfully++++===="
@@ -85,7 +86,7 @@ pipeline {
             }
             post{
                 always{
-                    echo "====++++always++++===="
+                    echo "====++++Test finish++++===="
                 }
                 success{
                     echo "====++++Test executed successfully++++===="
@@ -103,7 +104,7 @@ pipeline {
             }
             post{
                 always{
-                    echo "====++++always++++===="
+                    echo "====++++Deploy finish++++===="
                 }
                 success{
                     echo "====++++Deploy executed successfully++++===="
@@ -121,7 +122,7 @@ pipeline {
             }
             post{
                 always{
-                    echo "====++++always++++===="
+                    echo "====++++Devliver finishi++++===="
                 }
                 success{
                     echo "====++++Deliver executed successfully++++===="
@@ -136,14 +137,14 @@ pipeline {
 
     post {
         always{
-            echo "====++++always++++===="
+            echo "====++++All stages finish++++===="
             deleteDir()
         }
         success{
-            echo "====++++Build BackEnd executed successfully++++===="
+            echo "====++++successfully++++===="
         }
         failure{
-            echo "====++++Build BackEnd execution failed++++===="
+            echo "====++++failed++++===="
         }
     }
 }
