@@ -15,7 +15,6 @@ pipeline {
             steps {
                 sh 'npm --version'
                 sh 'node --version'
-                sh 'which dotnet'
                 sh 'echo $PATH'
                 sh 'dotnet --version'
             }
