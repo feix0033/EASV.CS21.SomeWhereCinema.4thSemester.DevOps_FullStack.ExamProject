@@ -39,8 +39,11 @@ pipeline {
             }
             steps{
                 echo "====++++executing Build FrontEnd++++===="
+                pwd()
                 sh 'cd SomeWhereCinema.Frontend'
+                pwd()
                 dir ('SomeWhereCinema.Frontend') {
+                    pwd()
                     sh 'npm install'
                     sh 'npm i @angular/cli'
                     sh 'ng build'
