@@ -7,8 +7,8 @@ pipeline {
     }
     environment {
         CI = 'true' 
-        DOTNET_ROOT = "/home/linuxbrew/.linuxbrew/bin/dotnet/"
-        PATH = "/home/linuxbrew/.linuxbrew/bin/dotnet/:$PATH"
+        DOTNET_ROOT="/home/linuxbrew/.linuxbrew/opt/dotnet/libexec"
+        PATH = "/home/linuxbrew/.linuxbrew/opt/dotnet/libexec/:$PATH"
     }
     stages {
         stage('Build') {
