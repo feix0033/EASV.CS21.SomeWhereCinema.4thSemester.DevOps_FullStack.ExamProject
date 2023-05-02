@@ -7,7 +7,7 @@ pipeline {
     }
     environment {
         CI = 'true' 
-        DOTNET_ROOT="//usr/bin/dotnet"
+        DOTNET_ROOT="/usr/bin/dotnet"
         PATH = "/usr/bin/dotnet:$PATH"
     }
     stages {
@@ -15,6 +15,7 @@ pipeline {
             steps {
                 sh 'npm --version'
                 sh 'node --version'
+                sh 'echo DOTNET_ROOT'
                 sh 'dotnet --version'
             }
         }
