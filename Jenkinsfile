@@ -1,14 +1,28 @@
 pipeline {
-    agent any
-    stages {
+    agent {
         docker {
-            image 'node:6-alpine'
+            image 'node:16-alpine'
             args '-p 3000:3000'
         }
-        stage('build') {
+    }
+    environment {
+        CI = 'true' 
+    }
+    stages {
+        stage('Build') {
             steps {
-                sh 'npm --version'
+                sh 'npm install '
             }
+        }
+        stage('Test') { 
+            steps {
+                echo 'this is test process'
+            }
+        }
+    }
+    post {
+        always {
+            deleteDir()
         }
     }
 }
