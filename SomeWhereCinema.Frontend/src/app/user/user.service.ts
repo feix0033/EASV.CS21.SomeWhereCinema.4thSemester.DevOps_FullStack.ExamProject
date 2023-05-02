@@ -22,12 +22,10 @@ export class UserService {
   }
 
   register(email: string, password: string) {
-     this.firebaseAuthService.register(email,password);
+    this.firebaseAuthService.register(email,password);
   }
 
   logOut() {
     this.firebaseAuthService.logOut();
   }
 }
-
-

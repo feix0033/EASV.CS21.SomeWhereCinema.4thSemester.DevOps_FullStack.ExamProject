@@ -13,6 +13,4 @@ export class AppComponent {
 
   constructor(public userService:UserService) {
   }
-
-  protected readonly FirebaseAuthService = FirebaseAuthService;
 }
