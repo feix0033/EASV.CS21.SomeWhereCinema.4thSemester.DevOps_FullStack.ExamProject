@@ -12,44 +12,140 @@ pipeline {
     }
 
     stages {
-        stage('Build FrontEnd') {
+        stage("Unit Test BackEnd"){
+            steps{
+                echo "====++++executing Unit Test BackEn++++===="
+            }
+            post{
+                always{
+                    echo "====++++always++++===="
+                }
+                success{
+                    echo "====++++Unit Test Back executed successfully++++===="
+                }
+                failure{
+                    echo "====++++Unit Test Back execution failed++++===="
+                }
+        
+            }
+        }
+        
+        stage("Build FrontEnd"){
             agent {
                 docker {
                     image 'node:16-alpine'
                     args '-p 3000:3000'
                 }
             }
-            
-            steps {
-                sh ('ls')
-
-                dir ('SomeWhereCinema.Frontend'){
-                    sh ('ls -l')
-                    // sh ('npm cache clean --force')
-                    // sh ('npm config set registry http://registry.npmjs.org/')
-                    sh ('npm install ')
+            steps{
+                echo "====++++executing Build FrontEnd++++===="
+                dir ('SomeWhereCinema.Frontend') {
+                    sh 'npm install'
                     sh 'ng build'
                 }
             }
-        }
-
-        stage ('build dotnet'){
-            agent any
-            steps {
-                sh 'dotnet --version'
+            post{
+                always{
+                    echo "====++++always++++===="
+                }
+                success{
+                    echo "====++++Build FrontEnd executed successfully++++===="
+                }
+                failure{
+                    echo "====++++Build FrontEnd execution failed++++===="
+                }
+        
             }
         }
 
-        stage('Test') { 
-            steps {
-                echo 'this is test process'
+        stage("Build BackEnd"){
+            agent any
+            steps{
+                echo "====++++executing Build BackEnd++++===="
+                sh 'dotnet build'
+            }
+            post{
+                always{
+                    echo "====++++always++++===="
+                }
+                success{
+                    echo "====++++Build BackEnd executed successfully++++===="
+                }
+                failure{
+                    echo "====++++Build BackEnd execution failed++++===="
+                }
+        
+            }
+        }
+
+        stage("Test"){
+            steps{
+                echo "====++++executing Test++++===="
+            }
+            post{
+                always{
+                    echo "====++++always++++===="
+                }
+                success{
+                    echo "====++++Test executed successfully++++===="
+                }
+                failure{
+                    echo "====++++Test execution failed++++===="
+                }
+        
+            }
+        }
+
+        stage("Deploy"){
+            steps{
+                echo "====++++executing Deploy++++===="
+            }
+            post{
+                always{
+                    echo "====++++always++++===="
+                }
+                success{
+                    echo "====++++Deploy executed successfully++++===="
+                }
+                failure{
+                    echo "====++++Deploy execution failed++++===="
+                }
+        
+            }
+        }
+
+        stage("Deliver"){
+            steps{
+                echo "====++++executing Deliver++++===="
+            }
+            post{
+                always{
+                    echo "====++++always++++===="
+                }
+                success{
+                    echo "====++++Deliver executed successfully++++===="
+                }
+                failure{
+                    echo "====++++Deliver execution failed++++===="
+                }
+        
             }
         }
     }
 
     post {
-        always {
-            deleteDir()
-        }
+        post{
+                always{
+                    echo "====++++always++++===="
+                    deleteDir()
+                }
+                success{
+                    echo "====++++Build BackEnd executed successfully++++===="
+                }
+                failure{
+                    echo "====++++Build BackEnd execution failed++++===="
+                }
+        
+            }
     }
 }
