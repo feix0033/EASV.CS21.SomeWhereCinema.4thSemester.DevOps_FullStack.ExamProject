@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        any
+        
         docker {
             image 'node:16-alpine'
             args '-p 3000:3000'
@@ -13,10 +13,17 @@ pipeline {
     }
     stages {
         stage('Build') {
+            
             steps {
                 sh 'npm --version'
                 sh 'node --version'
-                sh 'echo DOTNET_ROOT'
+                
+            }
+            when{
+                branch('main')
+                agent any
+            }
+            steps {
                 sh 'dotnet --version'
             }
         }
