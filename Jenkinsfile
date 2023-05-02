@@ -6,6 +6,7 @@ pipeline {
         DOTNET_ROOT="/usr/bin/dotnet"
         PATH = "/usr/bin/dotnet:$PATH"
     }
+
     stages {
         stage('Build') {
             agent {
@@ -29,20 +30,19 @@ pipeline {
                 }
             }
         }
+
         stage('Test') { 
             steps {
                 echo 'this is test process'
             }
         }
+
         stage ('Deploy') {
             steps {
                 echo 'merge branch'
                 sh ('git checkout BackEnd')
                 sh ('git branch')
                 sh ('git pull')
-            }
-            when {
-                    branch ('BackEnd')
             }
             steps{
                 sh ('git merge BackEnd_Dev')
@@ -51,6 +51,7 @@ pipeline {
             }
         }
     }
+
     post {
         always {
             deleteDir()
