@@ -2,7 +2,7 @@
 
 <input type="email" [(ngModel)]="email">
 <input type="password" [(ngModel)]="password">
-<button (click)="firebaseAuthService.logIn(email,password)" routerLink="/">Log In</button>
+<button (click)="userService.login(email,password)" routerLink="/">Log In</button>
 
 
 <br>

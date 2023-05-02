@@ -1,7 +1,7 @@
 <p>user-info works!</p>
 
-<p *ngIf="firebaseAuthService.auth.currentUser else pleaseLogIn">
-   Welcome {{firebaseAuthService.auth.currentUser.email}}
+<p *ngIf="userService.getCurrentUser() else pleaseLogIn">
+   Welcome {{userService.getCurrentUserEmail()}}
 </p>
 
 <ng-template #pleaseLogIn>
