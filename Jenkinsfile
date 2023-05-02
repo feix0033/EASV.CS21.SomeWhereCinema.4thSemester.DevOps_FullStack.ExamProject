@@ -22,10 +22,8 @@ pipeline {
             
             steps {
                 dir ('SomeWhereCinema.FrontEnd'){
-                    sh '''
-                    npm i
-                    ng build
-                    '''
+                    sh 'npm install'
+                    sh 'ng build'
                 }
             }
         }
@@ -43,7 +41,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         always {
             deleteDir()
