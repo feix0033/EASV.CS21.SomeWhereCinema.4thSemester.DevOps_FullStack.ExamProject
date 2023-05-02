@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
 
     triggers{
         pollSCM("* * * * *")
@@ -12,23 +12,7 @@ pipeline {
     }
 
     stages {
-        stage("Unit Test BackEnd"){
-            steps{
-                echo "====++++executing Unit Test BackEn++++===="
-            }
-            post{
-                always{
-                    echo "====++++  Unit Test BackEnd Finish ++++===="
-                }
-                success{
-                    echo "====++++Unit Test Back executed successfully++++===="
-                }
-                failure{
-                    echo "====++++Unit Test Back execution failed++++===="
-                }
-        
-            }
-        }
+        agent any
 
         stage("Build FrontEnd"){
             agent {
@@ -45,7 +29,13 @@ pipeline {
                     sh 'npm install npm'
                     sh 'npm install'
                     sh 'npm i -g @angular/cli'
-                    sh 'ng build '
+                    try {
+                        sh 'ng build'
+                    }
+                    catch (exception) {
+                        echo 'Caught: ${exception}'
+                        onCatch
+                    }
                 }
             }
             post{
@@ -86,25 +76,28 @@ pipeline {
             }
         }
 
-        stage("Test"){
+        stage("Test BackEnd"){
             steps{
-                echo "====++++executing Test++++===="
+                echo "====++++executing Test BackEnd++++===="
+                dir("")
             }
             post{
                 always{
-                    echo "====++++Test finish++++===="
+                    echo "====++++always++++===="
                 }
                 success{
-                    echo "====++++Test executed successfully++++===="
+                    echo "====++++Test BackEnd executed successfully++++===="
                 }
                 failure{
-                    echo "====++++Test execution failed++++===="
+                    echo "====++++Test BackEnd execution failed++++===="
                 }
         
             }
         }
 
         stage("Deploy"){
+            agent any
+
             steps{
                 echo "====++++executing Deploy++++===="
             }
@@ -123,6 +116,8 @@ pipeline {
         }
 
         stage("Deliver"){
+             agent any
+
             steps{
                 echo "====++++executing Deliver++++===="
             }
