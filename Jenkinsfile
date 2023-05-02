@@ -1,10 +1,10 @@
 pipeline {
     agent any
 
-    triggers {
-        pollSCM ( "H * * * *")
+    triggers{
+        pollSCM("H * * * *")
     }
-
+    
     environment {
         CI = 'true' 
         DOTNET_ROOT="/usr/bin/dotnet"
@@ -64,6 +64,7 @@ pipeline {
 
         stage("Build BackEnd"){
             agent any
+
             steps{
                 echo "====++++executing Build BackEnd++++===="
                 sh 'pwd'
@@ -135,7 +136,15 @@ pipeline {
                 failure{
                     echo "====++++Deliver execution failed++++===="
                 }
-        
+            }
+        }
+
+        stage ('Deploy') {
+            when {
+                branch 'BackEnd'
+            } 
+            steps{
+                echo 'deploy'
             }
         }
     }
@@ -152,4 +161,5 @@ pipeline {
             echo "====++++failed++++===="
         }
     }
+
 }
