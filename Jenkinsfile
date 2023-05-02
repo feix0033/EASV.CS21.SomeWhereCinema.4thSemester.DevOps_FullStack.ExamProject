@@ -4,7 +4,6 @@ pipeline {
     triggers{
         pollSCM("H * * * *")
     }
-
     environment {
         CI = 'true' 
         DOTNET_ROOT="/usr/bin/dotnet"

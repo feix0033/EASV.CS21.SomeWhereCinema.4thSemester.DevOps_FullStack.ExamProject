@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {FirebaseAuthService} from "../../firebaseService/firebase-auth.service";
 
 @Component({
   selector: 'app-user-info',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class UserInfoComponent {
 
+  constructor(public firebaseAuthService:FirebaseAuthService) {
+  }
 }

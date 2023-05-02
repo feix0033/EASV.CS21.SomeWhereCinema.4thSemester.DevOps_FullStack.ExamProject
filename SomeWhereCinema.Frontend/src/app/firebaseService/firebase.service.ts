@@ -8,13 +8,10 @@ import * as config from '../../../firebaseconfig';
 @Injectable({
   providedIn: 'root'
 })
-export class FirebaseService {
-  firebaseApplication: any;
-  firebase;
 
+export class FirebaseService {
+  firebaseApplication;
   constructor() {
     this.firebaseApplication = firebase.initializeApp(config.firebaseConfig);
-    this.firebase = firebase;
   }
-
 }

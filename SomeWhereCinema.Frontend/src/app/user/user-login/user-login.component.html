@@ -1,1 +1,9 @@
-<p>user-login works!</p>
+<h1>Please Log in</h1>
+
+<input type="email" [(ngModel)]="email">
+<input type="password" [(ngModel)]="password">
+<button (click)="firebaseAuthService.logIn(email,password)" routerLink="/">Log In</button>
+
+
+<br>
+
