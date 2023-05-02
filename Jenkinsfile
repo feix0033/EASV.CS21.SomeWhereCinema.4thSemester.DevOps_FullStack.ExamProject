@@ -24,7 +24,9 @@ pipeline {
         stage ('build dotnet'){
             agent any
             steps {
+                dir( 'SomeWhereCinema.Backend'){
                 sh 'dotnet build'
+                }
             }
         }
         stage('Test') { 
