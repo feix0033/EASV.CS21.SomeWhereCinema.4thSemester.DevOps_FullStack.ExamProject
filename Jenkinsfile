@@ -7,8 +7,8 @@ pipeline {
     }
     environment {
         CI = 'true' 
-        // DOTNET_ROOT="//usr/bin/"
-        // PATH = "/usr/bin/:$PATH"
+        DOTNET_ROOT="//usr/bin/dotnet"
+        PATH = "/usr/bin/dotnet:$PATH"
     }
     stages {
         stage('Build') {
