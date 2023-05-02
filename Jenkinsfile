@@ -40,12 +40,13 @@ pipeline {
             steps{
                 echo "====++++executing Build FrontEnd++++===="
                 sh 'pwd'
-                sh 'cd /var/lib/jenkins/workspace/SomeWhereCinema_FrontEnd_Dev@2/'
+                // sh 'cd /var/lib/jenkins/workspace/SomeWhereCinema_FrontEnd_Dev@2/'
                 sh 'pwd'
                 dir ('SomeWhereCinema.Frontend') {
                     sh 'pwd'
+                    sh 'ls'
                     sh 'npm install'
-                    sh 'npm i @angular/cli'
+                    // sh 'npm i @angular/cli'
                     sh 'ng build'
                 }
             }
