@@ -12,8 +12,6 @@ pipeline {
     }
 
     stages {
-        agent any
-
         stage("Build FrontEnd"){
             agent {
                 docker {
@@ -54,7 +52,6 @@ pipeline {
 
         stage("Build BackEnd"){
             agent any
-
             steps{
                 echo "====++++executing Build BackEnd++++===="
                 sh 'pwd'
@@ -77,26 +74,20 @@ pipeline {
         }
 
         stage("Test BackEnd"){
+            agent any
             steps{
                 echo "====++++executing Test BackEnd++++===="
                 dir("SomeWhereCinema.Backend") {
                     echo 'remove histiory test results'
                     sh 'rm -rf TestResults'
-                }
-            }
-            steps{
-                echo "start test"
-                sh 'pwd'
-                dir("SomewhereCinema.Backend"){
-                    sh 'pwd'
                     sh 'dotnet add package coverlet.collector'
                     sh "dotnet test --collect:'Xplat Code Coverage'"
                 }
             }
             post{
-                always{
-                    echo "====++++always++++===="
-                }
+                // always{
+                //     echo "====++++always++++===="
+                // }
                 success{
                     echo "====++++Test BackEnd executed successfully++++===="
                     // defines where the test report should be stored.
@@ -118,9 +109,9 @@ pipeline {
                     checksName: '',
                     sourceFileResolver: sourceFile('NEVER_STORE')
                 }
-                failure{
-                    echo "====++++Test BackEnd execution failed++++===="
-                }
+                // failure{
+                //     echo "====++++Test BackEnd execution failed++++===="
+                // }
             }
         }
 
