@@ -7,7 +7,7 @@ pipeline {
     }
     environment {
         CI = 'true' 
-        PATH=$PATH:/home/linuxbrew/.linuxbrew/bin/dotnet
+        PATH=$HOME/linuxbrew/.linuxbrew/bin/dotnet
     }
     stages {
         stage('Build') {
