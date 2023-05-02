@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {FirestoreService} from "../firebaseService/firestore.service";
 
 @Component({
   selector: 'app-homepage',
@@ -7,4 +6,5 @@ import {FirestoreService} from "../firebaseService/firestore.service";
   styleUrls: ['./homepage.component.scss']
 })
 export class HomepageComponent {
+
 }
