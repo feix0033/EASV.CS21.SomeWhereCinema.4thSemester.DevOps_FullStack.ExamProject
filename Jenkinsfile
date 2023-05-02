@@ -40,7 +40,7 @@ pipeline {
             steps{
                 echo "====++++executing Build FrontEnd++++===="
                 sh 'pwd'
-                sh 'cd SomeWhereCinema.Frontend'
+                sh 'cd /var/lib/jenkins/workspace/SomeWhereCinema_FrontEnd_Dev@2/'
                 sh 'pwd'
                 dir ('SomeWhereCinema.Frontend') {
                     sh 'pwd'
