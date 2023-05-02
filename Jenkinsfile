@@ -39,10 +39,7 @@ pipeline {
             }
             steps{
                 echo "====++++executing Build FrontEnd++++===="
-                sh 'pwd'
                 dir ('SomeWhereCinema.Frontend') {
-                    sh 'pwd'
-                    sh 'ls'
                     sh 'npm cache clean --force'
                     sh 'npm cache verify'
                     sh 'npm install npm'
