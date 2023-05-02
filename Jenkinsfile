@@ -7,15 +7,14 @@ pipeline {
     }
     environment {
         CI = 'true' 
-        DOTNET_ROOT="/home/linuxbrew/.linuxbrew/opt/dotnet/libexec"
-        PATH="$PATH:/home/linuxbrew/.linuxbrew/opt/dotnet/libexec"
+        // DOTNET_ROOT="/home/linuxbrew/.linuxbrew/opt/dotnet/libexec"
+        // PATH="$PATH:/home/linuxbrew/.linuxbrew/opt/dotnet/libexec"
     }
     stages {
         stage('Build') {
             steps {
                 sh 'npm --version'
                 sh 'node --version'
-                sh 'echo $PATH'
                 sh 'dotnet --version'
             }
         }
