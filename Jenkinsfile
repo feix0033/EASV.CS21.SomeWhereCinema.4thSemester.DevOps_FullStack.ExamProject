@@ -1,6 +1,5 @@
 pipeline {
     agent {
-        
         docker {
             image 'node:16-alpine'
             args '-p 3000:3000'
@@ -19,6 +18,8 @@ pipeline {
                 sh 'node --version'
                 
             }
+        }
+        stage ('build dotnet'){
             when{
                 branch('main')
                 agent any
