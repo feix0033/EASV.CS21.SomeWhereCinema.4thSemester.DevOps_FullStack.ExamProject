@@ -21,6 +21,7 @@ pipeline {
             }
             
             steps {
+                sh ('cd SomeWhereCinema.FrontEnd')
                 dir ('SomeWhereCinema.FrontEnd'){
                     sh 'npm install'
                     sh 'ng build'
