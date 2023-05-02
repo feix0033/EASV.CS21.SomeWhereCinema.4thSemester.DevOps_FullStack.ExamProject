@@ -44,7 +44,10 @@ pipeline {
                 sh ('git branch')
                 sh ('git pull')
                 sh ('git merge BackEnd_Dev')
-                sh ('git push BackEnd')
+                sh ('''
+                    git remote -v
+                ''')
+                sh ('git push origin BackEnd')
             }
         }
     }
