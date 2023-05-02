@@ -138,15 +138,6 @@ pipeline {
                 }
             }
         }
-
-        stage ('Deploy') {
-            when {
-                branch 'BackEnd'
-            } 
-            steps{
-                echo 'deploy'
-            }
-        }
     }
 
     post {
