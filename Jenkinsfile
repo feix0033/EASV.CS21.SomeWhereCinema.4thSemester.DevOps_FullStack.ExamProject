@@ -27,9 +27,7 @@ pipeline {
                     sh 'npm install npm'
                     sh 'npm install'
                     sh 'npm i -g @angular/cli'
-                    try {
-                        sh 'ng build'
-                    }
+                    sh 'ng build'
                     catch (exception) {
                         echo 'Caught: ${exception}'
                         onCatch
