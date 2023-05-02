@@ -45,6 +45,8 @@ pipeline {
                 sh ('git pull')
                 sh ('git merge BackEnd_Dev')
                 sh ('''
+                    git config user.name "feix0033"
+                    git config user.email "feix0033@easv365.dk"
                     git remote -v
                 ''')
                 sh ('git push origin BackEnd')
