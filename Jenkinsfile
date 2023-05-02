@@ -25,7 +25,9 @@ pipeline {
 
                 dir ('SomeWhereCinema.Frontend'){
                     sh ('ls -l')
-                    sh 'npm --version'
+                    sh ('npm cache clean')
+                    sh ('npm config set registry http://registry.npmjs.org/')
+                    sh 'npm install '
                     // sh 'ng build'
                 }
             }
