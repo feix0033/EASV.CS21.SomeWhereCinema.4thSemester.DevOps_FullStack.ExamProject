@@ -13,6 +13,7 @@ pipeline {
             steps {
                 sh 'npm --version'
                 sh 'node --version'
+                sh 'dotnet --version'
             }
         }
         stage('Test') { 
