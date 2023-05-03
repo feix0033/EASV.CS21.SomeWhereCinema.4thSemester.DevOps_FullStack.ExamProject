@@ -4,17 +4,16 @@ pipeline {
     // triggers{
     //     pollSCM("H * * * *")
     // }
-    
     environment {
-        CI = 'true' 
-        DOTNET_ROOT="/usr/bin/dotnet"
+        CI = 'true'
+        DOTNET_ROOT = '/usr/bin/dotnet'
         PATH = "/usr/bin/dotnet:$PATH"
     }
 
     stages {
-        stage("Build FrontEnd"){
+        stage('Build FrontEnd') {
             when {
-                branch ('FrontEnd*')
+                branch('FrontEnd*')
             }
             agent {
                 docker {
@@ -22,9 +21,9 @@ pipeline {
                     args '-p 3000:3000'
                 }
             }
-            steps{
-                echo "====++++executing Build FrontEnd++++===="
-                dir ('SomeWhereCinema.Frontend') {
+            steps {
+                echo '====++++executing Build FrontEnd++++===='
+                dir('SomeWhereCinema.Frontend') {
                     sh 'npm cache clean --force'
                     sh 'npm cache verify'
                     sh 'npm install npm'
@@ -33,71 +32,70 @@ pipeline {
                     sh 'ng build'
                 }
             }
-            post{
-                always{
-                    echo "====++++Build FrontEnd executed finish++++===="
+            post {
+                always {
+                    echo '====++++Build FrontEnd executed finish++++===='
                 }
-                success{
-                    echo "====++++Build FrontEnd executed successfully++++===="
+                success {
+                    echo '====++++Build FrontEnd executed successfully++++===='
                 }
-                failure{
-                    echo "====++++Build FrontEnd execution failed++++===="
-                }
-        
-            }
-        }
-
-        stage("Build BackEnd"){
-            when{
-                branch ('BackEnd*')
-            }
-            agent any
-            steps{
-                echo "====++++executing Build BackEnd++++===="
-                sh 'pwd'
-                dir ('SomeWhereCinema.Backend'){
-                    sh 'dotnet build'
-                }
-            }
-            post{
-                always{
-                    echo "====++++alwayBuild BackEnd executed finish++++===="
-                }
-                success{
-                    echo "====++++Build BackEnd executed successfully++++===="
-                }
-                failure{
-                    echo "====++++Build BackEnd execution failed++++===="
+                failure {
+                    echo '====++++Build FrontEnd execution failed++++===='
                 }
             }
         }
 
-        stage("Test BackEnd"){
-            when{
+        stage('Build BackEnd') {
+            when {
                 branch('BackEnd*')
             }
             agent any
-            steps{
-                echo "====++++executing Test BackEnd++++===="
+            steps {
+                echo '====++++executing Build BackEnd++++===='
+                sh 'pwd'
+                dir('SomeWhereCinema.Backend') {
+                    sh 'dotnet build'
+                }
+            }
+            post {
+                always {
+                    echo '====++++alwayBuild BackEnd executed finish++++===='
+                }
+                success {
+                    echo '====++++Build BackEnd executed successfully++++===='
+                }
+                failure {
+                    echo '====++++Build BackEnd execution failed++++===='
+                }
+            }
+        }
+
+        stage('Test BackEnd') {
+            when {
+                branch('BackEnd*')
+            }
+            agent any
+            steps {
+                echo '====++++executing Test BackEnd++++===='
                 // should be in the test project, not solution fold
-                dir("SomeWhereCinema.Backend/Core.Model.Test") {
+                dir('SomeWhereCinema.Backend/Core.Model.Test') {
                     echo 'remove histiory test results'
                     sh 'rm -rf TestResults'
                     sh 'dotnet add package coverlet.collector'
                     sh "dotnet test --collect:'Xplat Code Coverage'"
                 }
             }
-            post{
-                always{
-                    echo "====++++always++++===="
+            post {
+                always {
+                    echo '====++++always++++===='
                 }
-                success{
-                    echo "====++++Test BackEnd executed successfully++++===="
-                    archiveArtifacts "SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml"
+                success {
+                    echo '====++++Test BackEnd executed successfully++++===='
+                    archiveArtifacts 'SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml'
 
                     publishCoverage adapters: [
                         istanbulCoberturaAdapter(
-                            path: "SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml",
+                            path: 'SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml',
                             thresholds:[[
                                 failUnhealthy: true,
                                 thresholdTarget: 'Conditional',
@@ -109,63 +107,61 @@ pipeline {
                     checksName: '',
                     sourceFileResolver: sourceFile('NEVER_STORE')
                 }
-                failure{
-                    echo "====++++Test BackEnd execution failed++++===="
+                failure {
+                    echo '====++++Test BackEnd execution failed++++===='
                 }
             }
         }
 
-        stage("Deploy"){
+        stage('Deploy') {
             agent any
 
-            steps{
-                echo "====++++executing Deploy++++===="
+            steps {
+                echo '====++++executing Deploy++++===='
             }
-            post{
-                always{
-                    echo "====++++Deploy finish++++===="
+            post {
+                always {
+                    echo '====++++Deploy finish++++===='
                 }
-                success{
-                    echo "====++++Deploy executed successfully++++===="
+                success {
+                    echo '====++++Deploy executed successfully++++===='
                 }
-                failure{
-                    echo "====++++Deploy execution failed++++===="
+                failure {
+                    echo '====++++Deploy execution failed++++===='
                 }
-        
             }
         }
 
-        stage("Deliver"){
-             agent any
+        stage('Deliver') {
+            agent any
 
-            steps{
-                echo "====++++executing Deliver++++===="
+            steps {
+                echo '====++++executing Deliver++++===='
             }
-            post{
-                always{
-                    echo "====++++Devliver finishi++++===="
+            post {
+                always {
+                    echo '====++++Devliver finishi++++===='
                 }
-                success{
-                    echo "====++++Deliver executed successfully++++===="
+                success {
+                    echo '====++++Deliver executed successfully++++===='
                 }
-                failure{
-                    echo "====++++Deliver execution failed++++===="
+                failure {
+                    echo '====++++Deliver execution failed++++===='
                 }
             }
         }
     }
 
     post {
-        always{
-            echo "====++++All stages finish++++===="
+        always {
+            echo '====++++All stages finish++++===='
             deleteDir()
         }
-        success{
-            echo "====++++successfully++++===="
+        success {
+            echo '====++++successfully++++===='
         }
-        failure{
-            echo "====++++failed++++===="
+        failure {
+            echo '====++++failed++++===='
         }
     }
-
 }
