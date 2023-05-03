@@ -6,14 +6,15 @@
   <a routerLink="ordering" style="margin:5px">Order</a>
 </span>
 
-<span *ngIf="(firebaseAuthService.auth.currentUser != null) else register">
-  Welcome {{firebaseAuthService.auth.currentUser.email}}
-  <button routerLink="/"  (click)="firebaseAuthService.logOut()">Log Out</button>
+<span *ngIf="(userService.getCurrentUser() != null) else register">
+  Welcome {{userService.getCurrentUserEmail()}}
+  <button routerLink="/"  (click)="userService.logOut()">Log Out</button>
 </span>
 
 <ng-template #register>
   <a routerLink="userRegister" style="margin:5px">Register</a>
   <a routerLink="userLogin" style="margin:5px">Login</a>
 </ng-template>
+
 
 <router-outlet></router-outlet>

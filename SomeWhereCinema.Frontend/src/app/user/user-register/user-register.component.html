@@ -2,14 +2,14 @@
 
 <input type="email" [(ngModel)]="email" placeholder="email">
 <input type="password" [(ngModel)]="password" placeholder="password">
-<button (click)="firebaseAuth.register(email,password)">Register</button>
+<button (click)="userService.register(email,password)">Register</button>
 
 
-<div *ngIf="firebaseAuth.auth.currentUser">
+<div *ngIf="userService.getCurrentUser">
 
   <h1>hello</h1><br>
   <a routerLink="userInfo">Info</a>
 
-  <button (click)="firebaseAuth.logOut()">Sign Out</button>
+  <button (click)="userService.logOut()">Sign Out</button>
 
 </div>

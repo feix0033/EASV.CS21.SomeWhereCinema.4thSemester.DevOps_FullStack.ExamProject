@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {FirebaseAuthService} from "./firebaseService/firebase-auth.service";
+import {UserService} from "./user/user.service";
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,6 @@ export class AppComponent {
   title = 'SomeWhereCinema.Frontend';
 
 
-  constructor(public firebaseAuthService:FirebaseAuthService) {
+  constructor(public userService:UserService) {
   }
 }
