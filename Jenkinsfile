@@ -79,10 +79,9 @@ pipeline {
             agent any
             steps{
                 echo "====++++executing Test BackEnd++++===="
-                dir("SomeWhereCinema.Backend") {
+                dir("SomeWhereCinema.Backend/Core.Model.Test") {
                     echo 'remove histiory test results'
                     sh 'rm -rf TestResults'
-                    sh 'dotnet test'
                     sh 'dotnet add package coverlet.collector'
                     sh "dotnet test --collect:'Xplat Code Coverage'"
                 }
