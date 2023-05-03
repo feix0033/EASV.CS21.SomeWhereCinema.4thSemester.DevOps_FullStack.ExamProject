@@ -79,12 +79,11 @@ pipeline {
             agent any
             steps{
                 echo "====++++executing Test BackEnd++++===="
-                dir("SomeWhereCinema.Backend") {
-                    echo 'remove histiory test results'
-                    sh 'rm -rf TestResults'
-                    sh 'dotnet add package coverlet.collector'
-                    sh "dotnet test --collect:'Xplat Code Coverage'"
-                }
+                echo 'remove histiory test results'
+                sh 'rm -rf TestResults'
+                sh 'pwd'
+                sh 'dotnet add package coverlet.collector'
+                sh "dotnet test --collect:'Xplat Code Coverage'"
             }
             post{
                 always{
