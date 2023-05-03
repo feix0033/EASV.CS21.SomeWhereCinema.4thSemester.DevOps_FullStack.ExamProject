@@ -105,7 +105,7 @@ pipeline {
                     )
                     ],
                     checksName: '',
-                    sourceFileResolver: sourceFile('NEVER_STORE')
+                    // sourceFileResolver: sourceFile('NEVER_STORE')
                 }
                 failure {
                     echo '====++++Test BackEnd execution failed++++===='
