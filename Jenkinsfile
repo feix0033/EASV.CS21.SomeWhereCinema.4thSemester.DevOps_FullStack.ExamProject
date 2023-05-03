@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Merge FrontEnd') {
             when {
-                branch('FrontEnd* ')
+                branch('FrontEnd*')
             }
             agent any
             steps{
