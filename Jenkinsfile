@@ -20,6 +20,9 @@ pipeline {
             steps{
                 sh 'git fetch -a'
                 sh 'git merge origin/main'
+                sh 'git add .'
+                sh "git commit -m 'merge from origin/main"
+                sh 'git push origin'
             }
         }
         stage('Build FrontEnd') {
