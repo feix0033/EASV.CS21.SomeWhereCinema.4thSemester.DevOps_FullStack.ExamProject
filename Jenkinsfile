@@ -1,9 +1,10 @@
 pipeline {
     agent any
 
-    // triggers{
-    //     pollSCM("H * * * *")
-    // }
+    triggers{
+        pollSCM("* * * * *")
+    }
+
     environment {
         CI = 'true'
         DOTNET_ROOT = '/usr/bin/dotnet'
