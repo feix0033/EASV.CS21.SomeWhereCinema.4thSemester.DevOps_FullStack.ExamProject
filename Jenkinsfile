@@ -20,9 +20,15 @@ pipeline {
             steps{
                 sh 'git fetch -a'
                 sh 'git merge origin/main'
-                sh 'git add .'
-                // sh "git commit -m 'merge from origin/main'"
-                sh "git push --set-upstream origin FrontEnd_Dev"
+
+                // here shou handlly merge and push locally. it can not auto push by jenkins
+                // because jenkins use the username and password also ssh is not work for github
+                // maybe try later.
+                // sh 'git add .'
+                // // sh "git commit -m 'merge from origin/main'"
+                // sh "git push --set-upstream origin FrontEnd_Dev"
+
+                // after this just test it will test and deploy in all 
             }
         }
         stage('Build FrontEnd') {
