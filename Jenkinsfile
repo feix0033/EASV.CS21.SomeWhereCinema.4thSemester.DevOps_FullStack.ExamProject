@@ -93,21 +93,21 @@ pipeline {
                     echo '====++++Test BackEnd executed successfully++++===='
                     archiveArtifacts 'SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml'
 
-                    publishCoverage(
-                        adapters: [
-                            istanbulCoberturaAdapter(
-                                path: "SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml",
-                                thresholds:[[
-                                    failUnhealthy: true,
-                                    thresholdTarget: 'Conditional',
-                                    unhealthyThreshold: 80.0, // below 80%
-                                    unstableThreshold: 50.0  // below 50%
-                                ]]
-                            )
-                        ],
-                        checksName: '',
-                        sourceFileResolver: sourceFile('STORE_LAST_BUILD')
-                    )
+                    // publishCoverage(
+                    //     adapters: [
+                    //         istanbulCoberturaAdapter(
+                    //             path: "SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml",
+                    //             thresholds:[[
+                    //                 failUnhealthy: true,
+                    //                 thresholdTarget: 'Conditional',
+                    //                 unhealthyThreshold: 80.0, // below 80%
+                    //                 unstableThreshold: 50.0  // below 50%
+                    //             ]]
+                    //         )
+                    //     ],
+                    //     checksName: '',
+                    //     sourceFileResolver: sourceFile('STORE_LAST_BUILD')
+                    // )
                 }
                 failure {
                     echo '====++++Test BackEnd execution failed++++===='
