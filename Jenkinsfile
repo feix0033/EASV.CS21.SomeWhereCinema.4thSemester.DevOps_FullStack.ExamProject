@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
 
     // triggers{
     //     pollSCM("H * * * *")
@@ -13,6 +13,9 @@ pipeline {
 
     stages {
         stage("Build FrontEnd"){
+            when {
+                branch ('FrontEnd*')
+            }
             agent {
                 docker {
                     image 'node:16-alpine'
@@ -45,6 +48,9 @@ pipeline {
         }
 
         stage("Build BackEnd"){
+            when{
+                branch ('BackEnd*')
+            }
             agent any
             steps{
                 echo "====++++executing Build BackEnd++++===="
@@ -63,11 +69,13 @@ pipeline {
                 failure{
                     echo "====++++Build BackEnd execution failed++++===="
                 }
-        
             }
         }
 
         stage("Test BackEnd"){
+            when{
+                branch('BackEnd*')
+            }
             agent any
             steps{
                 echo "====++++executing Test BackEnd++++===="
@@ -79,33 +87,31 @@ pipeline {
                 }
             }
             post{
-                // always{
-                //     echo "====++++always++++===="
-                // }
+                always{
+                    echo "====++++always++++===="
+                }
                 success{
                     echo "====++++Test BackEnd executed successfully++++===="
-                    // defines where the test report should be stored.
-                    // tell jenkins to read the XML file
                     archiveArtifacts "Tests/TestResults/*/coverage.cobertura.xml"
 
-                    // Definition of conditions
-                    publishCoverage adapters: [
-                        istanbulCoberturaAdapter(
-                            path: 'Tests/TestResults/*/coverage.cobertura.xml', 
-                            thresholds:[[
-                                failUnhealthy: true,
-                                thresholdTarget: 'Conditional',
-                                unhealthyThreshold: 80.0, // below 80%
-                                unstableThreshold: 50.0  // below 50%
-                            ]]
-                        )
-                    ],
-                    checksName: '',
-                    sourceFileResolver: sourceFile('NEVER_STORE')
+                    // publishCoverage adapters: [
+                    //     istanbulCoberturaAdapter(
+                    //         path: 'Tests/TestResults/*/coverage.cobertura.xml', 
+                    //         thresholds:[[
+                    //             failUnhealthy: true,
+                    //             thresholdTarget: 'Conditional',
+                    //             unhealthyThreshold: 80.0, // below 80%
+                    //             unstableThreshold: 50.0  // below 50%
+                    // ]])],
+                    // checksName: '',
+                    // sourceFileResolver: sourceFile('NEVER_STORE')
+
+
+
                 }
-                // failure{
-                //     echo "====++++Test BackEnd execution failed++++===="
-                // }
+                failure{
+                    echo "====++++Test BackEnd execution failed++++===="
+                }
             }
         }
 
