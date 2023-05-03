@@ -12,6 +12,16 @@ pipeline {
     }
 
     stages {
+        stage('Merge FrontEnd') {
+            when {
+                branch('FrontEnd* ')
+            }
+            agent any
+            steps{
+                sh 'git fatch -a'
+                sh 'git merge origin/main'
+            }
+        }
         stage('Build FrontEnd') {
             when {
                 branch('FrontEnd*')
