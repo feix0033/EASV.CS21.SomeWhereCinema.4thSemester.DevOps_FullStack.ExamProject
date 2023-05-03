@@ -79,6 +79,7 @@ pipeline {
             agent any
             steps{
                 echo "====++++executing Test BackEnd++++===="
+                // should be in the test project, not solution fold
                 dir("SomeWhereCinema.Backend/Core.Model.Test") {
                     echo 'remove histiory test results'
                     sh 'rm -rf TestResults'
@@ -92,7 +93,7 @@ pipeline {
                 }
                 success{
                     echo "====++++Test BackEnd executed successfully++++===="
-                    archiveArtifacts "Tests/TestResults/*/coverage.cobertura.xml"
+                    archiveArtifacts "Core.Model.Test/TestResults/*/coverage.cobertura.xml"
 
                     // publishCoverage adapters: [
                     //     istanbulCoberturaAdapter(
