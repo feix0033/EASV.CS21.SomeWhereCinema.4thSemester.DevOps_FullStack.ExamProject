@@ -80,6 +80,7 @@ pipeline {
                 echo '====++++executing Test BackEnd++++===='
                 // should be in the test project, not solution fold
                 dir('SomeWhereCinema.Backend/Core.Model.Test') {
+                    
                     echo 'remove histiory test results'
                     sh 'rm -rf TestResults'
                     sh 'dotnet add package coverlet.collector'
