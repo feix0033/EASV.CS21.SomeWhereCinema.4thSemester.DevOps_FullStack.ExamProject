@@ -18,7 +18,7 @@ pipeline {
             }
             agent any
             steps{
-                sh 'git fatch -a'
+                sh 'git fetch -a'
                 sh 'git merge origin/main'
             }
         }
