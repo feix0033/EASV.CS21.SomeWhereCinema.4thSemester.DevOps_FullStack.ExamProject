@@ -4,7 +4,7 @@ pipeline {
     triggers{
         pollSCM("* * * * *")
     }
-
+    
     environment {
         CI = 'true'
         DOTNET_ROOT = '/usr/bin/dotnet'
@@ -12,6 +12,16 @@ pipeline {
     }
 
     stages {
+        stage('Merge FrontEnd') {
+            when {
+                branch('FrontEnd*')
+            }
+            agent any
+            steps{
+                sh 'git fetch -a'
+                sh 'git merge origin/main'
+            }
+        }
         stage('Build FrontEnd') {
             when {
                 branch('FrontEnd*')
