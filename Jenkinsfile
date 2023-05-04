@@ -20,14 +20,6 @@ pipeline {
             steps {
                 sh 'git fetch -a'
                 sh 'git merge origin/main'
-
-                // here shou handlly merge and push locally. it can not auto push by jenkins
-                // because jenkins use the username and password also ssh is not work for github
-                // maybe try later.
-                // sh 'git add .'
-                // // sh "git commit -m 'merge from origin/main'"
-                // sh "git push --set-upstream origin FrontEnd_Dev"
-
             // after this just test it will test and deploy in all
             }
         }
@@ -58,6 +50,8 @@ pipeline {
                 }
                 success {
                     echo '====++++Build FrontEnd executed successfully++++===='
+                    sh 'git add .'
+                    sh 'git push origin Frontend'
                 }
                 failure {
                     echo '====++++Build FrontEnd execution failed++++===='
@@ -113,22 +107,22 @@ pipeline {
                     echo '====++++Test BackEnd executed successfully++++===='
                     archiveArtifacts 'SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml'
 
-                publishCoverage(
-                    adapters: [
-                        istanbulCoberturaAdapter(
-                            path: "SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml",
-                            thresholds:[[
-                                failUnhealthy: true,
-                                thresholdTarget: 'Conditional',
-                                unhealthyThreshold: 80.0, // below 80%
-                                unstableThreshold: 50.0  // below 50%
-                            ]]
-                        )
-                    ],
-                    checksName: '',
-                    sourceFileResolver: sourceFile('STORE_LAST_BUILD')
-                )
-                }
+                    // publishCoverage(
+                    //     adapters: [
+                    //         istanbulCoberturaAdapter(
+                    //             path: "SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml",
+                    //             thresholds:[[
+                    //                 failUnhealthy: true,
+                    //                 thresholdTarget: 'Conditional',
+                    //                 unhealthyThreshold: 80.0, // below 80%
+                    //                 unstableThreshold: 50.0  // below 50%
+                    //             ]]
+                    //         )
+                    //     ],
+                    //     checksName: '',
+                    //     sourceFileResolver: sourceFile('STORE_LAST_BUILD')
+                    // )
+                    }
                 failure {
                     echo '====++++Test BackEnd execution failed++++===='
                 }
@@ -140,6 +134,24 @@ pipeline {
 
             steps {
                 echo '====++++executing Deploy++++===='
+                when {
+                    branch 'Frontend'
+                }
+                step {
+                    // here shou handlly merge and push locally. it can not auto push by jenkins
+                // because jenkins use the username and password also ssh is not work for github
+                // maybe try later.
+                // sh 'git add .'
+                // // sh "git commit -m 'merge from origin/main'"
+                // sh "git push --set-upstream origin FrontEnd_Dev"
+                }
+                when {
+                    branch 'main'
+                }
+                step {
+                    sh 'firebase login'
+                    sh 'firebase deploy'
+                }
             }
             post {
                 always {
