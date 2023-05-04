@@ -1,10 +1,10 @@
 pipeline {
     agent any
 
-    triggers{
-        pollSCM("1-10 * * * *")
+    triggers {
+        pollSCM('1-10 * * * *')
     }
-    
+
     environment {
         CI = 'true'
         DOTNET_ROOT = '/usr/bin/dotnet'
@@ -17,7 +17,7 @@ pipeline {
                 branch('FrontEnd*')
             }
             agent any
-            steps{
+            steps {
                 sh 'git fetch -a'
                 sh 'git merge origin/main'
 
@@ -28,7 +28,7 @@ pipeline {
                 // // sh "git commit -m 'merge from origin/main'"
                 // sh "git push --set-upstream origin FrontEnd_Dev"
 
-                // after this just test it will test and deploy in all 
+            // after this just test it will test and deploy in all
             }
         }
         stage('Build FrontEnd') {
@@ -99,7 +99,6 @@ pipeline {
                 echo '====++++executing Test BackEnd++++===='
                 // should be in the test project, not solution fold
                 dir('SomeWhereCinema.Backend/Core.Model.Test') {
-                    
                     echo 'remove histiory test results'
                     sh 'rm -rf TestResults'
                     sh 'dotnet add package coverlet.collector'
@@ -114,21 +113,21 @@ pipeline {
                     echo '====++++Test BackEnd executed successfully++++===='
                     archiveArtifacts 'SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml'
 
-                    // publishCoverage(
-                    //     adapters: [
-                    //         istanbulCoberturaAdapter(
-                    //             path: "SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml",
-                    //             thresholds:[[
-                    //                 failUnhealthy: true,
-                    //                 thresholdTarget: 'Conditional',
-                    //                 unhealthyThreshold: 80.0, // below 80%
-                    //                 unstableThreshold: 50.0  // below 50%
-                    //             ]]
-                    //         )
-                    //     ],
-                    //     checksName: '',
-                    //     sourceFileResolver: sourceFile('STORE_LAST_BUILD')
-                    // )
+                publishCoverage(
+                    adapters: [
+                        istanbulCoberturaAdapter(
+                            path: "SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml",
+                            thresholds:[[
+                                failUnhealthy: true,
+                                thresholdTarget: 'Conditional',
+                                unhealthyThreshold: 80.0, // below 80%
+                                unstableThreshold: 50.0  // below 50%
+                            ]]
+                        )
+                    ],
+                    checksName: '',
+                    sourceFileResolver: sourceFile('STORE_LAST_BUILD')
+                )
                 }
                 failure {
                     echo '====++++Test BackEnd execution failed++++===='
