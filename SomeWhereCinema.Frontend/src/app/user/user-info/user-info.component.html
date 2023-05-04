@@ -1,10 +1,10 @@
 <p>user-info works!</p>
 
-<p *ngIf="userService.getCurrentUser() else pleaseLogIn">
-   Welcome {{userService.getCurrentUserEmail()}}
+<p *ngIf="firebaseAuthService.auth.currentUser else pleaseLogIn">
+   Welcome {{firebaseAuthService.auth.currentUser.displayName}}
 </p>
 
 <ng-template #pleaseLogIn>
-  Your we need your email to get info:
+  Your we need you login to get info:
   <button routerLink="userLogIn">LogIn</button>
 </ng-template>

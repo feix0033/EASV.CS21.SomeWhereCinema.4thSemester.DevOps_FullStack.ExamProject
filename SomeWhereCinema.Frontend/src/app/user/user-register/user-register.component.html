@@ -1,15 +1,39 @@
 <p>user-register works!</p>
 
-<input type="email" [(ngModel)]="email" placeholder="email">
-<input type="password" [(ngModel)]="password" placeholder="password">
-<button (click)="userService.register(email,password)">Register</button>
+<div *ngIf="firebaseAuthService.auth.currentUser != null else welcome">
 
-
-<div *ngIf="userService.getCurrentUser">
-
-  <h1>hello</h1><br>
+  <h1>hello</h1><br> {{firebaseAuthService.auth.currentUser.displayName}}
   <a routerLink="userInfo">Info</a>
 
-  <button (click)="userService.logOut()">Sign Out</button>
+  <button (click)="firebaseAuthService.auth.signOut()">Sign Out</button>
 
 </div>
+
+<ng-template #welcome>
+  <form [formGroup]="firebaseAuthService.userForm" (ngSubmit)="firebaseAuthService.register(firebaseAuthService.userForm)">
+    <span>Given Name: </span>
+    <input type="text" formControlName="firstName" placeholder="first name">
+    <br>
+    <span>Family Name: </span>
+    <input type="text" formControlName="secondName" placeholder="second name">
+    <br>
+    <span>Email: </span>
+    <input type="email" formControlName="email" placeholder="email@example.com">
+    <br>
+    <span>Password: </span>
+    <input type="password" formControlName="password" placeholder="should be more than 8">
+    <br>
+    <span>Telephone Number: </span>
+    <input type="tel" formControlName="telephoneNumber" placeholder="8 digital">
+    <br>
+    <button type="submit">Register</button>
+  </form>
+</ng-template>
+
+
+
+
+
+
+
+

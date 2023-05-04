@@ -1,23 +1,38 @@
 import { Injectable } from '@angular/core';
 import {FirebaseService} from "./firebase.service";
 import 'firebase/compat/auth';
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class FirebaseAuthService {
   auth: any;
+  userForm = this.formBuilder.group({
+    firstName : [''],
+    secondName : [''],
+    email : [''],
+    password : [''],
+    telephoneNumber : [0],
+  });
 
-  constructor(public firebaseService:FirebaseService) {
+  constructor(public firebaseService:FirebaseService, public formBuilder:FormBuilder) {
     this.auth = firebaseService.firebaseApplication.auth();
     this.auth.useEmulator('http://localhost:9099')
+
   }
-  register(email:string, password:string){
-    this.auth.createUserWithEmailAndPassword(email, password);
-    // this.logIn(email,password);
+  register(userForm){
+    this.auth.createUserWithEmailAndPassword(userForm.email, userForm.password);
+    this.auth
   }
   logIn(email:string, password:string){
-    this.auth.signInWithEmailAndPassword(email, password);
+    this.auth.signInWithEmailAndPassword(email, password)
+      .then(success => {
+      console.log('logged in')
+    }).catch(err => {
+      console.log('not logged in' + err)
+    })
   }
   logOut(){
     this.auth.signOut();

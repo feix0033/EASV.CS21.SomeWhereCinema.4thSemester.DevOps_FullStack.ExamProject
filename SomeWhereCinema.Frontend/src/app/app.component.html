@@ -6,15 +6,15 @@
   <a routerLink="ordering" style="margin:5px">Order</a>
 </span>
 
-<span *ngIf="(userService.getCurrentUser() != null) else register">
-  Welcome {{userService.getCurrentUserEmail()}}
-  <button routerLink="/"  (click)="userService.logOut()">Log Out</button>
-</span>
+<!--<span *ngIf="(userService.() != null) else register">-->
+<!--  Welcome {{userService.()}}-->
+<!--  <button routerLink="/"  (click)="userService.logOut()">Log Out</button>-->
+<!--</span>-->
 
-<ng-template #register>
+<!--<ng-template #register>-->
   <a routerLink="userRegister" style="margin:5px">Register</a>
   <a routerLink="userLogin" style="margin:5px">Login</a>
-</ng-template>
+<!--</ng-template>-->
 
 
 <router-outlet></router-outlet>

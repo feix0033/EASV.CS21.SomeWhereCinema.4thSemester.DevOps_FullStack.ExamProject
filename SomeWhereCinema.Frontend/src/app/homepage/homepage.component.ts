@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {FirebaseAuthService} from "../firebaseService/firebase-auth.service";
+import {FirebaseService} from "../firebaseService/firebase.service";
 
 @Component({
   selector: 'app-homepage',
@@ -7,4 +9,7 @@ import { Component } from '@angular/core';
 })
 export class HomepageComponent {
 
+
+  constructor(public firebaseAuthService:FirebaseAuthService) {
+  }
 }

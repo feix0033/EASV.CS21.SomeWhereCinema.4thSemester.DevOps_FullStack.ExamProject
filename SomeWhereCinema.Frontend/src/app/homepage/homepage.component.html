@@ -1,1 +1,5 @@
 <p>homepage works!</p>
+<button (click)="firebaseAuthService.auth.signOut()">log out</button>
+<div *ngIf="firebaseAuthService.auth.currentUser">
+  <p>hello</p>
+</div>

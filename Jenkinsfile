@@ -18,6 +18,7 @@ pipeline {
             }
             agent any
             steps {
+                sh 'pwd'
                 sh 'git fetch -a'
                 sh 'git merge origin/main'
             // after this just test it will test and deploy in all
@@ -35,7 +36,9 @@ pipeline {
             }
             steps {
                 echo '====++++executing Build FrontEnd++++===='
+                sh 'pwd'
                 dir('SomeWhereCinema.Frontend') {
+                    sh 'pwd'
                     // sh 'npm cache clean --force'
                     // sh 'npm cache verify'
                     // sh 'npm install npm'
@@ -43,9 +46,8 @@ pipeline {
                     // sh 'npm i -g @angular/cli'
                     // sh 'ng build'
                 }
-                sh 'npm i git'
-                sh 'git add .'
-                sh 'git push origin Frontend'
+                sh 'pwd'
+                sh 'git status'
                 dir(''){
                     sh 'pwd'
                 }
