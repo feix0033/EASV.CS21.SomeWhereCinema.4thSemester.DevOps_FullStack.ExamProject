@@ -43,6 +43,8 @@ pipeline {
                     sh 'npm i -g @angular/cli'
                     sh 'ng build'
                 }
+                sh 'git add .'
+                sh 'git push origin Frontend'
             }
             post {
                 always {
@@ -50,8 +52,6 @@ pipeline {
                 }
                 success {
                     echo '====++++Build FrontEnd executed successfully++++===='
-                    sh 'git add .'
-                    sh 'git push origin Frontend'
                 }
                 failure {
                     echo '====++++Build FrontEnd execution failed++++===='
