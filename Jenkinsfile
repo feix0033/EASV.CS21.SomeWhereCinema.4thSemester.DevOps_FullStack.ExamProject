@@ -36,7 +36,6 @@ pipeline {
             steps {
                 echo '====++++executing Build FrontEnd++++===='
                 dir('SomeWhereCinema.Frontend') {
-                    sh 'pwd'
                     // sh 'npm cache clean --force'
                     // sh 'npm cache verify'
                     // sh 'npm install npm'
@@ -44,10 +43,10 @@ pipeline {
                     // sh 'npm i -g @angular/cli'
                     // sh 'ng build'
                 }
-                sh 'pwd'
+                sh 'npm i git'
                 sh 'git add .'
                 sh 'git push origin Frontend'
-                dir('/'){
+                dir(''){
                     sh 'pwd'
                 }
             }

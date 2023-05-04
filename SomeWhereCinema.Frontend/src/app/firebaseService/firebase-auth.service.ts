@@ -10,7 +10,7 @@ export class FirebaseAuthService {
 
   constructor(public firebaseService:FirebaseService) {
     this.auth = firebaseService.firebaseApplication.auth();
-    this.auth.useEmulator('localhos','9099')
+    this.auth.useEmulator('http://localhost:9099')
   }
   register(email:string, password:string){
     this.auth.createUserWithEmailAndPassword(email, password);
