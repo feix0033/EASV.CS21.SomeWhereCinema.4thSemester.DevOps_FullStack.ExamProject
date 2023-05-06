@@ -10,7 +10,3 @@ public class Movie
     public DateTime? OffDate { get; set; }
     public double? Price { get; set; }
 }
-
-public class Genre
-{
-}

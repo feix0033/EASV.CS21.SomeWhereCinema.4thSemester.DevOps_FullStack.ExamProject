@@ -2,8 +2,8 @@ namespace Domain.Model;
 
 public class ProjectionInfo
 {
-    public int Id { get; set; }
-    public int MovieId { get; set; }
-    public int TheaterId { get; set; }
-    public Array SitAvailableMark { get; set; }
+    public Movie Movie { get; set; }
+    public Theater Theater { get; set; }
+    public DateTime ShowTime { get; set; }
+    public DateTime EndTime { get; set; }
 }
