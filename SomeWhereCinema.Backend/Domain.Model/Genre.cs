@@ -1,6 +1,5 @@
 namespace Domain.Model;
 
-public class Theater
+public enum Genre
 {
-    
 }
