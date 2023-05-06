@@ -72,7 +72,6 @@ pipeline {
             agent any
             steps {
                 echo '====++++executing Build BackEnd++++===='
-                sh 'pwd'
                 dir('SomeWhereCinema.Backend') {
                     sh 'dotnet build'
                 }
