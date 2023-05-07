@@ -97,7 +97,7 @@ pipeline {
             steps {
                 echo '====++++executing Test BackEnd++++===='
                 // should be in the test project, not solution fold
-                dir('SomeWhereCinema.Backend/Core.Model.Test') {
+                dir('SomeWhereCinema.Backend/Domain.Model.Test') {
                     echo 'remove histiory test results'
                     sh 'rm -rf TestResults'
                     sh 'dotnet add package coverlet.collector'
@@ -110,12 +110,12 @@ pipeline {
                 }
                 success {
                     echo '====++++Test BackEnd executed successfully++++===='
-                    archiveArtifacts 'SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml'
+                    archiveArtifacts 'SomeWhereCinema.Backend/Domain.Model.Test/TestResults/*/coverage.cobertura.xml'
 
                     // publishCoverage(
                     //     adapters: [
                     //         istanbulCoberturaAdapter(
-                    //             path: "SomeWhereCinema.Backend/Core.Model.Test/TestResults/*/coverage.cobertura.xml",
+                    //             path: "SomeWhereCinema.Backend/Domain.Model.Test/TestResults/*/coverage.cobertura.xml",
                     //             thresholds:[[
                     //                 failUnhealthy: true,
                     //                 thresholdTarget: 'Conditional',
