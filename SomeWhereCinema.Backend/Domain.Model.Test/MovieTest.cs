@@ -73,7 +73,7 @@ public class MovieTest
     {
         Assert.IsType<string[]>(_movie.Actor);
     }
-    
+     
 
     #endregion
     
