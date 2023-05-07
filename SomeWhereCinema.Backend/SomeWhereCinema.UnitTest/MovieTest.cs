@@ -1,7 +1,6 @@
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using Domain.Model;
 
-namespace Domain.Model.Test;
+namespace SomeWhereCinema.UnitTest;
 
 public class MovieTest
 {
