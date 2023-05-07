@@ -1,4 +1,5 @@
-using Domain.Model;
+using SomeWhereCinema.Core;
+using SomeWhereCinema.Core.Models;
 
 namespace SomeWhereCinema.UnitTest;
 

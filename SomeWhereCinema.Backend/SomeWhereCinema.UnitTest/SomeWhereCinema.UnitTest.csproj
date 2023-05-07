@@ -24,8 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Domain.IService\Domain.IService.csproj" />
-      <ProjectReference Include="..\Domain.Model\Domain.Model.csproj" />
+      <ProjectReference Include="..\SomeWhereCinema.Core\SomeWhereCinema.Core.csproj" />
     </ItemGroup>
 
 </Project>

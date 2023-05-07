@@ -1,4 +1,4 @@
-namespace Domain.Model;
+namespace SomeWhereCinema.Core.Models;
 
 public class Movie
 {

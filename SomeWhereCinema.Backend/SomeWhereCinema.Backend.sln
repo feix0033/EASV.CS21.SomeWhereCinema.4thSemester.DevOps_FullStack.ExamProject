@@ -2,13 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SomeWhereCinema.Core", "SomeWhereCinema.Core", "{9EE9B5B6-7907-4CA0-BB0A-5C4650014F47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Model", "Domain.Model\Domain.Model.csproj", "{45B5A2A2-6AE2-4CED-9C7A-3E47B6A4EE85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SomeWhereCinema.Core", "SomeWhereCinema.Core\SomeWhereCinema.Core.csproj", "{45B5A2A2-6AE2-4CED-9C7A-3E47B6A4EE85}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SomeWhereCinema.Test", "SomeWhereCinema.Test", "{36EEE299-8D5B-402A-83E6-056BC501B35F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SomeWhereCinema.UnitTest", "SomeWhereCinema.UnitTest\SomeWhereCinema.UnitTest.csproj", "{2A0EEA2E-1E12-4982-AAFE-0469417BC5EB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.IService", "Domain.IService\Domain.IService.csproj", "{DD076D32-9AEC-43CD-8D6B-D938ED5CECFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,7 +16,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{45B5A2A2-6AE2-4CED-9C7A-3E47B6A4EE85} = {9EE9B5B6-7907-4CA0-BB0A-5C4650014F47}
 		{2A0EEA2E-1E12-4982-AAFE-0469417BC5EB} = {36EEE299-8D5B-402A-83E6-056BC501B35F}
-		{DD076D32-9AEC-43CD-8D6B-D938ED5CECFA} = {9EE9B5B6-7907-4CA0-BB0A-5C4650014F47}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{45B5A2A2-6AE2-4CED-9C7A-3E47B6A4EE85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -29,9 +26,5 @@ Global
 		{2A0EEA2E-1E12-4982-AAFE-0469417BC5EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A0EEA2E-1E12-4982-AAFE-0469417BC5EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A0EEA2E-1E12-4982-AAFE-0469417BC5EB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD076D32-9AEC-43CD-8D6B-D938ED5CECFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD076D32-9AEC-43CD-8D6B-D938ED5CECFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD076D32-9AEC-43CD-8D6B-D938ED5CECFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD076D32-9AEC-43CD-8D6B-D938ED5CECFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
