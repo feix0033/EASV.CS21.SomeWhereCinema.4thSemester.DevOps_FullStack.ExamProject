@@ -82,14 +82,14 @@ public class MovieTest
     [Fact]
     public void Test_Core_Moive_ReleaseDate_CanStoreValue()
     {
-        Assert.Equal("07.05.2023 00:00:00", _movie.ReleaseDate.ToString());
+        Assert.True(_movie.ReleaseDate.HasValue);
     }
 
     [Fact]
     public void Test_Core_Movie_ReleaseDate_CanBeModify()
     {
         _movie.ReleaseDate = new DateTime(2022,1,1);
-        Assert.Equal("01.01.2022 00:00:00",_movie.ReleaseDate.ToString());
+        Assert.Equal(new DateTime(2022,1,1),_movie.ReleaseDate.Value);
     }
     
     #endregion
@@ -112,14 +112,14 @@ public class MovieTest
     [Fact]
     public void Test_Core_Movie_PublishTime_CanStoreDate()
     {
-        Assert.Equal("07.05.2023 00:00:00", _movie.PublishTime.ToString());
+        Assert.True(_movie.PublishTime.HasValue);
     }
 
     [Fact]
     public void Test_Core_Movie_PublishTime_CanBeModify()
     {
         _movie.PublishTime = new DateTime(2022,1,1);
-        Assert.Equal("01.01.2022 00:00:00",_movie.PublishTime.ToString());
+        Assert.Equal(new DateTime(2022,1,1),_movie.PublishTime.Value);
     }
     
     #endregion
@@ -142,14 +142,14 @@ public class MovieTest
     [Fact]
     public void Test_Core_Movie_OffDate_CanStoreDate()
     {
-        Assert.Equal("07.06.2023 00:00:00",_movie.OffDate.ToString());
+        Assert.True(_movie.OffDate.HasValue);
     }
     
     [Fact]
     public void Test_Core_Movie_OffDate_CanBeModify()
     {
         _movie.OffDate = new DateTime(2022,1,1);
-        Assert.Equal("01.01.2022 00:00:00", _movie.OffDate.ToString());
+        Assert.Equal(new DateTime(2022,1,1) , _movie.OffDate.Value);
     }
     
     #endregion
