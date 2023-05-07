@@ -6,7 +6,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Model", "Domain.Mode
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SomeWhereCinema.Test", "SomeWhereCinema.Test", "{36EEE299-8D5B-402A-83E6-056BC501B35F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Model.Test", "Core.Model.Test\Core.Model.Test.csproj", "{3255B46E-3CBC-4CFC-A549-50DF87DCAFFE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Model.Test", "Domain.Model.Test\Domain.Model.Test.csproj", "{3255B46E-3CBC-4CFC-A549-50DF87DCAFFE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SomeWhereCinema.Core.Test", "SomeWhereCinema.Core.Test", "{7DD90E1A-CFFC-4F6C-826C-732C14CB286D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,7 +17,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{45B5A2A2-6AE2-4CED-9C7A-3E47B6A4EE85} = {9EE9B5B6-7907-4CA0-BB0A-5C4650014F47}
-		{3255B46E-3CBC-4CFC-A549-50DF87DCAFFE} = {36EEE299-8D5B-402A-83E6-056BC501B35F}
+		{7DD90E1A-CFFC-4F6C-826C-732C14CB286D} = {36EEE299-8D5B-402A-83E6-056BC501B35F}
+		{3255B46E-3CBC-4CFC-A549-50DF87DCAFFE} = {7DD90E1A-CFFC-4F6C-826C-732C14CB286D}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{45B5A2A2-6AE2-4CED-9C7A-3E47B6A4EE85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
