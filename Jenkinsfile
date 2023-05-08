@@ -116,7 +116,8 @@ pipeline {
             steps {
                 sh "git checkout origin/BackEnd"
                 sh "git fetch -a"
-                sh "git merge ${BackEnd*}"
+                sh "git pull"
+                sh "git merge BackEnd_Dev_*"
                 sh "git add ." 
                 sh "git commit -m 'auto merge to BackEnd'"
                 sh "git push"
