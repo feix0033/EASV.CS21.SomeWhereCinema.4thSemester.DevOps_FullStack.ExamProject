@@ -112,7 +112,7 @@ pipeline {
             }
 
             steps {
-                sh "git checkout origin/BackEnd"
+                sh "git checkout BackEnd"
                 sh "git fetch -a"
                 sh "git pull"
                 sh "git merge BackEnd_Dev_*"
