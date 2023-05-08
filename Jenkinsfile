@@ -117,7 +117,7 @@ pipeline {
                 sh "git pull"
                 sh "git merge BackEnd_Dev"
                 sh "git add ." 
-                sh "git push"
+//                 sh "git push"
             }
         }
 
