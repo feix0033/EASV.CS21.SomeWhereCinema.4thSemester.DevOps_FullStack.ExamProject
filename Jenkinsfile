@@ -2,7 +2,9 @@ pipeline {
     agent any
 
     triggers {
-        pollSCM('1-10 * * * *')
+        when{
+            pollSCM('* * * * *')
+        }
     }
 
     environment {
@@ -18,12 +20,22 @@ pipeline {
             }
             agent any
             steps {
-                sh 'pwd'
                 sh 'git fetch -a'
-                sh 'git merge origin/main'
-            // after this just test it will test and deploy in all
+                sh 'git merge origin/FrontEnd'
             }
         }
+        
+        stage('Merge BackEnd') {
+            when {
+                branch('BackEnd*')
+            }
+            agent any
+            steps {
+                sh "git fetch -a"
+                sh "git merge origin/BackEnd"
+            }
+        }
+        
         stage('Build FrontEnd') {
             when {
                 branch('FrontEnd*')
@@ -35,32 +47,13 @@ pipeline {
                 }
             }
             steps {
-                echo '====++++executing Build FrontEnd++++===='
-                sh 'pwd'
                 dir('SomeWhereCinema.Frontend') {
-                    sh 'pwd'
-                    // sh 'npm cache clean --force'
-                    // sh 'npm cache verify'
-                    // sh 'npm install npm'
-                    // sh 'npm install'
-                    // sh 'npm i -g @angular/cli'
-                    // sh 'ng build'
-                }
-                sh 'pwd'
-                sh 'git status'
-                dir(''){
-                    sh 'pwd'
-                }
-            }
-            post {
-                always {
-                    echo '====++++Build FrontEnd executed finish++++===='
-                }
-                success {
-                    echo '====++++Build FrontEnd executed successfully++++===='
-                }
-                failure {
-                    echo '====++++Build FrontEnd execution failed++++===='
+                    sh 'npm cache clean --force'
+                    sh 'npm cache verify'
+                    sh 'npm install npm'
+                    sh 'npm install'
+                    sh 'npm i -g @angular/cli'
+                    sh 'ng build'
                 }
             }
         }
@@ -71,20 +64,8 @@ pipeline {
             }
             agent any
             steps {
-                echo '====++++executing Build BackEnd++++===='
                 dir('SomeWhereCinema.Backend') {
                     sh 'dotnet build'
-                }
-            }
-            post {
-                always {
-                    echo '====++++alwayBuild BackEnd executed finish++++===='
-                }
-                success {
-                    echo '====++++Build BackEnd executed successfully++++===='
-                }
-                failure {
-                    echo '====++++Build BackEnd execution failed++++===='
                 }
             }
         }
@@ -95,7 +76,6 @@ pipeline {
             }
             agent any
             steps {
-                echo '====++++executing Test BackEnd++++===='
                 // should be in the test project, not solution fold
                 dir('SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
                     echo 'remove histiory test results'
@@ -105,13 +85,9 @@ pipeline {
                 }
             }
             post {
-                always {
-                    echo '====++++always++++===='
-                }
                 success {
                     echo '====++++Test BackEnd executed successfully++++===='
                     archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
-
 //                     publishCoverage(
 //                         adapters: [
 //                             istanbulCoberturaAdapter(
@@ -127,29 +103,23 @@ pipeline {
 //                         checksName: '',
 //                         sourceFileResolver: sourceFile('STORE_LAST_BUILD')
 //                     )
-                    }
-                failure {
-                    echo '====++++Test BackEnd execution failed++++===='
                 }
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy BackEnd') {
             agent any
+            when {
+                branch('BackEnd*')
+            }
 
             steps {
-                echo '====++++executing Deploy++++===='
-            }
-            post {
-                always {
-                    echo '====++++Deploy finish++++===='
-                }
-                success {
-                    echo '====++++Deploy executed successfully++++===='
-                }
-                failure {
-                    echo '====++++Deploy execution failed++++===='
-                }
+                sh 'git checkout origin/BackEnd'
+                sh 'git fetch -a'
+                sh 'git merge ${BackEnd*}'
+                sh 'git add . '
+                sh 'git commit -m 'auto merge to BackEnd'
+                sh 'git push'
             }
         }
 
