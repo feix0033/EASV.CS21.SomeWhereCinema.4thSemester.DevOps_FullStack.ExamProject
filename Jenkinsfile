@@ -3,7 +3,10 @@ pipeline {
 
     triggers {
         when{
-            pollSCM('* * * * *')
+            branch ('BackEnd*') {
+                pollSCM('* * * * *')
+            
+            }
         }
     }
 
