@@ -2,12 +2,7 @@ pipeline {
     agent any
 
     triggers {
-        when{
-            branch ('BackEnd*') {
-                pollSCM('* * * * *')
-            
-            }
-        }
+        pollSCM('* * * * *')
     }
 
     environment {
