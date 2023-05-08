@@ -105,17 +105,17 @@ pipeline {
             }
         }
 
-        stage('Deploy BackEnd') {
+        stage('Merge BackEnd_Dev') {
             agent any
             when {
-                branch('BackEnd*')
+                branch('BackEnd_Dev')
             }
 
             steps {
                 sh "git checkout BackEnd"
                 sh "git fetch -a"
                 sh "git pull"
-                sh "git merge BackEnd_Dev_*"
+                sh "git merge BackEnd_Dev"
                 sh "git add ." 
                 sh "git commit -m 'auto merge to BackEnd'"
                 sh "git push"
