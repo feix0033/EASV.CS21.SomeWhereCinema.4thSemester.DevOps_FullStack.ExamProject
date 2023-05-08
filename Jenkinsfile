@@ -117,7 +117,6 @@ pipeline {
                 sh "git pull"
                 sh "git merge BackEnd_Dev"
                 sh "git add ." 
-                sh "git commit -m 'auto merge to BackEnd'"
                 sh "git push"
             }
         }
