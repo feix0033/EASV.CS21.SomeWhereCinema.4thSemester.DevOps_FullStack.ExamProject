@@ -1,5 +1,8 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
+using NuGet.Protocol.Plugins;
+using SomeWhereCinema.Core.IService;
 using SomeWhereCinema.Core.Models;
 using SomeWhereCinema.WebApi.Controllers;
 
@@ -8,10 +11,23 @@ namespace SomeWhereCinema.UnitTest.SomeWhereCinema.Infrastructure.Test.SomeWhere
 public class MovieControllerTest
 {
     [Fact]
-    public void MovieController_IsOfTypeControllerBase()
+    public void MovieController_HasMovieService_IsTypeOfControllerBase()
     {
-        var movieController = new MovieController();
-        Assert.IsAssignableFrom<ControllerBase>(movieController);
+        Assert.IsAssignableFrom<ControllerBase>(
+            new MovieController(new Mock<IMovieService>().Object)
+            );
+    }
+    
+    [Fact]
+    public void MovieController_HasMovieService_NullThrowException()
+    {
+        Assert.Equal(
+            "movieService can not be null.",
+            Assert.Throws<InvalidDataException>(
+                    () => new MovieController(null)
+                    )
+                .Message
+            );
     }
 
     [Fact]
