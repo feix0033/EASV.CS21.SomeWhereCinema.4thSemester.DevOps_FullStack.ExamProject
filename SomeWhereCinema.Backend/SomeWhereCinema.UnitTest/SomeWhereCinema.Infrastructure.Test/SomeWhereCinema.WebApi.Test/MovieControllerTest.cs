@@ -92,9 +92,4 @@ public class MovieControllerTest
                 .FullName
         );
     }
-    [Fact]
-    public void MovieController_GetAllMethod_HasGetHttpAttribute()
-    {
-        
-    }
 }

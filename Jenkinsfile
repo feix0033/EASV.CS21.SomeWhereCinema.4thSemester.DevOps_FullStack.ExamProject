@@ -117,8 +117,8 @@ pipeline {
                 sh "git pull"
                 sh "git merge BackEnd_Dev"
                 sh "git add ." 
-//                 sh "git push --set-upstream origin BackEnd"
-//                 sh "git push origin/BackEnd"
+                sh "git push --set-upstream origin BackEnd"
+                sh "git push origin/BackEnd"
             }
         }
 
