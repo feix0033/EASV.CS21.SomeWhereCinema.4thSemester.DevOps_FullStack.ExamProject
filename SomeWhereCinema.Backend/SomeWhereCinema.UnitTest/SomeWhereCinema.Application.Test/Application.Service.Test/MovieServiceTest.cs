@@ -1,5 +1,6 @@
 using Moq;
 using SomeWhereCinema.Application;
+using SomeWhereCinema.Application.IRepository;
 using SomeWhereCinema.Application.Service;
 using SomeWhereCinema.Core.IService;
 using SomeWhereCinema.Core.Models;
@@ -49,8 +50,7 @@ public class MovieServiceTest
     [Fact]
     public void MovieService_NoFilter_ReturnsListOfAllProducts()
     {
-        _mock.Setup(r => r.FindAll())
-            .Returns(_movies);
+        _mock.Setup(r => r.FindAll()).Returns(_movies);
         Assert.Equal(_movies,_movieService.GetMovies());
     }
     

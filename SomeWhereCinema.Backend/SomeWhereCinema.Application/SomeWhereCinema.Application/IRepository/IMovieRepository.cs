@@ -1,6 +1,6 @@
 using SomeWhereCinema.Core.Models;
 
-namespace SomeWhereCinema.Application;
+namespace SomeWhereCinema.Application.IRepository;
 
 public interface IMovieRepository
 {

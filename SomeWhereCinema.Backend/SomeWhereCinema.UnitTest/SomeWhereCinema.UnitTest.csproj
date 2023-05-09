@@ -10,6 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="EntityFrameworkCore.Testing.Moq" Version="5.0.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
         <PackageReference Include="Moq" Version="4.18.4" />
         <PackageReference Include="xunit" Version="2.4.2" />
@@ -26,6 +27,7 @@
     <ItemGroup>
       <ProjectReference Include="..\SomeWhereCinema.Application\SomeWhereCinema.Application\SomeWhereCinema.Application.csproj" />
       <ProjectReference Include="..\SomeWhereCinema.Core\SomeWhereCinema.Core.csproj" />
+      <ProjectReference Include="..\SomeWhereCinema.DataAccess\SomeWhereCinema.DataAccess.csproj" />
     </ItemGroup>
 
 </Project>

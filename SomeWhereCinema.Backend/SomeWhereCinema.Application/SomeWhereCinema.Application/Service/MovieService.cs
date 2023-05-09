@@ -1,3 +1,4 @@
+using SomeWhereCinema.Application.IRepository;
 using SomeWhereCinema.Core.IService;
 using SomeWhereCinema.Core.Models;
 
@@ -9,12 +10,7 @@ public class MovieService : IMovieService
 
     public MovieService(IMovieRepository movieRepository)
     {
-        if (movieRepository == null)
-        {
-            throw new InvalidDataException("movieRepository can not be null");
-        }
-
-        _movieRepostitory = movieRepository;
+        _movieRepostitory = movieRepository ?? throw new InvalidDataException("movieRepository can not be null");
     }
 
     public List<Movie> GetMovies()
