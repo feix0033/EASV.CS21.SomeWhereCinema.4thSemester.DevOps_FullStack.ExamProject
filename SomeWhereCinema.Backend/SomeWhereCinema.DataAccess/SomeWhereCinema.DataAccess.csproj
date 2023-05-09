@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\SomeWhereCinema.Application\SomeWhereCinema.Application\SomeWhereCinema.Application.csproj" />
       <ProjectReference Include="..\SomeWhereCinema.Core\SomeWhereCinema.Core.csproj" />
     </ItemGroup>
 
