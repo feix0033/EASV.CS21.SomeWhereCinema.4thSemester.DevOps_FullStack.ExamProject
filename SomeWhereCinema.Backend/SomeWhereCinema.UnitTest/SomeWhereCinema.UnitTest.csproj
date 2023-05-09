@@ -11,6 +11,7 @@
 
     <ItemGroup>
         <PackageReference Include="EntityFrameworkCore.Testing.Moq" Version="5.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
         <PackageReference Include="Moq" Version="4.18.4" />
         <PackageReference Include="xunit" Version="2.4.2" />
@@ -28,6 +29,7 @@
       <ProjectReference Include="..\SomeWhereCinema.Application\SomeWhereCinema.Application\SomeWhereCinema.Application.csproj" />
       <ProjectReference Include="..\SomeWhereCinema.Core\SomeWhereCinema.Core.csproj" />
       <ProjectReference Include="..\SomeWhereCinema.DataAccess\SomeWhereCinema.DataAccess.csproj" />
+      <ProjectReference Include="..\SomeWhereCinema.WebApi\SomeWhereCinema.WebApi.csproj" />
     </ItemGroup>
 
 </Project>

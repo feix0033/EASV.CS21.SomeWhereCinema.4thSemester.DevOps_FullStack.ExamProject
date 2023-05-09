@@ -1,7 +1,6 @@
-using SomeWhereCinema.Core;
 using SomeWhereCinema.Core.Models;
 
-namespace SomeWhereCinema.UnitTest;
+namespace SomeWhereCinema.UnitTest.SomeWhereCinema.Core.Test.Domin.Model.Test;
 
 public class MovieTest
 {
