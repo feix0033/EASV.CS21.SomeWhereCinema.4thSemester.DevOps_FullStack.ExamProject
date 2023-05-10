@@ -1,4 +1,6 @@
-using AutoMapper;using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using SomeWhereCinema.Application.IRepository;
 using SomeWhereCinema.Application.Service;
 using SomeWhereCinema.Core.IService;
@@ -10,7 +12,7 @@ using SomeWhereCinema.WebApi.DotNet7.Controllers;
 var builder = WebApplication.CreateBuilder(args);
 
 // use auto mapper package to map the dtoes and entities.
-
+builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSingleton(
     new MapperConfiguration(conf => 
         { 
@@ -35,6 +37,9 @@ builder.Services.AddDbContext<MovieDbContext>(options => options.UseSqlite(
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 
+// add cros
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,6 +48,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(option =>
+{
+    option.AllowAnyOrigin();
+    option.AllowAnyHeader();
+    option.AllowAnyMethod();
+});
 
 app.UseHttpsRedirection();
 

@@ -9,4 +9,5 @@ public interface IMovieService
      Movie ReadMovie(Movie movie);
      Movie UpdateMovie(Movie movie);
      Movie DeleteMovie(Movie movie);
+     void ReInitDb();
 }

@@ -13,6 +13,6 @@ public interface IMovieRepository
 
     Movie DeleteMovie(Movie movie);
     
-    void CreateDB();
+    void CreateDb();
     
 }

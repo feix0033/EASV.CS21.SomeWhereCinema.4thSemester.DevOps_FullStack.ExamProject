@@ -37,4 +37,9 @@ public class MovieService : IMovieService
     {
         return _movieRepostitory.DeleteMovie(movie);
     }
+
+    public void ReInitDb()
+    {
+        _movieRepostitory.CreateDb();
+    }
 }

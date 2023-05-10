@@ -44,7 +44,7 @@ public class MovieRepository: IMovieRepository
         return movie;
     }
 
-    public void CreateDB()
+    public void CreateDb()
     {
         _movieDbContext.Database.EnsureDeleted();
         _movieDbContext.Database.EnsureCreated();

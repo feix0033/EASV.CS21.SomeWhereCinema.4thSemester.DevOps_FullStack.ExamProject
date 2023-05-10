@@ -1,6 +1,7 @@
 using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using SomeWhereCinema.Application.IRepository;
+using SomeWhereCinema.Core.IService;
 using SomeWhereCinema.Core.Models;
 
 namespace SomeWhereCinema.WebApi.DotNet7.Controllers;
@@ -9,15 +10,15 @@ namespace SomeWhereCinema.WebApi.DotNet7.Controllers;
 [Route("[controller]")]
 public class MovieController:ControllerBase
 {
-    private IMovieRepository _movieRepository;
-    private MovieValidator _movieValidator;
+    private readonly IMovieService _movieService;
+    private readonly IValidator<MoiveDTO> _movieValidator;
     private readonly IMapper _mapper;
 
     // Dependency Injection Interface to call the real Service
-    public MovieController(IMovieRepository movieRepository, IMapper mapper)
+    public MovieController(IMovieService movieService, IMapper mapper, IValidator<MoiveDTO> movieValidator)
     {
-        _movieRepository = movieRepository;
-        _movieValidator = new MovieValidator();
+        _movieService = movieService;
+        _movieValidator = movieValidator;
         _mapper = mapper;
     }
 
@@ -25,29 +26,44 @@ public class MovieController:ControllerBase
     [Route("GetAllMovie")]
     public ActionResult<List<Movie>> GetAll()
     {
-        return Ok(_movieRepository.FindAll());
+        return Ok(_movieService.GetMovies());
     }
 
     [HttpPost]
     [Route("CreateMovie")]
     public ActionResult<Movie> CreateMovie(MoiveDTO dto)
     {
-        
-        var valid = _movieValidator.Validate(dto);
-        if (valid.IsValid)
+        try
         {
-            return Ok(_movieRepository.CreateMovie(_mapper.Map<Movie>(dto)));
+            var movie = _movieService.CreateMovie(_mapper.Map<Movie>(dto));
+            return Created("Movie/" + movie.Id, movie);
         }
-
-        return BadRequest(valid.ToString());
+        catch (ValidationException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
     }
+    
 
-    [HttpPut]
-    [Route("ReadMovie")]
+    [HttpGet] // change some of preperties in database but not all record.
+    [Route("{id}")]
     public ActionResult<Movie> ReadMovie(Movie movie)
     {
-        return Ok(_movieRepository.ReadMovie(movie));
+        try
+        {
+            return Ok(_movieService.ReadMovie(movie));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
     }
+    
+    
     
     [HttpPut]
     [Route("UpdateMovie")]
@@ -56,7 +72,7 @@ public class MovieController:ControllerBase
         var validationResult = _movieValidator.Validate(dto);
         if (validationResult.IsValid)
         {
-            return Ok(_movieRepository.UpdataMovie(_mapper.Map<Movie>(dto)));
+            return Ok(_movieService.UpdateMovie(_mapper.Map<Movie>(dto)));
         }
         return BadRequest(validationResult.ToString());
     }
@@ -65,14 +81,14 @@ public class MovieController:ControllerBase
     [Route("DeleteMovie")]
     public ActionResult<Movie> DeleteMovie(Movie movie)
     {
-        return Ok(_movieRepository.DeleteMovie(movie));
+        return Ok(_movieService.DeleteMovie(movie));
     }
 
     [HttpGet]
     [Route("CreateDatabase")]
-    public ActionResult<string> CreateDB()
+    public ActionResult<string> CreateDb()
     {
-        _movieRepository.CreateDB();
+        _movieService.ReInitDb();
         return Ok("Database has been created");
     }
 }
