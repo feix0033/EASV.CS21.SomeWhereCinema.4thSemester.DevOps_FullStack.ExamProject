@@ -49,8 +49,8 @@ public class MovieController:ControllerBase
     }
     
 
-    [HttpGet] // change some of preperties in database but not all record.
-    [Route("{id}")]
+    [HttpPatch] // change some of preperties in database but not all record.
+    [Route("ReadMovie")]
     public ActionResult<Movie> ReadMovie(Movie movie)
     {
         try
@@ -78,9 +78,13 @@ public class MovieController:ControllerBase
     }
 
     [HttpDelete]
-    [Route("DeleteMovie")]
-    public ActionResult<Movie> DeleteMovie(Movie movie)
+    [Route("{name}")]
+    public ActionResult<Movie> DeleteMovie(string name)
     {
+        var movie = new Movie()
+        {
+            Name = name
+        };
         return Ok(_movieService.DeleteMovie(movie));
     }
 
