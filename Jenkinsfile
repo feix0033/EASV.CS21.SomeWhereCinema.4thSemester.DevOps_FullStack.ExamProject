@@ -104,23 +104,24 @@ pipeline {
                 }
             }
         }
-
-        stage('Merge BackEnd_Dev') {
-            agent any
-            when {
-                branch('BackEnd_Dev')
-            }
-
-            steps {
-                sh "git checkout BackEnd"
-                sh "git fetch -a"
-                sh "git pull"
-                sh "git merge BackEnd_Dev"
-                sh "git add ." 
+// 
+//         stage('Merge BackEnd_Dev') {
+//             agent any
+//             when {
+//                 branch('BackEnd_Dev')
+//             }
+// 
+//             steps {
+//                 sh "git checkout BackEnd"
+//                 sh "git fetch -a"
+//                 sh "git pull"
+//                 sh "git merge BackEnd_Dev"
+//                 sh "git add ." 
+//                 sh "git config -g username feix0033@easv365.dk"
 //                 sh "git push --set-upstream origin BackEnd"
 //                 sh "git push origin/BackEnd"
-            }
-        }
+//             }
+//         }
 
         stage('Deliver') {
             agent any

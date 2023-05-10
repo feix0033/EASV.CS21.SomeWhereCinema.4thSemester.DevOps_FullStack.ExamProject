@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SomeWhereCinema.Persentatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SomeWhereCinema.WebApi", "SomeWhereCinema.WebApi\SomeWhereCinema.WebApi.csproj", "{B98DCB62-3C88-4F31-81F0-2B6DB3D7C1FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SomeWhereCinema.WebApi.DotNet7", "SomeWhereCinema.WebApi.DotNet7\SomeWhereCinema.WebApi.DotNet7.csproj", "{63FA3F74-3E48-45D0-8E2F-CBA259E28B10}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,7 @@ Global
 		{ED0B7966-E3AF-42C5-AC3B-BE56F986CB08} = {F76E93C8-8CD2-469E-A53A-19BD43B336CD}
 		{40CF2DC7-BC6A-402D-8E36-15B6AF392601} = {DCD446A2-4200-4F49-811B-A1BAC5C2C510}
 		{B98DCB62-3C88-4F31-81F0-2B6DB3D7C1FA} = {40CF2DC7-BC6A-402D-8E36-15B6AF392601}
+		{63FA3F74-3E48-45D0-8E2F-CBA259E28B10} = {40CF2DC7-BC6A-402D-8E36-15B6AF392601}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{45B5A2A2-6AE2-4CED-9C7A-3E47B6A4EE85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -57,5 +60,9 @@ Global
 		{B98DCB62-3C88-4F31-81F0-2B6DB3D7C1FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B98DCB62-3C88-4F31-81F0-2B6DB3D7C1FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B98DCB62-3C88-4F31-81F0-2B6DB3D7C1FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63FA3F74-3E48-45D0-8E2F-CBA259E28B10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63FA3F74-3E48-45D0-8E2F-CBA259E28B10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63FA3F74-3E48-45D0-8E2F-CBA259E28B10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63FA3F74-3E48-45D0-8E2F-CBA259E28B10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
