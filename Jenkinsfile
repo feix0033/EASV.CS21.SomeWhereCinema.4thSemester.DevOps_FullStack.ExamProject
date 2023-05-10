@@ -18,6 +18,9 @@ pipeline {
             }
             agent any
             steps {
+                // here just check the up stream doesn't have any change
+                // afterward if there are confilx was not be fixed, unit test will fail
+                // otherwise it will continuous 
                 sh 'git fetch -a'
                 sh 'git merge origin/FrontEnd'
             }
@@ -104,24 +107,6 @@ pipeline {
                 }
             }
         }
-// 
-//         stage('Merge BackEnd_Dev') {
-//             agent any
-//             when {
-//                 branch('BackEnd_Dev')
-//             }
-// 
-//             steps {
-//                 sh "git checkout BackEnd"
-//                 sh "git fetch -a"
-//                 sh "git pull"
-//                 sh "git merge BackEnd_Dev"
-//                 sh "git add ." 
-//                 sh "git config -g username feix0033@easv365.dk"
-//                 sh "git push --set-upstream origin BackEnd"
-//                 sh "git push origin/BackEnd"
-//             }
-//         }
 
         stage('Deliver') {
             agent any
