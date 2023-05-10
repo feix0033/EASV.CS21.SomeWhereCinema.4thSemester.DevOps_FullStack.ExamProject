@@ -35,7 +35,7 @@ public class MovieServiceTest
     public void MovieService_WithNullMovieRepository_ThrowsInvalidDataExceptionWithMessage()
     {
         var invalidDataException = 
-            Assert.Throws<InvalidDataException>(() => new MovieService(null));
+            Assert.Throws<InvalidDataException>(() => new MovieService(null!));
         
         Assert.Equal("movieRepository can not be null", invalidDataException.Message);
     }

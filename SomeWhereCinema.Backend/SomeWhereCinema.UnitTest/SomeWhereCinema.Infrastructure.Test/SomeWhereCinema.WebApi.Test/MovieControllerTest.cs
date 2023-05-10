@@ -1,7 +1,6 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NuGet.Protocol.Plugins;
 using SomeWhereCinema.Core.IService;
 using SomeWhereCinema.Core.Models;
 using SomeWhereCinema.WebApi.Controllers;
@@ -24,7 +23,7 @@ public class MovieControllerTest
         Assert.Equal(
             "movieService can not be null.",
             Assert.Throws<InvalidDataException>(
-                    () => new MovieController(null)
+                    () => new MovieController(null!)
                     )
                 .Message
             );

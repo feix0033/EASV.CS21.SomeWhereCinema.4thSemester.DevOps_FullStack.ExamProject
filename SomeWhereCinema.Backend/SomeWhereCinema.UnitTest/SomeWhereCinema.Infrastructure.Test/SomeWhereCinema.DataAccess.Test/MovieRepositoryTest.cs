@@ -14,7 +14,7 @@ public class MovieRepositoryTest
 
     public MovieRepositoryTest()
     {
-        var mockedDbContext = Create.MockedDbContextFor<MainDbContext>();
+        var mockedDbContext = Create.MockedDbContextFor<MovieDbContext>();
         _movieRepository = new MovieRepository(mockedDbContext);
         
         _movieEntities = new List<MovieEntity>()
@@ -61,9 +61,9 @@ public class MovieRepositoryTest
             );
     }
 
-    public class Comparer:IEqualityComparer<Movie>
+    private class Comparer:IEqualityComparer<Movie>
     {
-        public bool Equals(Movie x, Movie y)
+        public bool Equals(Movie? x, Movie? y)
         {
             if (ReferenceEquals(x, y)) return true;
             if (ReferenceEquals(x, null)) return false;

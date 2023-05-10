@@ -7,11 +7,11 @@ namespace SomeWhereCinema.UnitTest.SomeWhereCinema.Infrastructure.Test.SomeWhere
 
 public class MainDbContextTest
 {
-    private readonly MainDbContext _mockedDbContext;
+    private readonly MovieDbContext _mockedDbContext;
 
     public MainDbContextTest()
     {
-         _mockedDbContext = Create.MockedDbContextFor<MainDbContext>();
+         _mockedDbContext = Create.MockedDbContextFor<MovieDbContext>();
     }
 
     [Fact]
@@ -23,6 +23,6 @@ public class MainDbContextTest
     [Fact]
     public void DbContext_DbSets_MustHaveDbSetWithTypeMovieEntity()
     {
-        Assert.True(_mockedDbContext.Movies is DbSet<MovieEntity>);
+        Assert.True(_mockedDbContext.MovieTable is DbSet<MovieEntity>);
     }
 }

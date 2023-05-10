@@ -6,7 +6,7 @@ namespace SomeWhereCinema.Application.Service;
 
 public class MovieService : IMovieService
 {
-    private readonly IMovieRepository _movieRepostitory;
+    private IMovieRepository _movieRepostitory;
 
     public MovieService(IMovieRepository movieRepository)
     {
@@ -16,5 +16,25 @@ public class MovieService : IMovieService
     public List<Movie> GetMovies()
     {
         return _movieRepostitory.FindAll();
+    }
+
+    public Movie CreateMovie(Movie movie)
+    {
+        return _movieRepostitory.CreateMovie(movie);
+    }
+
+    public Movie ReadMovie(Movie movie)
+    {
+        return _movieRepostitory.ReadMovie(movie);
+    }
+
+    public Movie UpdateMovie(Movie movie)
+    {
+        return _movieRepostitory.UpdataMovie(movie);
+    }
+
+    public Movie DeleteMovie(Movie movie)
+    {
+        return _movieRepostitory.DeleteMovie(movie);
     }
 }

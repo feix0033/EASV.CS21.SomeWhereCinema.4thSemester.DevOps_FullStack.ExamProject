@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using SomeWhereCinema.Core.IService;
 using SomeWhereCinema.Core.Models;
+using SomeWhereCinema.DataAccess;
 
 namespace SomeWhereCinema.WebApi.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/[controller]")]
 public class MovieController:ControllerBase
 {
     private readonly IMovieService _movieService;
@@ -17,8 +18,9 @@ public class MovieController:ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<List<Movie>> GetAll()
+    public object GetAll()
     {
-        return null;
+        var movies = _movieService.GetMovies();
+        return "hellow";
     }
 }

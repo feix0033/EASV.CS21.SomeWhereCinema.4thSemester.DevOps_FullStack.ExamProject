@@ -1,4 +1,9 @@
-using Microsoft.AspNetCore.Authentication.Negotiate;
+using Microsoft.EntityFrameworkCore;
+using SomeWhereCinema.Application.IRepository;
+using SomeWhereCinema.Application.Service;
+using SomeWhereCinema.Core.IService;
+using SomeWhereCinema.DataAccess;
+using SomeWhereCinema.DataAccess.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,14 +14,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
-    .AddNegotiate();
+// Setup Dependency Injection.
+// builder.Services.AddScoped<IMovieService, MovieService>();
+// builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 
-builder.Services.AddAuthorization(options =>
-{
-    // By default, all incoming requests will be authorized according to the default policy.
-    options.FallbackPolicy = options.DefaultPolicy;
-});
+// Setting DB Info
+// builder.Services.AddDbContext<MovieDbContext>(
+//     option =>
+//     {
+//         option.UseSqlite("Data Source=main.db");
+//     });
+
+
+// builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
+//     .AddNegotiate();
+
+// builder.Services.AddAuthorization(options =>
+// {
+//     // By default, all incoming requests will be authorized according to the default policy.
+//     options.FallbackPolicy = options.DefaultPolicy;
+// });
 
 var app = builder.Build();
 
