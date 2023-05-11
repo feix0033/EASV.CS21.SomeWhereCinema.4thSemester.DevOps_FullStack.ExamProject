@@ -9,7 +9,7 @@ import {Overlay} from "@angular/cdk/overlay";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

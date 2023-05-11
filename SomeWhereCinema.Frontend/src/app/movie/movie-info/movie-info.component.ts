@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpService} from "../../httpService/http.service";
+import {MovieService} from "../movie.service";
 
 @Component({
   selector: 'app-movie-info',
@@ -7,34 +7,10 @@ import {HttpService} from "../../httpService/http.service";
   styleUrls: ['./movie-info.component.scss']
 })
 export class MovieInfoComponent implements OnInit{
-  movieName: string = "";
-  moviePrice: number = 1;
   movie: any;
-
-
-  constructor(private http:HttpService) {
+  constructor(private movieService: MovieService) {
   }
-
-
   async ngOnInit() {
-    this.movie = await this.http.getAllMovie();
-  }
-
-  async createMovie() {
-    let dto = {
-      name: this.movieName,
-      price: this.moviePrice,
-    }
-    const result = await this.http.createMovie(dto);
-    this.movie.push(result);
-  }
-
-  async deleteMovie(dto){
-    const result =  await this.http.deleteMovie(dto);
-    this.movie = this.movie.filter( m => m.id != result.id)
-  }
-
-  async resetData(){
-    await this.http.resetDb();
+    this.movie = await this.movieService.getAllMovie();
   }
 }

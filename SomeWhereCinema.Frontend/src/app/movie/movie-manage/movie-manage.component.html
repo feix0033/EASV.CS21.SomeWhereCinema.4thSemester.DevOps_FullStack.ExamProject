@@ -1,0 +1,28 @@
+<p>movie-manage works!</p>
+<div style="margin:100px;">
+  <mat-form-field>
+    <input matInput [(ngModel)]="movieName">
+  </mat-form-field>
+  <br>
+
+  <mat-form-field>
+    <input type="number" matInput [(ngModel)]="moviePrice">
+  </mat-form-field>
+  <br>
+
+  <button [disabled]="movieName=='' || moviePrice<=0" mat-raised-button (click)="createMovie()">Create Movie</button>
+  <br>
+
+  <mat-card style="margin-top: 15px" *ngFor="let m of movie">
+    <mat-card-title>{{m.name}}</mat-card-title>
+    <br>
+    <mat-card-subtitle>{{m.price}}</mat-card-subtitle>
+    <br>
+    <mat-card-actions>
+      <button mat-button (click)="deleteMovie(m)">Delete</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <button mat-raised-button (click)="resetData()">Reset Database</button>
+
+</div>

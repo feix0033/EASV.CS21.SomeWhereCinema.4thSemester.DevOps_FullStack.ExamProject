@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.FeatureManagement;
 using SomeWhereCinema.Application.IRepository;
 using SomeWhereCinema.Application.Service;
 using SomeWhereCinema.Core.IService;
@@ -10,6 +11,9 @@ using SomeWhereCinema.DataAccess.Repository;
 using SomeWhereCinema.WebApi.DotNet7.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// add feature management to enable feature flag. 
+builder.Services.AddFeatureManagement();
 
 // use auto mapper package to map the dtoes and entities.
 builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());

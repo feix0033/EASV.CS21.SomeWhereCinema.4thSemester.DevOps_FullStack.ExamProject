@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement.Mvc;
 using SomeWhereCinema.Core.IService;
 using SomeWhereCinema.Core.Models;
 
@@ -88,6 +89,7 @@ public class MovieController:ControllerBase
         return Ok(_movieService.DeleteMovie(movie));
     }
 
+    [FeatureGate("ReSetDatabase")]
     [HttpGet]
     [Route("CreateDatabase")]
     public ActionResult<string> CreateDb()

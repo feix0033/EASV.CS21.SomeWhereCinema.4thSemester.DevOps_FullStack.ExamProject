@@ -8,11 +8,13 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Overlay} from "@angular/cdk/overlay";
+import { MovieManageComponent } from './movie-manage/movie-manage.component';
 
 
 @NgModule({
   declarations: [
-    MovieInfoComponent
+    MovieInfoComponent,
+    MovieManageComponent
   ],
   imports: [
     CommonModule,
