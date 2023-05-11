@@ -12,6 +12,18 @@ pipeline {
     }
 
     stages {
+    
+        // Continuous Integration
+        // I will try to use Feature branching to develop this project.
+        // The branch main as the Production branch will contain and Deploy, Release and Deliver all the Features. 
+        // The branch FrontEnd will Integrate and Test all the FrontEnd Features.
+        // The branch FrontEnd_Dev will as the Develop branch to do the feature develop.
+        // The branch BackEnd will Integrate and Test all the BackEnd Features.  
+        // The branch BackEnd_Dev will as the Develop branch to do the feature develop.
+        
+        // I will use Feature flag to hidden some feature during the Production process.
+        
+        
         stage('Merge FrontEnd') {
             when {
                 branch('FrontEnd*')
@@ -19,7 +31,7 @@ pipeline {
             agent any
             steps {
                 // here just check the up stream doesn't have any change
-                // afterward if there are confilx was not be fixed, unit test will fail
+                // afterward if there are conflict was not be fixed, unit test will fail
                 // otherwise it will continuous 
                 sh 'git fetch -a'
                 sh 'git merge origin/FrontEnd'
