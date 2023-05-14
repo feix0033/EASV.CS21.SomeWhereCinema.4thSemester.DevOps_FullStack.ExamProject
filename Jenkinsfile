@@ -73,7 +73,7 @@ pipeline {
         stage('Merge branch') {
             agent any
             when {
-                branch 'BackEnd_Dev*'
+                branch 'BackEnd_Dev'
             }
             steps{
                 sh 'git status'
