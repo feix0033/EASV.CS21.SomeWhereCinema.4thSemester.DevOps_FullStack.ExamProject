@@ -1,7 +1,15 @@
 version: "3.3"
 services:
+  webapi:
+    image: evensnachi/somewhere-cinema
+    build:
+      context: .
+    ports:
+      - "7000:7000"
   database:
     image: mysql:latest
+    depends_on:
+      - webapi
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: 1
       MYSQL_DATABASE: somewherecinema
@@ -10,16 +18,8 @@ services:
     volumes:
       - dbdata:/var/lib/mysql
       - ./_MySQL_Init_Script:/docker-entrypoint-initdb.d
-    ports: 
+    ports:
       - "3306:3306"
     restart: always
-  webapi:
-    depends_on:
-      - database
-    image: evensnachi/somewhere-cinema
-    build:
-      context: .
-    ports:
-      - "7000:7000"
 volumes:
   dbdata:
