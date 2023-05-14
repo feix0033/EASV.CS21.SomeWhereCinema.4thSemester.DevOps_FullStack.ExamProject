@@ -12,6 +12,7 @@ pipeline {
     }
 
     stages {
+        // Continuous Integrate FrontEnd
         stage('Merge FrontEnd') {
             when {
                 branch('FrontEnd*')
@@ -25,18 +26,7 @@ pipeline {
                 sh 'git merge origin/FrontEnd'
             }
         }
-        
-        stage('Merge BackEnd') {
-            when {
-                branch('BackEnd*')
-            }
-            agent any
-            steps {
-                sh "git fetch -a"
-                sh "git merge origin/BackEnd"
-            }
-        }
-        
+
         stage('Build FrontEnd') {
             when {
                 branch('FrontEnd*')
@@ -58,6 +48,17 @@ pipeline {
                 }
             }
         }
+        // Continuous Integrate BackEnd
+        stage('Merge BackEnd') {
+            when {
+                branch('BackEnd*')
+            }
+            agent any
+            steps {
+                sh 'git pull'
+                sh 'git merge origin/BackEnd'
+            }
+        }
 
         stage('Build BackEnd') {
             when {
@@ -70,7 +71,7 @@ pipeline {
                 }
             }
         }
-
+        // Continuous Test
         stage('Test BackEnd') {
             when {
                 branch('BackEnd*')
@@ -89,41 +90,36 @@ pipeline {
                 success {
                     echo '====++++Test BackEnd executed successfully++++===='
                     archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
-//                     publishCoverage(
-//                         adapters: [
-//                             istanbulCoberturaAdapter(
-//                                 path: "SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml",
-//                                 thresholds:[[
-//                                     failUnhealthy: true,
-//                                     thresholdTarget: 'Conditional',
-//                                     unhealthyThreshold: 80.0, // below 80%
-//                                     unstableThreshold: 50.0  // below 50%
-//                                 ]]
-//                             )
-//                         ],
-//                         checksName: '',
-//                         sourceFileResolver: sourceFile('STORE_LAST_BUILD')
-//                     )
+                //                     publishCoverage(
+                //                         adapters: [
+                //                             istanbulCoberturaAdapter(
+                //                                 path: "SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml",
+                //                                 thresholds:[[
+                //                                     failUnhealthy: true,
+                //                                     thresholdTarget: 'Conditional',
+                //                                     unhealthyThreshold: 80.0, // below 80%
+                //                                     unstableThreshold: 50.0  // below 50%
+                //                                 ]]
+                //                             )
+                //                         ],
+                //                         checksName: '',
+                //                         sourceFileResolver: sourceFile('STORE_LAST_BUILD')
+                //                     )
                 }
             }
         }
-
-        stage('Deliver') {
-            agent any
-
-            steps {
-                echo '====++++executing Deliver++++===='
+        // Continuous Delivery
+            // Continous Release : deliver software to test environment
+        stage ('Release BackEnd'){
+            When {
+                branch('BackEnd')
             }
-            post {
-                always {
-                    echo '====++++Devliver finishi++++===='
-                }
-                success {
-                    echo '====++++Deliver executed successfully++++===='
-                }
-                failure {
-                    echo '====++++Deliver execution failed++++===='
-                }
+            agent any
+            steps {
+
+            }
+            pose {
+                
             }
         }
     }

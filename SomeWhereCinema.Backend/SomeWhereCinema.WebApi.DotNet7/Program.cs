@@ -32,7 +32,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MovieDbContext>(
     // options => options.UseSqlite("Data source=db.db")
     options => options.UseMySql(
-        "server=localhost;user=root;password=12345678;database=someWhereCinema",
+        "server=localhost;Port=3306;uid=user;pwd=12345678;database=somewherecinema",
         new MySqlServerVersion(new Version(8,0,33))
         )
     );
@@ -60,7 +60,8 @@ if (app.Environment.IsDevelopment())
             option.AllowAnyMethod();
         });
 }
-
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseCors(option =>
 {
     option.AllowAnyOrigin();
