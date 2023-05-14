@@ -88,14 +88,15 @@ pipeline {
                     sh "docker-compose up -d"
                 }
             }
-        }
-        post {
-            cleanup {
-                dir(path: 'SomeWhereCinema.Backend') {
-                    sh "docker-compose down"
+            post {
+                cleanup {
+                    dir(path: 'SomeWhereCinema.Backend') {
+                        sh "docker-compose down"
+                    }
                 }
             }
         }
+       
     }
     post {
         always {
