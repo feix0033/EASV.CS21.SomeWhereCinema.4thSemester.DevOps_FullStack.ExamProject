@@ -74,17 +74,12 @@ pipeline {
             when {
                 branch 'main'
             }
-            steps{
                 dir(path: 'SomeWhereCinema.Backend'){
                     sh "docker build -t evensnachi/somewhere-cinema"
                     withCredentials([$class: 'UsernamePasswordMultiBinding', credent:true]){
                         sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
                     }
                     sh "docker push evensnachi/somewhere-cinema"
-                }
-            }
-            steps{
-                dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker-compose up -d"
                 }
             }
