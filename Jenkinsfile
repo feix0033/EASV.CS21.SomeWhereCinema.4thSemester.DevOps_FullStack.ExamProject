@@ -34,51 +34,52 @@ pipeline {
             }
         }
 
-    stage('Build BackEnd') {
-      parallel {
         stage('Build BackEnd') {
-          agent any
-          when {
-            branch 'BackEnd*'
-          }
-          steps {
-            dir(path: 'SomeWhereCinema.Backend') {
-              sh 'dotnet build'
+            parallel {
+                stage('Build BackEnd') {
+                    agent any
+                    when {
+                        branch 'BackEnd*'
+                    }
+                    steps {
+                        dir(path: 'SomeWhereCinema.Backend') {
+                        sh 'dotnet build'
+                        }
+                    }
+                }
             }
-          }
         }
-      }
-    }
 
-    stage('Test BackEnd') {
-      agent any
-      when {
-        branch 'BackEnd*'
-      }
-      post {
-        success {
-          archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
-        }
-      }
-      steps {
-        dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
-          echo 'remove histiory test results'
-          sh 'rm -rf TestResults'
-          sh 'dotnet add package coverlet.collector'
-          sh 'dotnet test --collect:\'Xplat Code Coverage\''
-        }
-    }
+        stage('Test BackEnd') {
+            agent any
+            when {
+                branch 'BackEnd*'
+            }
+            post {
+                success {
+                archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
+                }
+            }
+            steps {
+                dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
+                echo 'remove histiory test results'
+                sh 'rm -rf TestResults'
+                sh 'dotnet add package coverlet.collector'
+                sh 'dotnet test --collect:\'Xplat Code Coverage\''
+                }
+            }
 
-    post {
-        always {
-            echo '====++++All stages finish++++===='
-            deleteDir()
-        }
-        success {
-            echo '====++++successfully++++===='
-        }
-        failure {
-            echo '====++++failed++++===='
+        post {
+            always {
+                echo '====++++All stages finish++++===='
+                deleteDir()
+            }
+            success {
+                echo '====++++successfully++++===='
+            }
+            failure {
+                echo '====++++failed++++===='
+            }
         }
     }
 }
