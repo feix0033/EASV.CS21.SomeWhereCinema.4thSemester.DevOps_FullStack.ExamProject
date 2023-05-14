@@ -34,41 +34,41 @@ pipeline {
             }
         }
 
-        stage('Build BackEnd') {
-            parallel {
-                stage('Build BackEnd') {
-                    agent any
-                    when {
-                        branch 'BackEnd*'
-                    }
-                    steps {
-                        dir(path: 'SomeWhereCinema.Backend') {
-                            sh 'dotnet build'
-                        }
-                    }
-                }
-            }
-        }
+//         stage('Build BackEnd') {
+//             parallel {
+//                 stage('Build BackEnd') {
+//                     agent any
+//                     when {
+//                         branch 'BackEnd*'
+//                     }
+//                     steps {
+//                         dir(path: 'SomeWhereCinema.Backend') {
+//                             sh 'dotnet build'
+//                         }
+//                     }
+//                 }
+//             }
+//         }
 
-        stage('Test BackEnd') {
-            agent any
-            when {
-                branch 'BackEnd*'
-            }
-            steps {
-                dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
-                    echo 'remove histiory test results'
-                    sh 'rm -rf TestResults'
-                    sh 'dotnet add package coverlet.collector'
-                    sh 'dotnet test --collect:\'Xplat Code Coverage\''
-                }
-            }
-             post {
-                success {
-                    archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
-                }
-            }
-        }
+//         stage('Test BackEnd') {
+//             agent any
+//             when {
+//                 branch 'BackEnd*'
+//             }
+//             steps {
+//                 dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
+//                     echo 'remove histiory test results'
+//                     sh 'rm -rf TestResults'
+//                     sh 'dotnet add package coverlet.collector'
+//                     sh 'dotnet test --collect:\'Xplat Code Coverage\''
+//                 }
+//             }
+//              post {
+//                 success {
+//                     archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
+//                 }
+//             }
+//         }
         
         stage('Merge branch') {
             agent any
@@ -77,7 +77,7 @@ pipeline {
             }
             steps{
                 sh 'git status'
-                sh 'git fatch -a'
+                sh 'git fetch -a'
                 sh 'git checkout BackEnd'
                 sh 'git merge BackEnd_Dev'
                 sh 'git push'
