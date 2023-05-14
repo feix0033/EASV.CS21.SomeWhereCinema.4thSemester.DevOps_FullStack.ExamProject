@@ -87,7 +87,7 @@ pipeline {
         stage('Deliver to Docker Hub') {
             agent any
             when {
-                branch 'main'
+                branch 'BackEnd'
             }
             steps{
                 dir(path: 'SomeWhereCinema.Backend'){
