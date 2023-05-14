@@ -1,27 +1,38 @@
 pipeline {
-  agent any
-  stages {
-    stage('Build FrontEnd') {
-      agent {
-        docker {
-            image 'node:16-alpine'
-            args '-p 3000:3000'
-        }
+    agent any
 
-      }
-      when {
-        branch 'FrontEnd*'
-      }
-      steps {
-        dir(path: 'SomeWhereCinema.Frontend') {
-          sh 'npm cache clean --force'
-          sh 'npm cache verify'
-        //   sh 'npm install npm'
-          sh 'npm install'
-          sh 'ng build'
-        }
-      }
+    triggers {
+        pollSCM('* * * * *')
     }
+
+    environment {
+        CI = 'true'
+        DOTNET_ROOT = '/usr/bin/dotnet'
+        PATH = "/usr/bin/dotnet:$PATH"
+    }
+
+    stages {
+        stage('Build FrontEnd') {
+            when {
+                branch('FrontEnd*')
+            }
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                }
+            }
+            steps {
+                dir('SomeWhereCinema.Frontend') {
+                    sh 'npm cache clean --force'
+                    sh 'npm cache verify'
+                    // sh 'npm install npm'
+                    sh 'npm install'
+                    sh 'npm i -g @angular/cli'
+                    sh 'ng build'
+                }
+            }
+        }
 
     stage('Build BackEnd') {
       parallel {
@@ -56,15 +67,18 @@ pipeline {
           sh 'dotnet add package coverlet.collector'
           sh 'dotnet test --collect:\'Xplat Code Coverage\''
         }
-      }
     }
-  }
-  environment {
-    CI = 'true'
-    DOTNET_ROOT = '/usr/bin/dotnet'
-    PATH = "/usr/bin/dotnet:$PATH"
-  }
-  triggers {
-    pollSCM('* * * * *')
-  }
+
+    post {
+        always {
+            echo '====++++All stages finish++++===='
+            deleteDir()
+        }
+        success {
+            echo '====++++successfully++++===='
+        }
+        failure {
+            echo '====++++failed++++===='
+        }
+    }
 }
