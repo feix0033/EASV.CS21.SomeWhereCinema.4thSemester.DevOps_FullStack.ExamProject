@@ -69,6 +69,33 @@ pipeline {
                 }
             }
         }
+        
+        stage('Deliver to Docker Hub') {
+            when {
+                branch 'main'
+            }
+            steps{
+                dir(path: 'SomeWhereCinema.Backend'){
+                    sh "docker build -t evensnachi/somewhere-cinema"
+                    withCredentials([$class: 'UsernamePasswordMultiBinding', credent:true]){
+                        sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+                    }
+                    sh "docker push evensnachi/somewhere-cinema"
+                }
+            }
+            steps{
+                dir(path: 'SomeWhereCinema.Backend') {
+                    sh "docker-compose up -d"
+                }
+            }
+        }
+        post {
+            cleanup {
+                dir(path: 'SomeWhereCinema.Backend') {
+                    sh "docker-compose down"
+                }
+            }
+        }
     }
     post {
         always {
