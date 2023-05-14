@@ -1,143 +1,94 @@
 pipeline {
-    agent any
+  agent any
+  stages {
+    stage('Build FrontEnd') {
+      agent {
+        docker {
+          image 'node:16-alpine'
+          args '-p 3000:3000'
+        }
 
-    triggers {
-        pollSCM('* * * * *')
+      }
+      when {
+        branch 'FrontEnd*'
+      }
+      steps {
+        dir(path: 'SomeWhereCinema.Frontend') {
+          sh 'npm cache clean --force'
+          sh 'npm cache verify'
+          sh 'npm install npm'
+          sh 'npm install'
+          sh 'npm i -g @angular/cli'
+          sh 'ng build'
+        }
+
+      }
     }
 
-    environment {
-        CI = 'true'
-        DOTNET_ROOT = '/usr/bin/dotnet'
-        PATH = "/usr/bin/dotnet:$PATH"
+    stage('Build BackEnd') {
+      agent any
+      when {
+        branch 'BackEnd*'
+      }
+      steps {
+        dir(path: 'SomeWhereCinema.Backend') {
+          sh 'dotnet build'
+        }
+
+      }
     }
 
-    stages {
-        stage('Merge FrontEnd') {
-            when {
-                branch('FrontEnd*')
-            }
-            agent any
-            steps {
-                // here just check the up stream doesn't have any change
-                // afterward if there are confilx was not be fixed, unit test will fail
-                // otherwise it will continuous 
-                sh 'git fetch -a'
-                sh 'git merge origin/FrontEnd'
-            }
-        }
-        
-        stage('Merge BackEnd') {
-            when {
-                branch('BackEnd*')
-            }
-            agent any
-            steps {
-                sh "git fetch -a"
-                sh "git merge origin/BackEnd"
-            }
-        }
-        
-        stage('Build FrontEnd') {
-            when {
-                branch('FrontEnd*')
-            }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                    args '-p 3000:3000'
-                }
-            }
-            steps {
-                dir('SomeWhereCinema.Frontend') {
-                    sh 'npm cache clean --force'
-                    sh 'npm cache verify'
-                    sh 'npm install npm'
-                    sh 'npm install'
-                    sh 'npm i -g @angular/cli'
-                    sh 'ng build'
-                }
-            }
-        }
-
-        stage('Build BackEnd') {
-            when {
-                branch('BackEnd*')
-            }
-            agent any
-            steps {
-                dir('SomeWhereCinema.Backend') {
-                    sh 'dotnet build'
-                }
-            }
-        }
-
-        stage('Test BackEnd') {
-            when {
-                branch('BackEnd*')
-            }
-            agent any
-            steps {
-                // should be in the test project, not solution fold
-                dir('SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
-                    echo 'remove histiory test results'
-                    sh 'rm -rf TestResults'
-                    sh 'dotnet add package coverlet.collector'
-                    sh "dotnet test --collect:'Xplat Code Coverage'"
-                }
-            }
-            post {
-                success {
-                    echo '====++++Test BackEnd executed successfully++++===='
-                    archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
-//                     publishCoverage(
-//                         adapters: [
-//                             istanbulCoberturaAdapter(
-//                                 path: "SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml",
-//                                 thresholds:[[
-//                                     failUnhealthy: true,
-//                                     thresholdTarget: 'Conditional',
-//                                     unhealthyThreshold: 80.0, // below 80%
-//                                     unstableThreshold: 50.0  // below 50%
-//                                 ]]
-//                             )
-//                         ],
-//                         checksName: '',
-//                         sourceFileResolver: sourceFile('STORE_LAST_BUILD')
-//                     )
-                }
-            }
-        }
-
-        stage('Deliver') {
-            agent any
-
-            steps {
-                echo '====++++executing Deliver++++===='
-            }
-            post {
-                always {
-                    echo '====++++Devliver finishi++++===='
-                }
-                success {
-                    echo '====++++Deliver executed successfully++++===='
-                }
-                failure {
-                    echo '====++++Deliver execution failed++++===='
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            echo '====++++All stages finish++++===='
-            deleteDir()
-        }
+    stage('Test BackEnd') {
+      agent any
+      when {
+        branch 'BackEnd*'
+      }
+      post {
         success {
-            echo '====++++successfully++++===='
+          echo '====++++Test BackEnd executed successfully++++===='
+          archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
         }
-        failure {
-            echo '====++++failed++++===='
+
+      }
+      steps {
+        dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
+          echo 'remove histiory test results'
+          sh 'rm -rf TestResults'
+          sh 'dotnet add package coverlet.collector'
+          sh 'dotnet test --collect:\'Xplat Code Coverage\''
         }
+
+      }
     }
+
+    stage('Deliver to git') {
+      steps {
+        git(url: 'https://github.com/feix0033/EASV.CS21.SomeWhereCinema.4thSemester.DevOps_FullStack.ExamProject.git', branch: 'FrontEnd_Dev', poll: true)
+      }
+    }
+
+  }
+  environment {
+    CI = 'true'
+    DOTNET_ROOT = '/usr/bin/dotnet'
+    PATH = "/usr/bin/dotnet:$PATH"
+  }
+  post {
+    always {
+      echo '====++++All stages finish++++===='
+      deleteDir()
+    }
+
+    success {
+      echo '====++++successfully++++===='
+    }
+
+    failure {
+      echo '====++++failed++++===='
+    }
+
+  }
+  triggers {
+    pollSCM('* * * * *')
+  }
 }
