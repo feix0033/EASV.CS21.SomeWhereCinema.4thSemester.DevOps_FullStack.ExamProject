@@ -77,6 +77,7 @@ pipeline {
             }
             steps{
                 sh 'git status'
+                sh 'git fatch -a'
                 sh 'git checkout BackEnd'
                 sh 'git merge BackEnd_Dev'
                 sh 'git push'
