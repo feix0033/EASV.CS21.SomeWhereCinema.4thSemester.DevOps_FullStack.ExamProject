@@ -32,7 +32,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MovieDbContext>(
     // options => options.UseSqlite("Data source=db.db")
     options => options.UseMySql(
-        "server=localhost;Port=3306;uid=user;pwd=12345678;database=somewherecinema",
+        "server=database;Port=3306;uid=user;pwd=12345678;database=somewherecinema",
         new MySqlServerVersion(new Version(8,0,33))
         )
     );
