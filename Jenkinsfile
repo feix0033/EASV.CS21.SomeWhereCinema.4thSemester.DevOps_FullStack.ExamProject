@@ -57,17 +57,18 @@ pipeline {
             }
             post {
                 success {
-                archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
+                    archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
                 }
             }
             steps {
                 dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
-                echo 'remove histiory test results'
-                sh 'rm -rf TestResults'
-                sh 'dotnet add package coverlet.collector'
-                sh 'dotnet test --collect:\'Xplat Code Coverage\''
+                    echo 'remove histiory test results'
+                    sh 'rm -rf TestResults'
+                    sh 'dotnet add package coverlet.collector'
+                    sh 'dotnet test --collect:\'Xplat Code Coverage\''
                 }
             }
+        }
 
         post {
             always {
