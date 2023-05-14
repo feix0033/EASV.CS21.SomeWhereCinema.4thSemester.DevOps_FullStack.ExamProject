@@ -12,28 +12,6 @@ pipeline {
     }
 
     stages {
-        stage('Merge FrontEnd') {
-            when {
-                branch('FrontEnd*')
-            }
-            agent any
-            steps {
-                sh 'git fetch -a'
-                sh 'git merge origin/FrontEnd'
-            }
-        }
-        
-        stage('Merge BackEnd') {
-            when {
-                branch('BackEnd*')
-            }
-            agent any
-            steps {
-                sh "git fetch -a"
-                sh "git merge origin/BackEnd"
-            }
-        }
-        
         stage('Build FrontEnd') {
             when {
                 branch('FrontEnd*')
@@ -48,7 +26,7 @@ pipeline {
                 dir('SomeWhereCinema.Frontend') {
                     sh 'npm cache clean --force'
                     sh 'npm cache verify'
-                    sh 'npm install npm'
+                    // sh 'npm install npm'
                     sh 'npm install'
                     sh 'npm i -g @angular/cli'
                     sh 'ng build'
@@ -57,92 +35,41 @@ pipeline {
         }
 
         stage('Build BackEnd') {
-            when {
-                branch('BackEnd*')
-            }
-            agent any
-            steps {
-                dir('SomeWhereCinema.Backend') {
-                    sh 'dotnet build'
+            parallel {
+                stage('Build BackEnd') {
+                    agent any
+                    when {
+                        branch 'BackEnd*'
+                    }
+                    steps {
+                        dir(path: 'SomeWhereCinema.Backend') {
+                        sh 'dotnet build'
+                        }
+                    }
                 }
             }
         }
 
         stage('Test BackEnd') {
-            when {
-                branch('BackEnd*')
-            }
             agent any
+            when {
+                branch 'BackEnd*'
+            }
+            post {
+                success {
+                    archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
+                }
+            }
             steps {
-                // should be in the test project, not solution fold
-                dir('SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
+                dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
                     echo 'remove histiory test results'
                     sh 'rm -rf TestResults'
                     sh 'dotnet add package coverlet.collector'
-                    sh "dotnet test --collect:'Xplat Code Coverage'"
-                }
-            }
-            post {
-                success {
-                    echo '====++++Test BackEnd executed successfully++++===='
-                    archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
-//                     publishCoverage(
-//                         adapters: [
-//                             istanbulCoberturaAdapter(
-//                                 path: "SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml",
-//                                 thresholds:[[
-//                                     failUnhealthy: true,
-//                                     thresholdTarget: 'Conditional',
-//                                     unhealthyThreshold: 80.0, // below 80%
-//                                     unstableThreshold: 50.0  // below 50%
-//                                 ]]
-//                             )
-//                         ],
-//                         checksName: '',
-//                         sourceFileResolver: sourceFile('STORE_LAST_BUILD')
-//                     )
-                }
-            }
-        }
-// 
-//         stage('Merge BackEnd_Dev') {
-//             agent any
-//             when {
-//                 branch('BackEnd_Dev')
-//             }
-// 
-//             steps {
-//                 sh "git checkout BackEnd"
-//                 sh "git fetch -a"
-//                 sh "git pull"
-//                 sh "git merge BackEnd_Dev"
-//                 sh "git add ." 
-//                 sh "git config -g username feix0033@easv365.dk"
-//                 sh "git push --set-upstream origin BackEnd"
-//                 sh "git push origin/BackEnd"
-//             }
-//         }
-
-        stage('Deliver') {
-            agent any
-
-            steps {
-                echo '====++++executing Deliver++++===='
-            }
-            post {
-                always {
-                    echo '====++++Devliver finishi++++===='
-                }
-                success {
-                    echo '====++++Deliver executed successfully++++===='
-                }
-                failure {
-                    echo '====++++Deliver execution failed++++===='
+                    sh 'dotnet test --collect:\'Xplat Code Coverage\''
                 }
             }
         }
     }
-
     post {
         always {
             echo '====++++All stages finish++++===='

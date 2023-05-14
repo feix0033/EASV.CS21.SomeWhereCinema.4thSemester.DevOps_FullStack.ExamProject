@@ -23,7 +23,7 @@ public class MovieService : IMovieService
         return _movieRepostitory.CreateMovie(movie);
     }
 
-    public Movie ReadMovie(Movie movie)
+    public Movie? ReadMovie(Movie movie)
     {
         return _movieRepostitory.ReadMovie(movie);
     }
