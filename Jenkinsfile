@@ -55,11 +55,6 @@ pipeline {
             when {
                 branch 'BackEnd*'
             }
-            post {
-                success {
-                    archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
-                }
-            }
             steps {
                 dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
                     echo 'remove histiory test results'
@@ -68,13 +63,19 @@ pipeline {
                     sh 'dotnet test --collect:\'Xplat Code Coverage\''
                 }
             }
+             post {
+                success {
+                    archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
+                }
+            }
         }
         
         stage('Deliver to Docker Hub') {
+            agent any
+            when {
+                branch 'main'
+            }
             steps{
-                when {
-                    branch 'main'
-                }
                 dir(path: 'SomeWhereCinema.Backend'){
                     sh "docker build -t evensnachi/somewhere-cinema"
                     withCredentials([$class: 'UsernamePasswordMultiBinding', credent:true]){
