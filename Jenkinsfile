@@ -69,18 +69,17 @@ pipeline {
                 }
             }
         }
-
-        post {
-            always {
-                echo '====++++All stages finish++++===='
-                deleteDir()
-            }
-            success {
-                echo '====++++successfully++++===='
-            }
-            failure {
-                echo '====++++failed++++===='
-            }
+    }
+    post {
+        always {
+            echo '====++++All stages finish++++===='
+            deleteDir()
+        }
+        success {
+            echo '====++++successfully++++===='
+        }
+        failure {
+            echo '====++++failed++++===='
         }
     }
 }
