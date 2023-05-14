@@ -12,31 +12,6 @@ pipeline {
     }
 
     stages {
-        stage('Merge FrontEnd') {
-            when {
-                branch('FrontEnd*')
-            }
-            agent any
-            steps {
-                // here just check the up stream doesn't have any change
-                // afterward if there are confilx was not be fixed, unit test will fail
-                // otherwise it will continuous 
-                sh 'git fetch -a'
-                sh 'git merge origin/FrontEnd'
-            }
-        }
-        
-        stage('Merge BackEnd') {
-            when {
-                branch('BackEnd*')
-            }
-            agent any
-            steps {
-                sh "git fetch -a"
-                sh "git merge origin/BackEnd"
-            }
-        }
-        
         stage('Build FrontEnd') {
             when {
                 branch('FrontEnd*')
@@ -107,27 +82,7 @@ pipeline {
                 }
             }
         }
-
-        stage('Deliver') {
-            agent any
-
-            steps {
-                echo '====++++executing Deliver++++===='
-            }
-            post {
-                always {
-                    echo '====++++Devliver finishi++++===='
-                }
-                success {
-                    echo '====++++Deliver executed successfully++++===='
-                }
-                failure {
-                    echo '====++++Deliver execution failed++++===='
-                }
-            }
-        }
     }
-
     post {
         always {
             echo '====++++All stages finish++++===='
