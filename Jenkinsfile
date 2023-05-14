@@ -108,20 +108,6 @@ pipeline {
                 }
             }
         }
-        // Continuous Delivery
-            // Continous Release : deliver software to test environment
-        stage ('Release BackEnd'){
-            When {
-                branch('BackEnd')
-            }
-            agent any
-            steps {
-
-            }
-            pose {
-                
-            }
-        }
     }
 
     post {
