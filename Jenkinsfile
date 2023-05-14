@@ -1,5 +1,13 @@
 pipeline {
-  agent any
+  agent any 
+  environment {
+    CI = 'true'
+    DOTNET_ROOT = '/usr/bin/dotnet'
+    PATH = "/usr/bin/dotnet:$PATH"
+  }
+  triggers {
+    pollSCM('* * * * *')
+  }
   stages {
     stage('Build FrontEnd') {
       agent {
@@ -59,12 +67,5 @@ pipeline {
       }
     }
   }
-  environment {
-    CI = 'true'
-    DOTNET_ROOT = '/usr/bin/dotnet'
-    PATH = "/usr/bin/dotnet:$PATH"
-  }
-  triggers {
-    pollSCM('* * * * *')
-  }
+
 }
