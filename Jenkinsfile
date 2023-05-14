@@ -43,7 +43,7 @@ pipeline {
                     }
                     steps {
                         dir(path: 'SomeWhereCinema.Backend') {
-                        sh 'dotnet build'
+                            sh 'dotnet build'
                         }
                     }
                 }
@@ -74,14 +74,13 @@ pipeline {
             when {
                 branch 'main'
             }
-                dir(path: 'SomeWhereCinema.Backend'){
-                    sh "docker build -t evensnachi/somewhere-cinema"
-                    withCredentials([$class: 'UsernamePasswordMultiBinding', credent:true]){
-                        sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
-                    }
-                    sh "docker push evensnachi/somewhere-cinema"
-                    sh "docker-compose up -d"
+            dir(path: 'SomeWhereCinema.Backend'){
+                sh "docker build -t evensnachi/somewhere-cinema"
+                withCredentials([$class: 'UsernamePasswordMultiBinding', credent:true]){
+                    sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
                 }
+                sh "docker push evensnachi/somewhere-cinema"
+                sh "docker-compose up -d"
             }
             post {
                 cleanup {
