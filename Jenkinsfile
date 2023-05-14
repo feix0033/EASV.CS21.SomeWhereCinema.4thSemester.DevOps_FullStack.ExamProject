@@ -71,23 +71,17 @@ pipeline {
         }
         
         stage('Merge branch') {
-                    agent any
-                    when {
-                        branch 'BackEnd_Dev'
-                    }
-                    steps{
-                        sh 'git checkout BackEnd'
-                        sh 'git merge BackEnd_Dev'
-                        sh 'git push'
-                        post {
-                            cleanup {
-                                dir(path: 'SomeWhereCinema.Backend') {
-                                    sh "docker-compose down"
-                                }
-                            }
-                        }
-                    }
-                }
+            agent any
+            when {
+                branch 'BackEnd_Dev*'
+            }
+            steps{
+                sh 'git status'
+                sh 'git checkout BackEnd'
+                sh 'git merge BackEnd_Dev'
+                sh 'git push'
+            }
+        }
         
         stage('Deliver to Docker Hub') {
             agent any
