@@ -24,6 +24,7 @@ WORKDIR /publish
 
 COPY --from=build-env /publish .
 
+ENV ASPNETCORE_URLS="http://0.0.0.0:7000"
 EXPOSE 80
 
 ENTRYPOINT ["dotnet", "SomeWhereCinema.WebApi.DotNet7.dll"]
