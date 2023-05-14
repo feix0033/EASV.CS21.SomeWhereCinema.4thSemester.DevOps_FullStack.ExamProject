@@ -52,11 +52,6 @@ pipeline {
       when {
         branch 'BackEnd*'
       }
-      post {
-        success {
-          archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
-        }
-      }
       steps {
         dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
           echo 'remove histiory test results'
@@ -65,7 +60,26 @@ pipeline {
           sh 'dotnet test --collect:\'Xplat Code Coverage\''
         }
       }
+
+      post {
+        success {
+          archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
+        }
+      }
     }
+
+    stage('deliver Frontend') {
+        agent any
+        when {
+            branch 'FrontEnd'
+        }
+        steps {
+            sh 'git checkout main'
+            sh 'git pull'
+            sh 'git merge FrontEnd'
+            sh 'git push'
+        }
+      }
   }
 
 }
