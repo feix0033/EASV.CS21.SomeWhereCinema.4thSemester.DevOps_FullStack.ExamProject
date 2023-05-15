@@ -12,7 +12,7 @@ pipeline {
     }
 
     stages {
-        stage('Unit Test BackEnd') {
+        stage('CI_UnitTest_BackEnd') {
             agent any
             when {
                 branch 'BackEnd*'
@@ -49,7 +49,7 @@ pipeline {
             }
         }
 
-        stage('Build BackEnd') {
+        stage('CI_Build_BackEnd') {
             agent any
             when {
                 branch 'BackEnd*'
@@ -57,46 +57,39 @@ pipeline {
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                 sh 'dotnet build'
+                sh "docker build -t evensnachi/somewhere-cinema ."
+                    
+                    // was the docker compose will use local image or get from docker hub?
+
+                    // withCredentials(
+                    //     [usernamePassword(
+                    //         credentialsId: 'usernamepasswordMultibinding',
+                    //         passwordVariable: 'PASSWORD', 
+                    //         usernameVariable: 'USERNAME')])
+                    // {
+                    //      sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+                    // }
+                    // sh "docker push evensnachi/somewhere-cinema"
                 }
             }
         }
 
-        stage('Deliver to Docker Hub') {
-            agent any
+        stage('CI_UnitTest_FrontEnd') {
             when {
-                branch 'main'
+                branch('FrontEnd*')
+            }
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                }
             }
             steps {
-                dir(path: 'SomeWhereCinema.Backend') {
-                    echo 'deliver to docker hub'
-                    sh "docker build -t evensnachi/somewhere-cinema ."
-                    withCredentials(
-                        [usernamePassword(
-                            credentialsId: 'usernamepasswordMultibinding',
-                            passwordVariable: 'PASSWORD', 
-                            usernameVariable: 'USERNAME')])
-                    {
-                         sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
-                    }
-                    sh "docker push evensnachi/somewhere-cinema"
-                }
-            }
-
-        }
-
-        stage("docker setup") {
-            when {
-                branch('main')
-            }
-            steps {
-                dir(path: 'SomeWhereCinema.Backend') {
-                    echo "docker setup"
-                sh "docker-compose up -d"
-                }
+                echo "Test will later......."
             }
         }
 
-        stage('Build FrontEnd') {
+        stage('CI_Build_FrontEnd') {
             when {
                 branch('FrontEnd*')
             }
@@ -118,15 +111,72 @@ pipeline {
             }
         }
 
-
-        stage("Execute system tests") {
-        	steps {
-                echo "[front end test program execute commend]"
+        stage("CD_IntergrationTest") {
+            when {
+                branch('main')
+            }
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
+                    echo "docker setup"
+                    sh "docker-compose up -d"
+                    echo "Test cafe"
+                }
             }
             post {
                 always {
-                    sh script: "docker-compose down", returnStatus: true
+                    sh script:"docker-compose down", returnStatus: true
                 }
+            }
+        }
+
+        stage('CR_BackEnd_TO_DockerHub') {
+            agent any
+            when {
+                branch 'main'
+            }
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
+                    withCredentials(
+                        [usernamePassword(
+                            credentialsId: 'usernamepasswordMultibinding',
+                            passwordVariable: 'PASSWORD', 
+                            usernameVariable: 'USERNAME')])
+                    {
+                         sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+                    }
+                    sh "docker push evensnachi/somewhere-cinema"
+                }
+            }
+        }
+
+        stage ('CR_FrontEnd_To_Firebase') {
+            agent any
+            when {
+                branch 'main'
+            }
+            steps {
+                dir(path: 'SomeWhereCinema.Frontend') {
+                    // could that working like this?
+                    withCredentials(
+                        [usernamePassword(
+                            credentialsId: 'firebase',
+                            passwordVariable: 'PASSWORD', 
+                            usernameVariable: 'USERNAME')])
+                    {
+                         sh 'firebase login -u ${USERNAME} -p ${PASSWORD}'
+                    }
+                    sh "firebase deploy"
+                }
+            }
+        }
+
+        stage ('CD_Performancetesting'){
+            agent any
+            when {
+                branch 'main'
+            }
+            steps {
+                echo 'performance test'
             }
         }
     }
