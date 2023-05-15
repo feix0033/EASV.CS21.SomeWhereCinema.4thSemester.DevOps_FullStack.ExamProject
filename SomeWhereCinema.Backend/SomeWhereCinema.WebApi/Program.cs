@@ -14,6 +14,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
 // Setup Dependency Injection.
 // builder.Services.AddScoped<IMovieService, MovieService>();
 // builder.Services.AddScoped<IMovieRepository, MovieRepository>();

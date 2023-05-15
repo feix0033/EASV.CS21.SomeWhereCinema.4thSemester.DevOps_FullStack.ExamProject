@@ -16,10 +16,37 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: 12345678
     volumes:
+<<<<<<< HEAD
       - dbdata:/var/lib/mysql
       - ./_MySQL_Init_Script:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
     restart: always
+=======
+      - ./db/data:/var/lib/mysql
+    ports: 
+      - "3306:3306"
+    restart: always
+    
+  flyway:
+    image: flyway/flyway
+    command: migrate
+    volumes:
+      - ./db:/flyway/sql 
+      - ./db:/flyway/conf
+    depends_on:
+      - database
+    restart: always
+        
+  webapi:
+    depends_on:
+      - database
+    image: evensnachi/somewhere-cinema
+    build:
+      context: .
+    ports:
+      - "7000:7000"
+    restart: always
+>>>>>>> BackEnd
 volumes:
-  dbdata:
+  data:

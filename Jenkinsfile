@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    triggers {
-        pollSCM('* * * * *')
-    }
+    // triggers {
+    //     pollSCM('* * * * *')
+    // }
 
     environment {
         CI = 'true'
@@ -34,85 +34,80 @@ pipeline {
             }
         }
 
-//         stage('Build BackEnd') {
-//             parallel {
-//                 stage('Build BackEnd') {
-//                     agent any
-//                     when {
-//                         branch 'BackEnd*'
-//                     }
-//                     steps {
-//                         dir(path: 'SomeWhereCinema.Backend') {
-//                             sh 'dotnet build'
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-
-//         stage('Test BackEnd') {
-//             agent any
-//             when {
-//                 branch 'BackEnd*'
-//             }
-//             steps {
-//                 dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
-//                     echo 'remove histiory test results'
-//                     sh 'rm -rf TestResults'
-//                     sh 'dotnet add package coverlet.collector'
-//                     sh 'dotnet test --collect:\'Xplat Code Coverage\''
-//                 }
-//             }
-//              post {
-//                 success {
-//                     archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
-//                 }
-//             }
-//         }
-        
-        stage('Merge branch') {
+        stage('Build BackEnd') {
             agent any
             when {
-                branch 'BackEnd_Dev'
+                branch 'BackEnd*'
             }
-            steps{
-                sh 'git status'
-                sh 'git fetch -a'
-                sh 'git checkout BackEnd'
-                sh 'git merge BackEnd_Dev'
-                sh 'git push'
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
+                sh 'dotnet build'
+                }
             }
         }
-        
+
+        stage('Test BackEnd') {
+            agent any
+            when {
+                branch 'BackEnd*'
+            }
+            steps {
+                dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
+                    echo 'remove histiory test results'
+                    sh 'rm -rf TestResults'
+                    sh 'dotnet add package coverlet.collector'
+                    sh 'dotnet test --collect:\'Xplat Code Coverage\''
+                }
+            }
+            post {
+                success {
+                    archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
+                }
+            }
+        }
+
         stage('Deliver to Docker Hub') {
             agent any
             when {
-                branch 'BackEnd'
+                branch 'main'
             }
-            steps{
-                dir(path: 'SomeWhereCinema.Backend'){
-                    sh "docker build -t evensnachi/somewhere-cinema"
-                    withCredentials([$class: 'UsernamePasswordMultiBinding', credent:true]){
-                        sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
+                    echo 'deliver to docker hub'
+                    sh "docker build -t evensnachi/somewhere-cinema ."
+                    withCredentials ([[$class: 'usernamepasswordMultibinding']])
+                    {
+                         sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
                     }
                     sh "docker push evensnachi/somewhere-cinema"
-                    sh "docker-compose up -d"
-                }
-                post {
-                    cleanup {
-                        dir(path: 'SomeWhereCinema.Backend') {
-                            sh "docker-compose down"
-                        }
-                    }
                 }
             }
+
         }
-       
+
+        stage("docker setup") {
+          steps {
+            dir(path: 'SomeWhereCinema.Backend') {
+                echo "docker setup"
+              sh "docker-compose up -d"
+            }
+          }
+        }
+
+        stage("Execute system tests") {
+        	steps {
+                echo "[front end test program execute commend]"
+            }
+        }
     }
+
     post {
         always {
             echo '====++++All stages finish++++===='
             deleteDir()
+            cleanup{
+                sh script: "docker-compose down", returnStatus: true
+            }
         }
         success {
             echo '====++++successfully++++===='
