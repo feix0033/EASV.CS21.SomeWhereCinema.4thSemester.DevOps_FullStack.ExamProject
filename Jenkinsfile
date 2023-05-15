@@ -29,22 +29,22 @@ pipeline {
                 success {
                     archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
 
-                    publishCoverage adapters: 
-                    [
-                        istanbulCoberturaAdapter
-                        (
-                            path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml', 
-                            thresholds:
-                            [[
-                            failUnhealthy: true,
-                            thresholdTarget: 'Conditional',
-                            unhealthyThreshold: 80.0, // below 80%
-                            unstableThreshold: 50.0  // below 50%
-                            ]]
-                        )
-                    ],
-                    checksName: '',
-                    sourceFileResolver: sourceFile('NEVER_STORE')
+                    // publishCoverage adapters: 
+                    // [
+                    //     istanbulCoberturaAdapter
+                    //     (
+                    //         path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml', 
+                    //         thresholds:
+                    //         [[
+                    //         failUnhealthy: true,
+                    //         thresholdTarget: 'Conditional',
+                    //         unhealthyThreshold: 80.0, // below 80%
+                    //         unstableThreshold: 50.0  // below 50%
+                    //         ]]
+                    //     )
+                    // ],
+                    // checksName: '',
+                    // sourceFileResolver: sourceFile('NEVER_STORE')
                 }
             }
         }
