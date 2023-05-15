@@ -35,17 +35,13 @@ pipeline {
         }
 
         stage('Build BackEnd') {
-            parallel {
-                stage('Build BackEnd') {
-                    agent any
-                    when {
-                        branch 'BackEnd*'
-                    }
-                    steps {
-                        dir(path: 'SomeWhereCinema.Backend') {
-                        sh 'dotnet build'
-                        }
-                    }
+            agent any
+            when {
+                branch 'BackEnd*'
+            }
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
+                sh 'dotnet build'
                 }
             }
         }
@@ -55,11 +51,6 @@ pipeline {
             when {
                 branch 'BackEnd*'
             }
-            post {
-                success {
-                    archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
-                }
-            }
             steps {
                 dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
                     echo 'remove histiory test results'
@@ -68,12 +59,56 @@ pipeline {
                     sh 'dotnet test --collect:\'Xplat Code Coverage\''
                 }
             }
+            post {
+                success {
+                    archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
+                }
+            }
         }
+
+        stage('Deliver to Docker Hub') {
+            agent any
+            when {
+                branch 'main'
+            }
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
+                    echo 'deliver to docker hub'
+                    sh "docker build -t evensnachi/somewhere-cinema ."
+                    withCredentials ([[$class: 'usernamepasswordMultibinding']])
+                    {
+                         sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+                    }
+                    sh "docker push evensnachi/somewhere-cinema"
+                }
+            }
+
+        }
+
+        stage("docker setup") {
+          steps {
+            dir(path: 'SomeWhereCinema.Backend') {
+                echo "docker setup"
+              sh "docker-compose up -d"
+            }
+          }
+        }
+        stage("Execute system tests") {
+        	steps {
+            	sleep time 5, unit:"SECONDS"
+                echo "[front end test program execute commend]"
+            }
+        }
+
+
     }
     post {
         always {
             echo '====++++All stages finish++++===='
             deleteDir()
+            cleanup{
+            sh script: "docker-compose down", returnState: true
+        }
         }
         success {
             echo '====++++successfully++++===='
