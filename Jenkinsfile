@@ -122,15 +122,6 @@ pipeline {
                 sh "git merge BackEnd_Dev"
                 sh "git push"
             }
-            when {
-                branch ('FrontEnd_Dev')
-            }
-            steps {
-                sh "git fetch -a"
-                sh "git checkout FrontEnd"
-                sh "git merge FrontEnd_Dev"
-                sh "git push"
-            }
         }
 
         stage("CD_IntergrationTest") {
