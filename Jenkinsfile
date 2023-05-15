@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    triggers {
-        // pollSCM('* * * * *')
-    }
+    // triggers {
+    //     pollSCM('* * * * *')
+    // }
 
     environment {
         CI = 'true'
@@ -106,7 +106,7 @@ pipeline {
             echo '====++++All stages finish++++===='
             deleteDir()
             cleanup{
-                sh script: "docker-compose down", returnState: true
+                sh script: "docker-compose down", returnStatus: true
             }
         }
         success {
