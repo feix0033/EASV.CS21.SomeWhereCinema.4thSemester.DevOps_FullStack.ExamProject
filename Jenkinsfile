@@ -137,7 +137,10 @@ pipeline {
             }
             post {
                 always {
-                    sh script:"docker-compose down", returnStatus: true
+                    dir(path: 'SomeWhereCinema.Backend') {
+                        sh script:"docker-compose down", returnStatus: true
+                    }
+                    
                 }
             }
         }
