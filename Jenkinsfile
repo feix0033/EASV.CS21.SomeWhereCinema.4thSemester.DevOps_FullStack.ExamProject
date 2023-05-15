@@ -93,22 +93,21 @@ pipeline {
             }
           }
         }
+
         stage("Execute system tests") {
         	steps {
-            	sleep time 5, unit:"SECONDS"
                 echo "[front end test program execute commend]"
             }
         }
-
-
     }
+
     post {
         always {
             echo '====++++All stages finish++++===='
             deleteDir()
             cleanup{
-            sh script: "docker-compose down", returnState: true
-        }
+                sh script: "docker-compose down", returnState: true
+            }
         }
         success {
             echo '====++++successfully++++===='
