@@ -15,5 +15,6 @@ public class MovieDbContext:DbContext
         modelBuilder.Entity<Movie>()
             .Property(m => m.Id)
             .ValueGeneratedOnAdd();
+        modelBuilder.Entity<Movie>().ToTable("MOVIE");
     }
 }
