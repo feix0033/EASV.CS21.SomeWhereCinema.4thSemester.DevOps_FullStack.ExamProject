@@ -125,9 +125,7 @@ pipeline {
             }
             post {
                 always {
-                    cleanup{
-                        sh script: "docker-compose down", returnStatus: true
-                    }
+                    sh script: "docker-compose down", returnStatus: true
                 }
             }
         }
