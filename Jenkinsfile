@@ -70,7 +70,11 @@ pipeline {
                 dir(path: 'SomeWhereCinema.Backend') {
                     echo 'deliver to docker hub'
                     sh "docker build -t evensnachi/somewhere-cinema ."
-                    withCredentials ([[$class: 'usernamepasswordMultibinding']])
+                    withCredentials(
+                        [usernamePassword(
+                            credentialsId: 'usernamepasswordMultibinding',
+                            passwordVariable: 'PASSWORD', 
+                            usernameVariable: 'USERNAME')])
                     {
                          sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
                     }
@@ -82,7 +86,7 @@ pipeline {
 
         stage("docker setup") {
             when {
-                branch('FrontEnd')
+                branch('main')
             }
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
