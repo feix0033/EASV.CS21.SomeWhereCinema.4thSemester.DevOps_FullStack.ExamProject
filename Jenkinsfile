@@ -111,18 +111,18 @@ pipeline {
             }
         }
 
-        stage("CD_MergeBranch_Main") {
-            agent any
-            when {
-                branch ('BackEnd_Dev')
-            }
-            steps {
-                sh "git fetch -a"
-                sh "git checkout BackEnd"
-                sh "git merge BackEnd_Dev"
-                sh "git push"
-            }
-        }
+        // stage("CD_MergeBranch_Main") {
+        //     agent any
+        //     when {
+        //         branch ('BackEnd_Dev')
+        //     }
+        //     steps {
+        //         sh "git fetch -a"
+        //         sh "git checkout BackEnd"
+        //         sh "git merge BackEnd_Dev"
+        //         sh "git push"
+        //     }
+        // }
 
         stage("CD_IntergrationTest") {
             when {
