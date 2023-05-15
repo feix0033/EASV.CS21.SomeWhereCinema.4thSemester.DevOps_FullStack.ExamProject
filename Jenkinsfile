@@ -111,6 +111,28 @@ pipeline {
             }
         }
 
+        stage("CD_MergeBranch_Main") {
+            agent any
+            when {
+                branch ('BackEnd_Dev')
+            }
+            steps {
+                sh "git fetch -a"
+                sh "git checkout BackEnd"
+                sh "git merge BackEnd_Dev"
+                sh "git push"
+            }
+            when {
+                branch ('FrontEnd_Dev')
+            }
+            steps {
+                sh "git fetch -a"
+                sh "git checkout FrontEnd"
+                sh "git merge FrontEnd_Dev"
+                sh "git push"
+            }
+        }
+
         stage("CD_IntergrationTest") {
             when {
                 branch('main')
@@ -149,26 +171,26 @@ pipeline {
             }
         }
 
-        stage ('CR_FrontEnd_To_Firebase') {
-            agent any
-            when {
-                branch 'main'
-            }
-            steps {
-                dir(path: 'SomeWhereCinema.Frontend') {
-                    // could that working like this?
-                    withCredentials(
-                        [usernamePassword(
-                            credentialsId: 'firebase',
-                            passwordVariable: 'PASSWORD', 
-                            usernameVariable: 'USERNAME')])
-                    {
-                         sh 'firebase login -u ${USERNAME} -p ${PASSWORD}'
-                    }
-                    sh "firebase deploy"
-                }
-            }
-        }
+        // stage ('CR_FrontEnd_To_Firebase') {
+        //     agent any
+        //     when {
+        //         branch 'main'
+        //     }
+        //     steps {
+        //         dir(path: 'SomeWhereCinema.Frontend') {
+        //             // could that working like this?
+        //             withCredentials(
+        //                 [usernamePassword(
+        //                     credentialsId: 'firebase',
+        //                     passwordVariable: 'PASSWORD', 
+        //                     usernameVariable: 'USERNAME')])
+        //             {
+        //                  sh 'firebase login -u ${USERNAME} -p ${PASSWORD}'
+        //             }
+        //             sh "firebase deploy"
+        //         }
+        //     }
+        // }
 
         stage ('CD_Performancetesting'){
             agent any
