@@ -57,7 +57,6 @@ pipeline {
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                 sh 'dotnet build'
-                sh "docker build -t evensnachi/somewhere-cinema ."
                     
                     // was the docker compose will use local image or get from docker hub?
 
@@ -111,7 +110,7 @@ pipeline {
             }
         }
 
-        stage("CD_MergeBranch_Main") {
+        stage("CR_MergeBranch_Main") {
             agent any
             when {
                 branch ('BackEnd_Dev')
@@ -124,7 +123,7 @@ pipeline {
             }
         }
 
-        stage("CD_IntergrationTest") {
+        stage("CR_IntergrationTest") {
             when {
                 branch('main')
             }
@@ -145,13 +144,14 @@ pipeline {
             }
         }
 
-        stage('CR_BackEnd_TO_DockerHub') {
+        stage('CD_BackEnd_TO_DockerHub') {
             agent any
             when {
                 branch 'main'
             }
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
+                    sh "docker build -t evensnachi/somewhere-cinema ."
                     withCredentials(
                         [usernamePassword(
                             credentialsId: 'usernamepasswordMultibinding',
@@ -165,7 +165,7 @@ pipeline {
             }
         }
 
-        // stage ('CR_FrontEnd_To_Firebase') {
+        // stage ('CD_FrontEnd_To_Firebase') {
         //     agent any
         //     when {
         //         branch 'main'
