@@ -4,7 +4,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {catchError} from "rxjs";
 
 export  const customAxios = axios.create({
-  baseURL: 'https://localhost:7000'
+  baseURL: 'http://localhost:7000'
 });
 
 @Injectable({
