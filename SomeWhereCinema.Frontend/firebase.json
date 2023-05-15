@@ -23,7 +23,7 @@
     }
   ],
   "hosting": {
-    "public": "/dist/some-where-sinema.frontend/",
+    "public": "/dist/some-where-cinema.frontend/",
     "ignore": [
       "firebase.json",
       "**/.*",
