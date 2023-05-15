@@ -12,41 +12,7 @@ pipeline {
     }
 
     stages {
-        stage('Build FrontEnd') {
-            when {
-                branch('FrontEnd*')
-            }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                    args '-p 3000:3000'
-                }
-            }
-            steps {
-                dir('SomeWhereCinema.Frontend') {
-                    sh 'npm cache clean --force'
-                    sh 'npm cache verify'
-                    // sh 'npm install npm'
-                    sh 'npm install'
-                    sh 'npm i -g @angular/cli'
-                    sh 'ng build'
-                }
-            }
-        }
-
-        stage('Build BackEnd') {
-            agent any
-            when {
-                branch 'BackEnd*'
-            }
-            steps {
-                dir(path: 'SomeWhereCinema.Backend') {
-                sh 'dotnet build'
-                }
-            }
-        }
-
-        stage('Test BackEnd') {
+        stage('Unit Test BackEnd') {
             agent any
             when {
                 branch 'BackEnd*'
@@ -62,6 +28,35 @@ pipeline {
             post {
                 success {
                     archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
+
+                    publishCoverage adapters: 
+                    [
+                        istanbulCoberturaAdapter
+                        (
+                            path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml', 
+                            thresholds:
+                            [[
+                            failUnhealthy: true,
+                            thresholdTarget: 'Conditional',
+                            unhealthyThreshold: 80.0, // below 80%
+                            unstableThreshold: 50.0  // below 50%
+                            ]]
+                        )
+                    ],
+                    checksName: '',
+                    sourceFileResolver: sourceFile('NEVER_STORE')
+                }
+            }
+        }
+
+        stage('Build BackEnd') {
+            agent any
+            when {
+                branch 'BackEnd*'
+            }
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
+                sh 'dotnet build'
                 }
             }
         }
@@ -86,17 +81,50 @@ pipeline {
         }
 
         stage("docker setup") {
-          steps {
-            dir(path: 'SomeWhereCinema.Backend') {
-                echo "docker setup"
-              sh "docker-compose up -d"
+            when {
+                branch('FrontEnd')
             }
-          }
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
+                    echo "docker setup"
+                sh "docker-compose up -d"
+                }
+            }
         }
+
+        stage('Build FrontEnd') {
+            when {
+                branch('FrontEnd*')
+            }
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                }
+            }
+            steps {
+                dir('SomeWhereCinema.Frontend') {
+                    sh 'npm cache clean --force'
+                    sh 'npm cache verify'
+                    // sh 'npm install npm'
+                    sh 'npm install'
+                    sh 'npm i -g @angular/cli'
+                    sh 'ng build'
+                }
+            }
+        }
+
 
         stage("Execute system tests") {
         	steps {
                 echo "[front end test program execute commend]"
+            }
+            post {
+                always {
+                    cleanup{
+                        sh script: "docker-compose down", returnStatus: true
+                    }
+                }
             }
         }
     }
@@ -105,9 +133,6 @@ pipeline {
         always {
             echo '====++++All stages finish++++===='
             deleteDir()
-            cleanup{
-                sh script: "docker-compose down", returnStatus: true
-            }
         }
         success {
             echo '====++++successfully++++===='
