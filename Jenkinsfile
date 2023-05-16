@@ -166,8 +166,9 @@ pipeline {
             }
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
+                    sh 'pwd'
                     echo "docker setup"
-                    sh "docker-compose up -d --build"
+                    sh "docker-compose up -d"
                 }
                 dir(path: 'SomeWhereCinema.FrontEnd/E2ETest'){
                     sh 'npm i testcafe'
