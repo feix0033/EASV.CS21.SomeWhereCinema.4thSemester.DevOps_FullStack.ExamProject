@@ -105,7 +105,8 @@ pipeline {
             }
             steps {
                 dir('SomeWhereCinema'){
-                    sh "git checkout BackEnd"
+                    sh "git --set-upstream origin https://github.com/feix0033/EASV.CS21.SomeWhereCinema.4thSemester.DevOps_FullStack.ExamProject"
+                    sh "git checkout origin/BackEnd"
                     sh "git fetch -a"
                     sh "git pull origin/BackEnd"
                     sh "git merge origin/BackEnd_Dev"
