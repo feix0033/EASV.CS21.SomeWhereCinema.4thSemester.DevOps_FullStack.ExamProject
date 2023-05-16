@@ -5,7 +5,7 @@ namespace SomeWhereCinema.DataAccess;
 
 public class MovieDbContext:DbContext
 {
-    public DbSet<Movie> MovieTable { get; set; }
+    public DbSet<Movie> MOVIE { get; set; }
     // Constructor will inject the db context option
     public MovieDbContext(DbContextOptions<MovieDbContext>options) : base(options) { }
 

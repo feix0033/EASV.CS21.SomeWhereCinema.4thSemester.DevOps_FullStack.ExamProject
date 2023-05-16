@@ -37,7 +37,7 @@ export class HttpService {
   }
 
   async createMovie(dto: { price: number; name: string }) {
-    return (await customAxios.post('movie/CreateMovie', dto)).data;
+    return (await customAxios.post('Movie/CreateMovie', dto)).data;
   }
 
   async getMovie(dto: { price:number; name:string }) {

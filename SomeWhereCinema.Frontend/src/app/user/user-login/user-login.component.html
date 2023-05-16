@@ -1,6 +1,6 @@
 <h1>Please Log in</h1>
 
-<div *ngIf="firebaseAuthService.auth.currentUser else loginTemplet">
+<div *ngIf="firebaseAuthService.auth.currentUser != null else loginTemplet">
   You have been login!
   <a routerLink="/">
     Home

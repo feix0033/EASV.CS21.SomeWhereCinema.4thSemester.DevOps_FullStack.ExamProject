@@ -1,11 +1,5 @@
 version: "3.3"
 services:
-  webapi:
-    image: evensnachi/somewhere-cinema
-    build:
-      context: .
-    ports:
-      - "7000:7000"
   database:
     image: mysql:latest
     depends_on:
@@ -17,12 +11,15 @@ services:
       MYSQL_PASSWORD: 12345678
     volumes:
 <<<<<<< HEAD
+<<<<<<< HEAD
       - dbdata:/var/lib/mysql
       - ./_MySQL_Init_Script:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
     restart: always
 =======
+=======
+>>>>>>> main
       - ./db/data:/var/lib/mysql
     ports: 
       - "3306:3306"
@@ -47,6 +44,9 @@ services:
     ports:
       - "7000:7000"
     restart: always
+<<<<<<< HEAD
 >>>>>>> BackEnd
+=======
+>>>>>>> main
 volumes:
   data:

@@ -29,22 +29,22 @@ pipeline {
                 success {
                     archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
 
-                    // publishCoverage adapters: 
-                    // [
-                    //     istanbulCoberturaAdapter
-                    //     (
-                    //         path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml', 
-                    //         thresholds:
-                    //         [[
-                    //         failUnhealthy: true,
-                    //         thresholdTarget: 'Conditional',
-                    //         unhealthyThreshold: 80.0, // below 80%
-                    //         unstableThreshold: 50.0  // below 50%
-                    //         ]]
-                    //     )
-                    // ],
-                    // checksName: '',
-                    // sourceFileResolver: sourceFile('NEVER_STORE')
+                    publishCoverage adapters: 
+                    [
+                        istanbulCoberturaAdapter
+                        (
+                            path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml', 
+                            thresholds:
+                            [[
+                            failUnhealthy: true,
+                            thresholdTarget: 'Conditional',
+                            unhealthyThreshold: 80.0, // below 80%
+                            unstableThreshold: 50.0  // below 50%
+                            ]]
+                        )
+                    ],
+                    checksName: '',
+                    sourceFileResolver: sourceFile('NEVER_STORE')
                 }
             }
         }
@@ -57,7 +57,6 @@ pipeline {
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                 sh 'dotnet build'
-                sh "docker build -t evensnachi/somewhere-cinema ."
                     
                     // was the docker compose will use local image or get from docker hub?
 
@@ -111,47 +110,37 @@ pipeline {
             }
         }
 
-        // stage("CD_MergeBranch_Main") {
-        //     agent any
-        //     when {
-        //         branch ('BackEnd_Dev')
-        //     }
-        //     steps {
-        //         sh "git fetch -a"
-        //         sh "git checkout BackEnd"
-        //         sh "git merge BackEnd_Dev"
-        //         sh "git push"
-        //     }
-        // }
-
-        stage("CD_IntergrationTest") {
+        stage("CR_MergeBranch_Main") {
+            agent any
             when {
-                branch('main')
+                branch ('BackEnd_Dev')
             }
             steps {
-                dir(path: 'SomeWhereCinema.Backend') {
-                    echo "docker setup"
-                    sh "docker-compose up -d"
-                    echo "Test cafe"
-                }
-            }
-            post {
-                always {
-                    dir(path: 'SomeWhereCinema.Backend') {
-                        sh script:"docker-compose down", returnStatus: true
-                    }
-                    
-                }
+                sh "git fetch -a"
+                sh "git checkout BackEnd"
+                sh "git merge BackEnd_Dev"
+                sh "git push"
             }
         }
+        
+        // here are a problem once i do docker-compose up the database can not connect. 
+        // only i delete all the database migration file and history then it work.compose
+        // i'm afraid that is because the jenkins do the build and push 
+        // so the question is when i do compose up locally how the image will update
+        // if i do some change i push to github should not enough? 
+        // i also need to build locally to test locally. 
+        // or each time after jenkins push to dockerhub. i have to delete all local image 
+        // to let docker compose pull from dockerhub? 
+        
 
-        stage('CR_BackEnd_TO_DockerHub') {
-            agent any
+        stage('CD_BackEnd_To_DockerHub') {
             when {
                 branch 'main'
             }
+            agent any
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
+                    sh "docker build -t evensnachi/somewhere-cinema ."
                     withCredentials(
                         [usernamePassword(
                             credentialsId: 'usernamepasswordMultibinding',
@@ -164,8 +153,40 @@ pipeline {
                 }
             }
         }
+        
+        stage("CR_IntegrationTest") {
+            when {
+                branch('main')
+            }
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                }
+            }
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
+                    sh 'pwd'
+                    echo "docker setup"
+                    sh "docker-compose up -d"
+                }
+                dir(path: 'SomeWhereCinema.FrontEnd/E2ETest'){
+                    sh 'npm i testcafe'
+                    sh 'testcafe --list-browsers'
+                    sh 'testcafe all test.ts'
+                }
+            }
+            post {
+                always {
+                    dir(path: 'SomeWhereCinema.Backend') {
+                        sh script:"docker-compose down", returnStatus: true
+                    }
+                    
+                }
+            }
+        }
 
-        // stage ('CR_FrontEnd_To_Firebase') {
+        // stage ('CD_FrontEnd_To_Firebase') {
         //     agent any
         //     when {
         //         branch 'main'
