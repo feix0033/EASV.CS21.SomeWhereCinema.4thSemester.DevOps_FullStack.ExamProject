@@ -57,7 +57,6 @@ pipeline {
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                 sh 'dotnet build'
-                sh "docker build -t evensnachi/somewhere-cinema ."
                     
                     // was the docker compose will use local image or get from docker hub?
 
@@ -111,7 +110,7 @@ pipeline {
             }
         }
 
-        stage("CD_MergeBranch_Main") {
+        stage("CR_MergeBranch_Main") {
             agent any
             when {
                 branch ('BackEnd_Dev')
@@ -123,8 +122,39 @@ pipeline {
                 sh "git push"
             }
         }
+        
+        // here are a problem once i do docker-compose up the database can not connect. 
+        // only i delete all the database migration file and history then it work.compose
+        // i'm afraid that is because the jenkins do the build and push 
+        // so the question is when i do compose up locally how the image will update
+        // if i do some change i push to github should not enough? 
+        // i also need to build locally to test locally. 
+        // or each time after jenkins push to dockerhub. i have to delete all local image 
+        // to let docker compose pull from dockerhub? 
+        
 
-        stage("CD_IntergrationTest") {
+        stage('CD_BackEnd_TO_DockerHub') {
+            agent any
+            when {
+                branch 'main'
+            }
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
+                    sh "docker build -t evensnachi/somewhere-cinema ."
+                    withCredentials(
+                        [usernamePassword(
+                            credentialsId: 'usernamepasswordMultibinding',
+                            passwordVariable: 'PASSWORD', 
+                            usernameVariable: 'USERNAME')])
+                    {
+                         sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+                    }
+                    sh "docker push evensnachi/somewhere-cinema"
+                }
+            }
+        }
+        
+        stage("CR_IntegrationTest") {
             when {
                 branch('main')
             }
@@ -145,27 +175,7 @@ pipeline {
             }
         }
 
-        stage('CR_BackEnd_TO_DockerHub') {
-            agent any
-            when {
-                branch 'main'
-            }
-            steps {
-                dir(path: 'SomeWhereCinema.Backend') {
-                    withCredentials(
-                        [usernamePassword(
-                            credentialsId: 'usernamepasswordMultibinding',
-                            passwordVariable: 'PASSWORD', 
-                            usernameVariable: 'USERNAME')])
-                    {
-                         sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
-                    }
-                    sh "docker push evensnachi/somewhere-cinema"
-                }
-            }
-        }
-
-        // stage ('CR_FrontEnd_To_Firebase') {
+        // stage ('CD_FrontEnd_To_Firebase') {
         //     agent any
         //     when {
         //         branch 'main'
