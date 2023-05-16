@@ -133,11 +133,11 @@ pipeline {
         // to let docker compose pull from dockerhub? 
         
 
-        stage('CD_BackEnd_TO_DockerHub') {
-            agent any
+        stage('CD_BackEnd_To_DockerHub') {
             when {
                 branch 'main'
             }
+            agent any
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker build -t evensnachi/somewhere-cinema ."
@@ -158,11 +158,21 @@ pipeline {
             when {
                 branch('main')
             }
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                }
+            }
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     echo "docker setup"
-                    sh "docker-compose up -d"
-                    echo "Test cafe"
+                    sh "docker-compose up -d --build"
+                }
+                dir(path: 'SomeWhereCinema.FrontEnd/E2ETest'){
+                    sh 'npm i testcafe'
+                    sh 'testcafe --list-browsers'
+                    sh 'testcafe all test.ts'
                 }
             }
             post {
