@@ -104,14 +104,17 @@ pipeline {
                 branch ('BackEnd_Dev')
             }
             steps {
-                sh "git fetch -a"
-                sh "git checkout BackEnd"
-                sh "git merge BackEnd_Dev"
-                sh "git push"
-                // git request -pull 
+                dir('SomeWhereCinema'){
+                    sh "git checkout BackEnd"
+                    sh "git fetch -a"
+                    sh "git pull origin/BackEnd"
+                    sh "git merge origin/BackEnd_Dev"
+                    sh "git push origin/BackEnd"
+                    // git request -pull 
+                }
             }
         }
-        
+
         stage('CD_BackEnd_To_DockerHub') {
             when {
                 branch 'main'
