@@ -29,22 +29,22 @@ pipeline {
                 success {
                     archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
 
-                    publishCoverage adapters: 
-                    [
-                        istanbulCoberturaAdapter
-                        (
-                            path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml', 
-                            thresholds:
-                            [[
-                            failUnhealthy: true,
-                            thresholdTarget: 'Conditional',
-                            unhealthyThreshold: 80.0, // below 80%
-                            unstableThreshold: 50.0  // below 50%
-                            ]]
-                        )
-                    ],
-                    checksName: '',
-                    sourceFileResolver: sourceFile('NEVER_STORE')
+                    // publishCoverage adapters: 
+                    // [
+                    //     istanbulCoberturaAdapter
+                    //     (
+                    //         path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml', 
+                    //         thresholds:
+                    //         [[
+                    //         failUnhealthy: true,
+                    //         thresholdTarget: 'Conditional',
+                    //         unhealthyThreshold: 80.0, // below 80%
+                    //         unstableThreshold: 50.0  // below 50%
+                    //         ]]
+                    //     )
+                    // ],
+                    // checksName: '',
+                    // sourceFileResolver: sourceFile('NEVER_STORE')
                 }
             }
         }
@@ -57,18 +57,6 @@ pipeline {
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                 sh 'dotnet build'
-                    
-                    // was the docker compose will use local image or get from docker hub?
-
-                    // withCredentials(
-                    //     [usernamePassword(
-                    //         credentialsId: 'usernamepasswordMultibinding',
-                    //         passwordVariable: 'PASSWORD', 
-                    //         usernameVariable: 'USERNAME')])
-                    // {
-                    //      sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
-                    // }
-                    // sh "docker push evensnachi/somewhere-cinema"
                 }
             }
         }
@@ -110,7 +98,7 @@ pipeline {
             }
         }
 
-        stage("CR_MergeBranch_Main") {
+        stage("CR_MergeBranch") {
             agent any
             when {
                 branch ('BackEnd_Dev')
@@ -120,19 +108,10 @@ pipeline {
                 sh "git checkout BackEnd"
                 sh "git merge BackEnd_Dev"
                 sh "git push"
+                // git request -pull 
             }
         }
         
-        // here are a problem once i do docker-compose up the database can not connect. 
-        // only i delete all the database migration file and history then it work.compose
-        // i'm afraid that is because the jenkins do the build and push 
-        // so the question is when i do compose up locally how the image will update
-        // if i do some change i push to github should not enough? 
-        // i also need to build locally to test locally. 
-        // or each time after jenkins push to dockerhub. i have to delete all local image 
-        // to let docker compose pull from dockerhub? 
-        
-
         stage('CD_BackEnd_To_DockerHub') {
             when {
                 branch 'main'
