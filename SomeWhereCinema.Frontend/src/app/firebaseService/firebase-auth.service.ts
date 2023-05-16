@@ -10,11 +10,11 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 export class FirebaseAuthService {
   auth: any;
   userForm = this.formBuilder.group({
-    firstName : [''],
-    secondName : [''],
-    email : [''],
-    password : [''],
-    telephoneNumber : [0],
+    firstName: "",
+    secondName: "",
+    email: "",
+    password: "",
+    telephoneNumber: 0,
   });
 
   constructor(public firebaseService:FirebaseService, public formBuilder:FormBuilder) {
@@ -24,7 +24,6 @@ export class FirebaseAuthService {
   }
   register(userForm){
     this.auth.createUserWithEmailAndPassword(userForm.email, userForm.password);
-    this.auth
   }
   logIn(email:string, password:string){
     this.auth.signInWithEmailAndPassword(email, password)

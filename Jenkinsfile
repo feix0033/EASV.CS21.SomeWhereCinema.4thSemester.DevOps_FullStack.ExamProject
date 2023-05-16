@@ -57,19 +57,6 @@ pipeline {
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                 sh 'dotnet build'
-                sh "docker build -t evensnachi/somewhere-cinema ."
-                    
-                    // was the docker compose will use local image or get from docker hub?
-
-                    // withCredentials(
-                    //     [usernamePassword(
-                    //         credentialsId: 'usernamepasswordMultibinding',
-                    //         passwordVariable: 'PASSWORD', 
-                    //         usernameVariable: 'USERNAME')])
-                    // {
-                    //      sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
-                    // }
-                    // sh "docker push evensnachi/somewhere-cinema"
                 }
             }
         }
@@ -111,47 +98,14 @@ pipeline {
             }
         }
 
-        stage("CD_MergeBranch_Main") {
-            agent any
-            when {
-                branch ('BackEnd_Dev')
-            }
-            steps {
-                sh "git fetch -a"
-                sh "git checkout BackEnd"
-                sh "git merge BackEnd_Dev"
-                sh "git push"
-            }
-        }
-
-        stage("CD_IntergrationTest") {
-            when {
-                branch('main')
-            }
-            steps {
-                dir(path: 'SomeWhereCinema.Backend') {
-                    echo "docker setup"
-                    sh "docker-compose up -d"
-                    echo "Test cafe"
-                }
-            }
-            post {
-                always {
-                    dir(path: 'SomeWhereCinema.Backend') {
-                        sh script:"docker-compose down", returnStatus: true
-                    }
-                    
-                }
-            }
-        }
-
-        stage('CR_BackEnd_TO_DockerHub') {
-            agent any
+        stage('CD_BackEnd_To_DockerHub') {
             when {
                 branch 'main'
             }
+            agent any
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
+                    sh "docker build -t evensnachi/somewhere-cinema ."
                     withCredentials(
                         [usernamePassword(
                             credentialsId: 'usernamepasswordMultibinding',
@@ -164,8 +118,40 @@ pipeline {
                 }
             }
         }
+        
+        stage("CR_IntegrationTest") {
+            when {
+                branch('main')
+            }
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                }
+            }
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
+                    sh 'pwd'
+                    echo "docker setup"
+                    sh "docker-compose up -d"
+                }
+                dir(path: 'SomeWhereCinema.FrontEnd/E2ETest'){
+                    sh 'npm i testcafe'
+                    sh 'testcafe --list-browsers'
+                    sh 'testcafe all test.ts'
+                }
+            }
+            post {
+                always {
+                    dir(path: 'SomeWhereCinema.Backend') {
+                        sh script:"docker-compose down", returnStatus: true
+                    }
+                    
+                }
+            }
+        }
 
-        // stage ('CR_FrontEnd_To_Firebase') {
+        // stage ('CD_FrontEnd_To_Firebase') {
         //     agent any
         //     when {
         //         branch 'main'

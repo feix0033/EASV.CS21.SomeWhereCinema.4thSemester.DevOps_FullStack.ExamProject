@@ -11,6 +11,7 @@ export class FirestoreService {
 
   constructor(public firebaseService:FirebaseService) {
     this.firestore = firebaseService.firebaseApplication.firestore();
+    this.firestore.useEmulator('127.0.0.1:8081');
   }
 
   create(collectionPath:string, field:any){

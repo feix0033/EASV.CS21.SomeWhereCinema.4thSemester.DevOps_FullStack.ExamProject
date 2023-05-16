@@ -15,19 +15,19 @@ public class MovieRepository: IMovieRepository
     }
     public List<Movie> FindAll()
     {
-        return _movieDbContext.MovieTable.ToList();
+        return _movieDbContext.MOVIE.ToList();
     }
 
     public Movie CreateMovie(Movie movie)
     {
-        _movieDbContext.MovieTable.Add(movie);
+        _movieDbContext.MOVIE.Add(movie);
         _movieDbContext.SaveChanges();
         return movie;
     }
 
     public Movie? ReadMovie(Movie movie)
     {
-        return _movieDbContext.MovieTable.Select(m => new Movie()
+        return _movieDbContext.MOVIE.Select(m => new Movie()
         {
             Id = m.Id,
             Name = m.Name,
@@ -37,14 +37,14 @@ public class MovieRepository: IMovieRepository
             Price = m.Price
         }).FirstOrDefault(m => m.Name == movie.Name);
 
-        // return _movieDbContext.MovieTable.Find(movie.Id)?? throw new InvalidDataException("we don't have this movie");
+        // return _movieDbContext.MOVIE.Find(movie.Id)?? throw new InvalidDataException("we don't have this movie");
     }
 
     public Movie UpdataMovie(Movie movie)
     {
         var readMovie = ReadMovie(movie);
         movie.Id = readMovie.Id;
-        _movieDbContext.MovieTable.Update(movie);
+        _movieDbContext.MOVIE.Update(movie);
         _movieDbContext.SaveChanges();
         return movie;
     }
@@ -53,7 +53,7 @@ public class MovieRepository: IMovieRepository
     {
         var readMovie = ReadMovie(movie);
         movie.Id = readMovie.Id;
-        _movieDbContext.MovieTable.Remove(movie);
+        _movieDbContext.MOVIE.Remove(movie);
         _movieDbContext.SaveChanges();
         return movie;
     }
