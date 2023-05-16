@@ -8,15 +8,32 @@
 
 This is the DevOps Exam Project combind with Fullstack Exam Project.
 
-*Note: so far this description only writed for DevOps process.*
-
-Project perpose is create a Web Application for Customer can ordering the cinema tickets from cinema's web page. And then the cinema manager can manage the movie projection info and ordring info. 
+Project perpose is create a Web Application for Customer can ordering the cinema tickets from cinema's web page. And then the cinema manager can manage the movie projection info and movie info. 
 
 ### Frontend
 
 The Web Application will be front and to implament the user register, the movie info reseach, projection info reseach, ordring ticket, ordring info reseach and so on. 
 
 The firebase cloud service will deploy the webside hosting which with the webpage. Also contain the user infomation. 
+
+#### US1 --User
+- The user can registor a count by click the router link rigistor and input info. 
+- By click the rigistor button to push user info to firebase authentication and rigistor. 
+- By click user info router link to go to user info page. 
+- The firebase auth will check the userID and User token will correct or not.
+- The user can delete user acount by click 'delete my account' button.
+
+#### US2 --Movie
+- The user can click Movie router link to visit movie page to see the avaliable movie. 
+- The movie will show up post and name, price. 
+- by click each movie, the user can choose the movie's projection time. 
+- by click projection time, can router to order page witch include movie info and projection info 
+- by click order ticket button can order the movie. (router to payment page)
+
+#### US3 --order
+- The user can click order router link to check own order history.
+- the firebase auth will check the userid and usertoken to sure correct.
+- the order info will seach and show current user's order
 
 ### Backend
 
