@@ -128,10 +128,13 @@ pipeline {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker-compose up -d"
                 }
-                dir(path: 'SomeWhereCinema.FrontEnd/E2ETest'){
+                dir(path: 'SomeWhereCinema.FrontEnd'){
                     sh 'npm i testcafe'
+                    
+                }
+                dir(path: 'SomeWhereCinema.FrontEnd/E2ETest') {
                     sh 'testcafe --list-browsers'
-                    sh 'testcafe all test.ts'
+                    sh 'testcafe all test.ts' 
                 }
             }
             post {
