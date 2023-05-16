@@ -1,4 +1,6 @@
-10:51:57.844 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
-10:51:58.171 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
-10:52:24.426 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.NamespaceActor - somewherecinema-76ded-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 360ms, init: 0ms
-10:52:24.587 [NamespaceSystem-blocking-namespace-operation-dispatcher-7] INFO com.firebase.core.namespace.StateManager - Namespace somewherecinema-76ded-default-rtdb status Active to Active
+08:48:47.719 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+08:48:48.184 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
+08:49:21.287 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - somewherecinema-76ded-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 386ms, init: 0ms
+08:49:21.464 [NamespaceSystem-blocking-namespace-operation-dispatcher-7] INFO com.firebase.core.namespace.StateManager - Namespace somewherecinema-76ded-default-rtdb status Active to Active
+09:58:34.987 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+09:58:35.424 [NamespaceSystem-akka.actor.default-dispatcher-12] INFO com.firebase.core.namespace.Terminator$Terminator - 1 actors left to terminate: somewherecinema-76ded-default-rtdb
