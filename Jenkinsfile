@@ -123,16 +123,9 @@ pipeline {
             when {
                 branch('main')
             }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                    args '-p 3000:3000'
-                }
-            }
+            agent any
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
-                    sh 'pwd'
-                    echo "docker setup"
                     sh "docker-compose up -d"
                 }
                 dir(path: 'SomeWhereCinema.FrontEnd/E2ETest'){
