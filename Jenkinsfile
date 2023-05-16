@@ -122,27 +122,16 @@ pipeline {
                 sh "git push"
             }
         }
-
-        stage("CR_IntergrationTest") {
-            when {
-                branch('main')
-            }
-            steps {
-                dir(path: 'SomeWhereCinema.Backend') {
-                    echo "docker setup"
-                    sh "docker-compose up -d"
-                    echo "Test cafe"
-                }
-            }
-            post {
-                always {
-                    dir(path: 'SomeWhereCinema.Backend') {
-                        sh script:"docker-compose down", returnStatus: true
-                    }
-                    
-                }
-            }
-        }
+        
+        // here are a problem once i do docker-compose up the database can not connect. 
+        // only i delete all the database migration file and history then it work.compose
+        // i'm afraid that is because the jenkins do the build and push 
+        // so the question is when i do compose up locally how the image will update
+        // if i do some change i push to github should not enough? 
+        // i also need to build locally to test locally. 
+        // or each time after jenkins push to dockerhub. i have to delete all local image 
+        // to let docker compose pull from dockerhub? 
+        
 
         stage('CD_BackEnd_TO_DockerHub') {
             agent any
@@ -161,6 +150,27 @@ pipeline {
                          sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
                     }
                     sh "docker push evensnachi/somewhere-cinema"
+                }
+            }
+        }
+        
+        stage("CR_IntegrationTest") {
+            when {
+                branch('main')
+            }
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
+                    echo "docker setup"
+                    sh "docker-compose up -d"
+                    echo "Test cafe"
+                }
+            }
+            post {
+                always {
+                    dir(path: 'SomeWhereCinema.Backend') {
+                        sh script:"docker-compose down", returnStatus: true
+                    }
+                    
                 }
             }
         }
