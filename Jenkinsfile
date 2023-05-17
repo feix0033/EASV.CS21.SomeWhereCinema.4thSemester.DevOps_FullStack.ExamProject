@@ -1,5 +1,6 @@
 pipeline {
-    agent { dockerfile true }
+    // agent { dockerfile true }
+    agent any
 
     triggers {
         pollSCM('* * * * *')
@@ -7,22 +8,23 @@ pipeline {
 
     environment {
         CI = 'true'
-        // DOTNET_ROOT = '/usr/bin/dotnet'
-        // PATH = "/usr/bin/dotnet:$PATH"
+        DOTNET_ROOT = '/usr/bin/dotnet'
+        PATH = "/usr/bin/dotnet:$PATH"
     }
 
     stages {
         stage('CI_UnitTest_BackEnd') {
-            agent any
-            // {
-            //     docker {
-            //         image 'mcr.microsoft.com/dotnet/sdk:7.0'
-            //         args '-p 3000:3000'
-            //     }
-            // }
             when {
                 branch 'BackEnd*'
             }
+
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/dotnet/sdk:7.0'
+                    args '-p 3000:3000'
+                }
+            }
+       
             steps {
                 dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
                     echo 'remove histiory test results'
@@ -56,15 +58,16 @@ pipeline {
         }
 
         stage('CI_Build_BackEnd') {
-            agent any
-            // {
-            //     docker {
-            //         image 'mcr.microsoft.com/dotnet/sdk:7.0'
-            //     }
-            // }
             when {
                 branch 'BackEnd*'
             }
+
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/dotnet/sdk:7.0'
+                }
+            }
+            
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                 sh 'dotnet build'
@@ -76,12 +79,12 @@ pipeline {
             when {
                 branch('FrontEnd*')
             }
-            // agent {
-            //     docker {
-            //         image 'node:16-alpine'
-            //         args '-p 3000:3000'
-            //     }
-            // }
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                }
+            }
             steps {
                 echo "Test will later......."
             }
@@ -91,12 +94,12 @@ pipeline {
             when {
                 branch('FrontEnd*')
             }
-            // agent {
-            //     docker {
-            //         image 'node:16-alpine'
-            //         args '-p 3000:3000'
-            //     }
-            // }
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                }
+            }
             steps {
                 dir('SomeWhereCinema.Frontend') {
                     sh 'npm cache clean --force'
@@ -120,7 +123,6 @@ pipeline {
                 }
             }
             steps {
-                sh 'npm -v'
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh 'npm -v'
                     sh "docker build -t evensnachi/somewhere-cinema ."
@@ -141,12 +143,12 @@ pipeline {
             when {
                 branch('main')
             }
-            // agent {
-            //     docker {
-            //         image 'node:16-alpine'
-            //         args '-p 3000:3000'
-            //     }
-            // }
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                }
+            }
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker-compose up -d"
@@ -192,10 +194,10 @@ pipeline {
         // }
 
         stage ('CD_Performancetesting'){
-            agent any
             when {
                 branch 'main'
             }
+            agent any
             steps {
                 echo 'performance test'
             }
