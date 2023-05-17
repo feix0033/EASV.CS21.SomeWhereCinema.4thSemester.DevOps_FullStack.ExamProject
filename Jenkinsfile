@@ -119,7 +119,7 @@ pipeline {
                     sh "docker build -t evensnachi/somewhere-cinema ."
                     withCredentials(
                         [usernamePassword(
-                            credentialsId: 'usernamepasswordMultibinding',
+                            credentialsId: 'dockerHub',
                             passwordVariable: 'PASSWORD', 
                             usernameVariable: 'USERNAME')])
                     {
