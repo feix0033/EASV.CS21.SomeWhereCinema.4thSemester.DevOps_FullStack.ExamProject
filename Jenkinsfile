@@ -113,7 +113,7 @@ pipeline {
             }
             steps {
                 sh 'pwd'
-                docker -v
+                sh 'docker -v'
                 sh 'pwd'
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh 'pwd'
