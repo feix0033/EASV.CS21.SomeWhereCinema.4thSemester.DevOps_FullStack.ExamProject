@@ -7,18 +7,19 @@ pipeline {
 
     environment {
         CI = 'true'
-        // DOTNET_ROOT = '/usr/bin/dotnet'
-        // PATH = "/usr/bin/dotnet:$PATH"
+        DOTNET_ROOT = '/usr/bin/dotnet'
+        PATH = "/usr/bin/dotnet:$PATH"
     }
 
     stages {
         stage('CI_UnitTest_BackEnd') {
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/dotnet/sdk:7.0'
-                    args '-p 3000:3000'
-                }
-            }
+            agent any
+            // {
+            //     docker {
+            //         image 'mcr.microsoft.com/dotnet/sdk:7.0'
+            //         args '-p 3000:3000'
+            //     }
+            // }
             when {
                 branch 'BackEnd*'
             }
@@ -55,11 +56,12 @@ pipeline {
         }
 
         stage('CI_Build_BackEnd') {
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/dotnet/sdk:7.0'
-                }
-            }
+            agent any
+            // {
+            //     docker {
+            //         image 'mcr.microsoft.com/dotnet/sdk:7.0'
+            //     }
+            // }
             when {
                 branch 'BackEnd*'
             }
@@ -74,12 +76,12 @@ pipeline {
             when {
                 branch('FrontEnd*')
             }
-            // agent {
-            //     docker {
-            //         image 'node:16-alpine'
-            //         args '-p 3000:3000'
-            //     }
-            // }
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                }
+            }
             steps {
                 echo "Test will later......."
             }
@@ -89,12 +91,12 @@ pipeline {
             when {
                 branch('FrontEnd*')
             }
-            // agent {
-            //     docker {
-            //         image 'node:16-alpine'
-            //         args '-p 3000:3000'
-            //     }
-            // }
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                }
+            }
             steps {
                 dir('SomeWhereCinema.Frontend') {
                     sh 'npm cache clean --force'
