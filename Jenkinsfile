@@ -1,30 +1,25 @@
 pipeline {
-    // agent { dockerfile true }
-    agent any
-
     triggers {
         pollSCM('* * * * *')
     }
-
     environment {
         CI = 'true'
         DOTNET_ROOT = '/usr/bin/dotnet'
         PATH = "/usr/bin/dotnet:$PATH"
     }
-
+    // agent { dockerfile true }
+    agent any
     stages {
         stage('CI_UnitTest_BackEnd') {
             when {
                 branch 'BackEnd*'
             }
-
             agent {
                 docker {
                     image 'mcr.microsoft.com/dotnet/sdk:7.0'
                     args '-p 3000:3000'
                 }
             }
-       
             steps {
                 dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
                     echo 'remove histiory test results'
@@ -56,25 +51,21 @@ pipeline {
                 }
             }
         }
-
         stage('CI_Build_BackEnd') {
             when {
                 branch 'BackEnd*'
             }
-
             agent {
                 docker {
                     image 'mcr.microsoft.com/dotnet/sdk:7.0'
                 }
             }
-            
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                 sh 'dotnet build'
                 }
             }
         }
-
         stage('CI_UnitTest_FrontEnd') {
             when {
                 branch('FrontEnd*')
@@ -89,7 +80,6 @@ pipeline {
                 echo "Test will later......."
             }
         }
-
         stage('CI_Build_FrontEnd') {
             when {
                 branch('FrontEnd*')
@@ -111,7 +101,6 @@ pipeline {
                 }
             }
         }
-
         stage('CD_BackEnd_To_DockerHub') {
             when {
                 branch 'main'
@@ -123,8 +112,9 @@ pipeline {
                 }
             }
             steps {
+                sh 'docker -v'
                 dir(path: 'SomeWhereCinema.Backend') {
-                    sh 'npm -v'
+                    sh 'pwd'
                     sh "docker build -t evensnachi/somewhere-cinema ."
                     withCredentials(
                         [usernamePassword(
@@ -138,7 +128,6 @@ pipeline {
                 }
             }
         }
-        
         stage("CR_IntegrationTest") {
             when {
                 branch('main')
@@ -171,7 +160,6 @@ pipeline {
                 }
             }
         }
-
         // stage ('CD_FrontEnd_To_Firebase') {
         //     agent any
         //     when {
@@ -192,7 +180,6 @@ pipeline {
         //         }
         //     }
         // }
-
         stage ('CD_Performancetesting'){
             when {
                 branch 'main'
@@ -203,7 +190,6 @@ pipeline {
             }
         }
     }
-
     post {
         always {
             echo '====++++All stages finish++++===='
