@@ -112,12 +112,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'pwd'
-                sh 'docker -v'
-                sh 'pwd'
                 dir(path: 'SomeWhereCinema.Backend') {
-                    sh 'pwd'
-                    sh 'docker -v'
                     sh "docker build -t evensnachi/somewhere-cinema ."
                     withCredentials(
                         [usernamePassword(
@@ -135,12 +130,12 @@ pipeline {
             when {
                 branch('main')
             }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                    args '-p 3000:3000'
-                }
-            }
+            // agent {
+            //     docker {
+            //         image 'node:16-alpine'
+            //         args '-p 3000:3000'
+            //     }
+            // }
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker-compose up -d"
