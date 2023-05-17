@@ -1,17 +1,15 @@
 pipeline {
-    agent {
-        dockerfile true
-    }
+    agent any
 
     triggers {
         pollSCM('* * * * *')
     }
 
-    // environment {
-    //     CI = 'true'
-    //     DOTNET_ROOT = '/usr/bin/dotnet'
-    //     PATH = "/usr/bin/dotnet:$PATH"
-    // }
+    environment {
+        CI = 'true'
+        // DOTNET_ROOT = '/usr/bin/dotnet'
+        // PATH = "/usr/bin/dotnet:$PATH"
+    }
 
     stages {
         stage('CI_UnitTest_BackEnd') {
