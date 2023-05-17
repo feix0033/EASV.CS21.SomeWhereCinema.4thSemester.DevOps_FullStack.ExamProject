@@ -8,4 +8,3 @@ ENV ASPNETCORE_URLS="http://0.0.0.0:7000"
 EXPOSE 80
 
 FROM node:16-alpine
-RUN npm i npm 
