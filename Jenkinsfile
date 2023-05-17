@@ -13,7 +13,11 @@ pipeline {
 
     stages {
         stage('CI_UnitTest_BackEnd') {
-            agent any
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/dotnet/sdk:7.0'
+                }
+            }
             when {
                 branch 'BackEnd*'
             }
@@ -50,7 +54,11 @@ pipeline {
         }
 
         stage('CI_Build_BackEnd') {
-            agent any
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/dotnet/sdk:7.0'
+                }
+            }
             when {
                 branch 'BackEnd*'
             }
@@ -123,7 +131,12 @@ pipeline {
             when {
                 branch('main')
             }
-            agent any
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                }
+            }
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker-compose up -d"
