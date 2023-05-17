@@ -113,21 +113,27 @@ pipeline {
             when {
                 branch 'main'
             }
-            agent any
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                }
+            }
             steps {
                 sh 'npm -v'
-            //     dir(path: 'SomeWhereCinema.Backend') {
-            //         sh "docker build -t evensnachi/somewhere-cinema ."
-            //         withCredentials(
-            //             [usernamePassword(
-            //                 credentialsId: 'dockerHub',
-            //                 passwordVariable: 'PASSWORD', 
-            //                 usernameVariable: 'USERNAME')])
-            //         {
-            //              sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
-            //         }
-            //         sh "docker push evensnachi/somewhere-cinema"
-            //     }
+                dir(path: 'SomeWhereCinema.Backend') {
+                    sh 'npm -v'
+                    sh "docker build -t evensnachi/somewhere-cinema ."
+                    withCredentials(
+                        [usernamePassword(
+                            credentialsId: 'dockerHub',
+                            passwordVariable: 'PASSWORD', 
+                            usernameVariable: 'USERNAME')])
+                    {
+                         sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+                    }
+                    sh "docker push evensnachi/somewhere-cinema"
+                }
             }
         }
         
