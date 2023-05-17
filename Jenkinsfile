@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        docker { dockerfile true }
+    }
 
     triggers {
         pollSCM('* * * * *')
@@ -7,8 +9,8 @@ pipeline {
 
     environment {
         CI = 'true'
-        DOTNET_ROOT = '/usr/bin/dotnet'
-        PATH = "/usr/bin/dotnet:$PATH"
+        // DOTNET_ROOT = '/usr/bin/dotnet'
+        // PATH = "/usr/bin/dotnet:$PATH"
     }
 
     stages {
@@ -76,12 +78,12 @@ pipeline {
             when {
                 branch('FrontEnd*')
             }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                    args '-p 3000:3000'
-                }
-            }
+            // agent {
+            //     docker {
+            //         image 'node:16-alpine'
+            //         args '-p 3000:3000'
+            //     }
+            // }
             steps {
                 echo "Test will later......."
             }
@@ -91,12 +93,12 @@ pipeline {
             when {
                 branch('FrontEnd*')
             }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                    args '-p 3000:3000'
-                }
-            }
+            // agent {
+            //     docker {
+            //         image 'node:16-alpine'
+            //         args '-p 3000:3000'
+            //     }
+            // }
             steps {
                 dir('SomeWhereCinema.Frontend') {
                     sh 'npm cache clean --force'
@@ -134,12 +136,12 @@ pipeline {
             when {
                 branch('main')
             }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                    args '-p 3000:3000'
-                }
-            }
+            // agent {
+            //     docker {
+            //         image 'node:16-alpine'
+            //         args '-p 3000:3000'
+            //     }
+            // }
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker-compose up -d"
