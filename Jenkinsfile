@@ -11,15 +11,11 @@ pipeline {
     agent any
     stages {
         stage('CI_UnitTest_BackEnd') {
-            when {
-                branch 'BackEnd*'
-            }
-            agent {
-                docker {
+            when { branch 'BackEnd*' }
+            agent { docker {
                     image 'mcr.microsoft.com/dotnet/sdk:7.0'
                     args '-p 3000:3000'
-                }
-            }
+                } }
             steps {
                 dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
                     echo 'remove histiory test results'
@@ -52,30 +48,22 @@ pipeline {
             }
         }
         stage('CI_Build_BackEnd') {
-            when {
-                branch 'BackEnd*'
-            }
-            agent {
-                docker {
+            when { branch 'BackEnd*' }
+            agent { docker {
                     image 'mcr.microsoft.com/dotnet/sdk:7.0'
-                }
-            }
+                } }
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
-                sh 'dotnet build'
+                    sh 'dotnet build'
                 }
             }
         }
         stage('CI_UnitTest_FrontEnd') {
-            when {
-                branch('FrontEnd*')
-            }
-            agent {
-                docker {
+            when { branch('FrontEnd*') }
+            agent { docker {
                     image 'node:16-alpine'
                     args '-p 3000:3000'
-                }
-            }
+                } }
             steps {
                 echo "Test will later......."
             }
