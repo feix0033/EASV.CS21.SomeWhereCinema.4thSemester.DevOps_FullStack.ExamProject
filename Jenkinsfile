@@ -128,7 +128,7 @@ pipeline {
             //         }
             //         sh "docker push evensnachi/somewhere-cinema"
             //     }
-            // }
+            }
         }
         
         stage("CR_IntegrationTest") {
