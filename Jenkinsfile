@@ -16,6 +16,7 @@ pipeline {
             agent {
                 docker {
                     image 'mcr.microsoft.com/dotnet/sdk:7.0'
+                    args '-p 3000:3000'
                 }
             }
             when {
