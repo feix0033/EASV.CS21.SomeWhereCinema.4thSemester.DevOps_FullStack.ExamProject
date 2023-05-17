@@ -112,9 +112,12 @@ pipeline {
                 }
             }
             steps {
-                sh 'docker -v'
+                sh 'pwd'
+                docker -v
+                sh 'pwd'
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh 'pwd'
+                    sh 'docker -v'
                     sh "docker build -t evensnachi/somewhere-cinema ."
                     withCredentials(
                         [usernamePassword(
