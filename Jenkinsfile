@@ -1,15 +1,17 @@
 pipeline {
-    agent any
+    agent {
+        dockerfile true
+    }
 
     triggers {
         pollSCM('* * * * *')
     }
 
-    environment {
-        CI = 'true'
-        DOTNET_ROOT = '/usr/bin/dotnet'
-        PATH = "/usr/bin/dotnet:$PATH"
-    }
+    // environment {
+    //     CI = 'true'
+    //     DOTNET_ROOT = '/usr/bin/dotnet'
+    //     PATH = "/usr/bin/dotnet:$PATH"
+    // }
 
     stages {
         stage('CI_UnitTest_BackEnd') {
@@ -65,12 +67,12 @@ pipeline {
             when {
                 branch('FrontEnd*')
             }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                    args '-p 3000:3000'
-                }
-            }
+            // agent {
+            //     docker {
+            //         image 'node:16-alpine'
+            //         args '-p 3000:3000'
+            //     }
+            // }
             steps {
                 echo "Test will later......."
             }
@@ -80,12 +82,12 @@ pipeline {
             when {
                 branch('FrontEnd*')
             }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                    args '-p 3000:3000'
-                }
-            }
+            // agent {
+            //     docker {
+            //         image 'node:16-alpine'
+            //         args '-p 3000:3000'
+            //     }
+            // }
             steps {
                 dir('SomeWhereCinema.Frontend') {
                     sh 'npm cache clean --force'
@@ -132,9 +134,9 @@ pipeline {
                     sh 'npm i testcafe'
                     
                 }
-                dir(path: 'SomeWhereCinema.FrontEnd/E2ETest') {
+                dir(path: 'SomeWhereCinema.FrontEnd') {
                     sh 'testcafe --list-browsers'
-                    sh 'testcafe all test.ts' 
+                    sh 'testcafe all E2ETest/test.ts' 
                 }
             }
             post {
