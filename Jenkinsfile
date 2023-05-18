@@ -85,7 +85,7 @@ pipeline {
             steps {
                 dir('SomeWhereCinema.Frontend') {
                     sh 'npm cache clean --force'
-                    sh 'ls -la ~/.npm'
+                    sh 'ls -la .npm'
                     sh 'npm cache verify'
                     sh 'npm install'
                     sh 'npm i -g @angular/cli'
