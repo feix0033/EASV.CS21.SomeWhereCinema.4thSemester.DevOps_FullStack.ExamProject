@@ -79,7 +79,6 @@ pipeline {
                 dir('SomeWhereCinema.Frontend') {
                     sh 'npm cache clean --force'
                     sh 'npm cache verify'
-                    // sh 'npm install npm'
                     sh 'npm install'
                     sh 'npm i -g @angular/cli'
                     sh 'ng build'
@@ -110,21 +109,13 @@ pipeline {
             when {
                 branch('main')
             }
-            // agent {
-            //     docker {
-            //         image 'node:16-alpine'
-            //         args '-p 3000:3000'
-            //     }
-            // }
+            agent any
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker-compose up -d"
                 }
                 dir(path: 'SomeWhereCinema.FrontEnd'){
                     sh 'npm i testcafe'
-                    
-                }
-                dir(path: 'SomeWhereCinema.FrontEnd') {
                     sh 'testcafe --list-browsers'
                     sh 'testcafe all E2ETest/test.ts' 
                 }
