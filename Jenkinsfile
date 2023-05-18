@@ -61,11 +61,13 @@ pipeline {
         }
         stage('CI_UnitTest_FrontEnd') {
             when { branch('FrontEnd*') }
-            agent { docker {
+            agent { 
+                docker {
                     image 'node:16-alpine'
                     args '-p 3000:3000'
                     reuseNode true
-                } }
+                } 
+            }
             steps {
                 echo "Test will later......."
             }
@@ -74,7 +76,13 @@ pipeline {
             when {
                 branch('FrontEnd*')
             }
-            agent any
+            agent { 
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                    reuseNode true
+                } 
+            }
             steps {
                 dir('SomeWhereCinema.Frontend') {
                     sh 'npm cache clean --force'
@@ -109,7 +117,13 @@ pipeline {
             when {
                 branch('main')
             }
-            agent any
+            agent { 
+                docker {
+                    image 'node:16-alpine'
+                    args '-p 3000:3000'
+                    reuseNode true
+                } 
+            }
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker-compose up -d"
