@@ -52,9 +52,7 @@ pipeline {
         }
         stage('CI_Build_BackEnd') {
             when { branch 'BackEnd*' }
-            agent { docker {
-                    image 'mcr.microsoft.com/dotnet/sdk:7.0'
-                } }
+            agent any
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh 'dotnet build'
@@ -66,6 +64,7 @@ pipeline {
             agent { docker {
                     image 'node:16-alpine'
                     args '-p 3000:3000'
+                    reuseNode true
                 } }
             steps {
                 echo "Test will later......."
@@ -75,12 +74,7 @@ pipeline {
             when {
                 branch('FrontEnd*')
             }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                    args '-p 3000:3000'
-                }
-            }
+            agent any
             steps {
                 dir('SomeWhereCinema.Frontend') {
                     sh 'npm cache clean --force'
