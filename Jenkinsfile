@@ -1,9 +1,9 @@
 pipeline {
     // agent { dockerfile true }
     agent any
-    triggers {
-        pollSCM('* * * * *')
-    }
+    // triggers {
+    //     pollSCM('* * * * *')
+    // }
     environment {
         CI = 'true'
         // DOTNET_ROOT = '/usr/bin/dotnet'
@@ -16,7 +16,6 @@ pipeline {
             agent { 
                 docker {
                     image 'mcr.microsoft.com/dotnet/sdk:7.0'
-                    reuseNode true
                 } 
             }
             steps {
@@ -65,7 +64,6 @@ pipeline {
                 docker {
                     image 'node:16-alpine'
                     args '-p 3000:3000'
-                    reuseNode true
                 } 
             }
             steps {
@@ -121,7 +119,6 @@ pipeline {
                 docker {
                     image 'node:16-alpine'
                     args '-p 3000:3000'
-                    reuseNode true
                 } 
             }
             steps {
