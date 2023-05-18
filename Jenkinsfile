@@ -13,10 +13,12 @@ pipeline {
     stages {
         stage('CI_UnitTest_BackEnd') {
             when { branch 'BackEnd*' }
-            agent { docker {
+            agent { 
+                docker {
                     image 'mcr.microsoft.com/dotnet/sdk:7.0'
-                    args '-p 3000:3000'
-                } }
+                    reuseNode true
+                } 
+            }
             steps {
                 dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
                     echo 'remove histiory test results'
@@ -94,12 +96,7 @@ pipeline {
             when {
                 branch 'main'
             }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                    args '-p 3000:3000'
-                }
-            }
+            agent any
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker build -t evensnachi/somewhere-cinema ."
