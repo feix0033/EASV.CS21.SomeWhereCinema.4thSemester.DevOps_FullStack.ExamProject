@@ -13,7 +13,10 @@ pipeline {
 
     stages {
         stage('CI_UnitTest_BackEnd') {
-            agent any
+            agent { docker { 
+                image: 'mcr.microsoft.com/dotnet/sdk:7.0' 
+                args: '-p 7000:7000'
+                }}
             when {
                 branch 'BackEnd*'
             }
