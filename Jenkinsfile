@@ -80,13 +80,13 @@ pipeline {
                 docker {
                     image 'node:16-alpine'
                     args '-p 3000:3000'
-                    reuseNode true
                 } 
             }
             steps {
                 dir('SomeWhereCinema.Frontend') {
-                    // sh 'npm cache clean --force'
-                    // sh 'npm cache verify'
+                    sh 'npm cache clean --force'
+                    sh 'ls -la ~/.npm'
+                    sh 'npm cache verify'
                     sh 'npm install'
                     sh 'npm i -g @angular/cli'
                     sh 'ng build'
