@@ -13,13 +13,12 @@ pipeline {
 
     stages {
         stage('CI_UnitTest_BackEnd') {
-            agent { docker { 
-                image: 'mcr.microsoft.com/dotnet/sdk:7.0' 
-                args: '-p 7000:7000'
-                }}
+            agent any
+
             when {
                 branch 'BackEnd*'
             }
+
             steps {
                 dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
                     echo 'remove histiory test results'
@@ -28,6 +27,7 @@ pipeline {
                     sh 'dotnet test --collect:\'Xplat Code Coverage\''
                 }
             }
+
             post {
                 success {
                     archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
