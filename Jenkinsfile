@@ -85,7 +85,8 @@ pipeline {
                     sh 'npm cache clean --force'
                     sh 'npm cache verify'
                     sh 'npm install'
-                    sh 'npm i -g @angular/cli'
+                    sh 'ng -v'
+                    // sh 'npm i @angular/cli'
                     sh 'ng build'
                 }
             }
