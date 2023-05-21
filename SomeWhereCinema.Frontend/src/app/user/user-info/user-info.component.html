@@ -1,10 +1,19 @@
-<p>user-info works!</p>
+<div *ngIf="auth.currentUser">
+  <h2>
+    {{auth.currentUser.email}}
+  </h2>
+  <button (click)="firebaseAuthService.logOut()">LogOut</button>
 
-<p *ngIf="firebaseAuthService.auth.currentUser else pleaseLogIn">
-   Welcome {{firebaseAuthService.auth.currentUser.displayName}}
-</p>
-
-<ng-template #pleaseLogIn>
-  Your we need you login to get info:
+  <p *ngFor="let info of firestoreService.values">
+    {{info | json}}
+  </p>
+</div>
+<div *ngIf="auth.currentUser == null">
+  Your are not login yet...
   <button routerLink="userLogIn">LogIn</button>
-</ng-template>
+</div>
+
+
+
+
+

@@ -1,9 +1,6 @@
 <p>homepage works!</p>
-<div *ngIf="firebaseAuthService.auth.currentUser else pleaseLogin">
+<div *ngIf="firebaseAuthService.auth.currentUser">
   <p>hello</p>
   <button (click)="firebaseAuthService.auth.signOut()">log out</button>
 </div>
 
-<ng-template #pleaseLogin>
-  <a routerLink="../userLogin">login</a>
-</ng-template>

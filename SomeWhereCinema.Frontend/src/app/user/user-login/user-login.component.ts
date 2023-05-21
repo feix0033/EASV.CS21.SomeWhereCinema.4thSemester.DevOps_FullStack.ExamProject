@@ -12,5 +12,11 @@ export class UserLoginComponent {
   constructor(public firebaseAuthService:FirebaseAuthService) {
   }
 
+  userLogin(){
+
+  }
+  userLogout(){
+
+  }
 }
 
