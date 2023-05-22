@@ -1,0 +1,15 @@
+<p>movie works!</p>
+<div>
+  <p *ngFor="let m of movies">
+    {{m.name}}: {{m.price}}
+    <a [routerLink]="'ordering'" >order ticket</a>
+    <!--    <button (click)="deleteMovie(m)">Delete</button>-->
+  </p>
+
+  <div>
+    <input type="text" [(ngModel)]="newMovie.name">
+    <input type="number" [(ngModel)]="newMovie.price">
+    <button (click)="createMovie()">Create</button>
+  </div>
+
+</div>

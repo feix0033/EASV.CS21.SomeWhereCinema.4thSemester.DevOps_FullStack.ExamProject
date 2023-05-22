@@ -1,20 +1,16 @@
-<span>
-  <span style="margin:20px">Some Where Cinema</span>
+<h1 style="margin:20px">Some Where Cinema</h1>
+<div *ngIf="auth.currentUser">
   <a routerLink="" style="margin:5px">Home</a>
   <a routerLink="user" style="margin:5px">User</a>
   <a routerLink="movie" style="margin:5px">Movie</a>
   <a routerLink="ordering" style="margin:5px">Order</a>
-</span>
+  <button (click)="logout()">LogOut</button>
+</div>
+<hr>
 
-<!--<span *ngIf="(userService.() != null) else register">-->
-<!--  Welcome {{userService.()}}-->
-<!--  <button routerLink="/"  (click)="userService.logOut()">Log Out</button>-->
-<!--</span>-->
-
-<!--<ng-template #register>-->
+<div *ngIf="auth.currentUser == null">
   <a routerLink="userRegister" style="margin:5px">Register</a>
   <a routerLink="userLogin" style="margin:5px">Login</a>
-<!--</ng-template>-->
-
+</div>
 
 <router-outlet></router-outlet>

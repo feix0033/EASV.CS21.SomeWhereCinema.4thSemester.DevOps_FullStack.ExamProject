@@ -3,15 +3,13 @@ import axios from 'axios';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {catchError} from "rxjs";
 
-export  const customAxios = axios.create({
-  baseURL: 'http://localhost:7000'
+export const customAxios = axios.create({
+  baseURL: 'http://127.0.0.1:5001/somewherecinema-76ded/us-central1/api'
 });
-
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
-
   constructor(private matSnackbar: MatSnackBar) {
     customAxios.interceptors.response.use(
       response => {
@@ -31,31 +29,23 @@ export class HttpService {
       }
     )
   }
-
-  async getAllMovie() {
-    return (await customAxios.get('Movie/GetAllMovie')).data;
+  async getAll(url) {
+    return (await customAxios.get(url)).data;
   }
-
-  async createMovie(dto: { price: number; name: string }) {
-    return (await customAxios.post('Movie/CreateMovie', dto)).data;
+  async create(url, dto) {
+    // return (await customAxios.post('Movie/CreateMovie', dto)).data;
+    return (await customAxios.post(url,dto)).data;
   }
-
-  async getMovie(dto: { price:number; name:string }) {
-    return (await customAxios.patch('Movie/ReadMovie',dto)).data;
+  async get(url,dto) {
+    // return (await customAxios.patch('Movie/ReadMovie',dto)).data;
+    return (await customAxios.patch(url,dto)).data;
   }
+  async update(url,dto) {
+    // return (await customAxios.put('Movie/UpdateMovie',dto)).data;
+    return (await customAxios.put(url,dto)).data;
 
-  async updateMovie(dto: {price:number; name: string }) {
-    return (await customAxios.put('Movie/UpdateMovie',dto)).data;
   }
-
-  async deleteMovie(dto: {name:string}) {
-    return (await customAxios.delete("Movie/"+dto.name)).data;
+  async delete(url,dto) {
+    return (await customAxios.delete(url,dto)).data;
   }
-
-  async resetDb() {
-    return (await customAxios.get("Movie/CreateDatabase")).data;
-  }
-
-
-
 }

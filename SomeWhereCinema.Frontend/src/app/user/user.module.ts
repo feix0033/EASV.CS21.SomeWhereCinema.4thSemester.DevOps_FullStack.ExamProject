@@ -6,13 +6,15 @@ import {UserLoginComponent} from "./user-login/user-login.component";
 import {UserRegisterComponent} from "./user-register/user-register.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserInfoComponent} from "./user-info/user-info.component";
+import { UserComponent } from './user.component';
 
 
 @NgModule({
   declarations: [
     UserLoginComponent,
     UserRegisterComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    UserComponent
   ],
     imports: [
         CommonModule,
