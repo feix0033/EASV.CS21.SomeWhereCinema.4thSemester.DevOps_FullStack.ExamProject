@@ -8,7 +8,10 @@ pipeline {
         HOME = "/tmp/DOTNET_CLI_HOME"
     }
     stages {
-        stage ('Continuous Integration: Unit Test') {
+        stage (test){
+            echo 'good'
+        }
+        // stage ('Continuous Integration: Unit Test') {
         //     parallel {
         //         stage ('CI_UnitTest_Backend'){
         //             agent {
