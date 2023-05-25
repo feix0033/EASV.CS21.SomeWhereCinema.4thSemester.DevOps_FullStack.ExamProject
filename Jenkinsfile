@@ -133,26 +133,15 @@ pipeline {
             }
         }
 
-        // stage ('CD_FrontEnd_To_Firebase') {
-        //     agent any
-        //     when {
-        //         branch 'main'
-        //     }
-        //     steps {
-        //         dir(path: 'SomeWhereCinema.Frontend') {
-        //             // could that working like this?
-        //             withCredentials(
-        //                 [usernamePassword(
-        //                     credentialsId: 'firebase',
-        //                     passwordVariable: 'PASSWORD', 
-        //                     usernameVariable: 'USERNAME')])
-        //             {
-        //                  sh 'firebase login -u ${USERNAME} -p ${PASSWORD}'
-        //             }
-        //             sh "firebase deploy"
-        //         }
-        //     }
-        // }
+        stage ('CD_FrontEnd_To_Firebase') {
+            agent any
+            steps {
+                dir(path: 'SomeWhereCinema.Frontend') {
+                    withCredentials(
+                    sh "firebase deploy --token'${firebase}' "
+                }
+            }
+        }
 
     
         stage('CD_BackEnd_To_DockerHub') {
