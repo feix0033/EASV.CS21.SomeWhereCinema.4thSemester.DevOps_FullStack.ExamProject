@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:16-alpine'
-            args '-p 3000:3000'
-        }
-    }
+    agent { dockerfile true }
     stages {
         stage ('test stage'){
             steps {
