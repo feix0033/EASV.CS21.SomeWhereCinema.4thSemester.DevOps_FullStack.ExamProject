@@ -15,13 +15,14 @@ pipeline {
                 dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
                     echo 'remove histiory test results'
                     sh 'rm -rf TestResults'
-                    sh 'dotnet add package coverlet.collector'
+                    sh 'dotnet add package coverlet.collector''
                     sh 'dotnet test --collect:\'Xplat Code Coverage\''
                 }
             }
             post {
                     success {
-                        archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
+                        dir(path: 'SomeWhereCinema.Backend'){
+                            archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
 
                         publishCoverage adapters: 
                         [
@@ -38,7 +39,8 @@ pipeline {
                             )
                         ],
                         checksName: '',
-                        sourceFileResolver: sourcefiles('NEVER_STORE')
+                        sourceFileResolver: sourceFile('NEVER_STORE')
+                        }
                     }
                 }
         }
