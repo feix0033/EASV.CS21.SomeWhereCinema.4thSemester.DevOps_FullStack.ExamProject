@@ -67,20 +67,57 @@ pipeline {
         //     }
         // }
 
-        stage('CI_Build_BackEnd') {
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/dotnet/sdk:7.0'
-                }
-            }
-            steps {
-                dir(path: 'SomeWhereCinema.Backend') {
-                    sh 'dotnet build'
-                }
-            }
-        }
+        // stage('CI_Build_BackEnd') {
+        //     agent {
+        //         docker {
+        //             image 'mcr.microsoft.com/dotnet/sdk:7.0'
+        //         }
+        //     }
+        //     steps {
+        //         dir(path: 'SomeWhereCinema.Backend') {
+        //             sh 'dotnet build'
+        //         }
+        //     }
+        // }
 
-        stage('CI_Build_FrontEnd') {
+        // stage('CI_Build_FrontEnd') {
+        //     agent { 
+        //         docker {
+        //             image 'node:16-alpine'
+        //             args '-p 3000:3000'
+        //         } 
+        //     }
+        //     steps {
+        //         dir('SomeWhereCinema.Frontend') {
+        //             sh 'npm cache clean --force'
+        //             sh 'npm cache verify'
+        //             sh 'npm install'
+        //             sh 'npm i @angular/cli'
+        //             sh 'npm run ng build --omit=dev'
+        //         }
+        //     }
+        // }
+
+        // stage('CD_BackEnd_To_DockerHub') {
+        //     agent any
+        //     steps {
+        //         dir(path: 'SomeWhereCinema.Backend') {
+        //             sh "docker build -t evensnachi/somewhere-cinema ."
+        //             withCredentials(
+        //                 [usernamePassword(
+        //                     credentialsId: 'docker',
+        //                     passwordVariable: 'PASSWORD', 
+        //                     usernameVariable: 'USERNAME')])
+        //             {
+        //                  sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+        //             }
+        //              //这里应该用 私有 register
+        //             sh "docker push evensnachi/somewhere-cinema"
+        //         }
+        //     }
+        // }
+
+        stage("CR_IntegrationTest") {
             agent { 
                 docker {
                     image 'node:16-alpine'
@@ -88,32 +125,86 @@ pipeline {
                 } 
             }
             steps {
-                dir('SomeWhereCinema.Frontend') {
-                    sh 'npm cache clean --force'
-                    sh 'npm cache verify'
-                    sh 'npm install'
-                    sh 'npm i @angular/cli'
-                    sh 'npm run ng build --omit=dev'
+                dir(path: 'SomeWhereCinema.Backend') {
+                    sh "docker-compose up -d"
+                }
+                dir(path: 'SomeWhereCinema.FrontEnd'){
+                    sh 'npm i testcafe'
+                    sh 'testcafe --list-browsers'
+                    sh 'testcafe all E2ETest/test.ts' 
+                }
+            }
+            post {
+                always {
+                    dir(path: 'SomeWhereCinema.Backend') {
+                        sh script:"docker-compose down", returnStatus: true
+                    }
+                    
                 }
             }
         }
 
-        stage('CD_BackEnd_To_DockerHub') {
+        // stage ('CD_FrontEnd_To_Firebase') {
+        //     agent any
+        //     when {
+        //         branch 'main'
+        //     }
+        //     steps {
+        //         dir(path: 'SomeWhereCinema.Frontend') {
+        //             // could that working like this?
+        //             withCredentials(
+        //                 [usernamePassword(
+        //                     credentialsId: 'firebase',
+        //                     passwordVariable: 'PASSWORD', 
+        //                     usernameVariable: 'USERNAME')])
+        //             {
+        //                  sh 'firebase login -u ${USERNAME} -p ${PASSWORD}'
+        //             }
+        //             sh "firebase deploy"
+        //         }
+        //     }
+        // }
+
+        // // 这里用 dockerhub
+        // stage('CD_BackEnd_To_DockerHub') {
+        //     agent any
+        //     steps {
+        //         dir(path: 'SomeWhereCinema.Backend') {
+        //             sh "docker build -t evensnachi/somewhere-cinema ."
+        //             withCredentials(
+        //                 [usernamePassword(
+        //                     credentialsId: 'docker',
+        //                     passwordVariable: 'PASSWORD', 
+        //                     usernameVariable: 'USERNAME')])
+        //             {
+        //                  sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+        //             }
+        //              //这里应该用 私有 register
+        //             sh "docker push evensnachi/somewhere-cinema"
+        //         }
+        //     }
+        // }
+
+        stage ('CD_Performancetesting'){
+            when {
+                branch 'main'
+            }
             agent any
             steps {
-                dir(path: 'SomeWhereCinema.Backend') {
-                    sh "docker build -t evensnachi/somewhere-cinema ."
-                    withCredentials(
-                        [usernamePassword(
-                            credentialsId: 'docker',
-                            passwordVariable: 'PASSWORD', 
-                            usernameVariable: 'USERNAME')])
-                    {
-                         sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
-                    }
-                    sh "docker push evensnachi/somewhere-cinema"
-                }
+                echo 'performance test'
             }
+        }
+    }
+    post {
+        always {
+            echo '====++++All stages finish++++===='
+            deleteDir()
+        }
+        success {
+            echo '====++++successfully++++===='
+        }
+        failure {
+            echo '====++++failed++++===='
         }
     }
 }
