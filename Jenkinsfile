@@ -98,27 +98,27 @@ pipeline {
         //     }
         // }
 
-        stage('CD_BackEnd_To_DockerHub') {
-            agent any
-            steps {
-                dir(path: 'SomeWhereCinema.Backend') {
-                    sh "docker build -t evensnachi/somewhere-cinema ."
-                    withCredentials(
-                        [usernamePassword(
-                            credentialsId: 'docker',
-                            passwordVariable: 'PASSWORD', 
-                            usernameVariable: 'USERNAME')])
-                    {
-                         sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
-                    }
-                     //这里应该用 私有 register
-                    sh "docker push evensnachi/somewhere-cinema"
-                }
-            }
-        }
+        // stage('CD_BackEnd_To_DockerHub') {
+        //     agent any
+        //     steps {
+        //         dir(path: 'SomeWhereCinema.Backend') {
+        //             sh "docker build -t evensnachi/somewhere-cinema ."
+        //             withCredentials(
+        //                 [usernamePassword(
+        //                     credentialsId: 'docker',
+        //                     passwordVariable: 'PASSWORD', 
+        //                     usernameVariable: 'USERNAME')])
+        //             {
+        //                  sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+        //             }
+        //              //这里应该用 私有 register
+        //             sh "docker push evensnachi/somewhere-cinema"
+        //         }
+        //     }
+        // }
 
         stage("CR_IntegrationTest") {
-            agent { dockerfile true }
+            agent any
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker -v"
