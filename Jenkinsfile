@@ -97,5 +97,23 @@ pipeline {
                 }
             }
         }
+
+        stage('CD_BackEnd_To_DockerHub') {
+            agent any
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
+                    sh "docker build -t evensnachi/somewhere-cinema ."
+                    withCredentials(
+                        [usernamePassword(
+                            credentialsId: 'dockerHub',
+                            passwordVariable: 'PASSWORD', 
+                            usernameVariable: 'USERNAME')])
+                    {
+                         sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+                    }
+                    sh "docker push evensnachi/somewhere-cinema"
+                }
+            }
+        }
     }
 }
