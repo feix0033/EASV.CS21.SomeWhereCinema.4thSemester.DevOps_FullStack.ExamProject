@@ -15,7 +15,7 @@ pipeline {
                 dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
                     echo 'remove histiory test results'
                     sh 'rm -rf TestResults'
-                    sh 'dotnet add package coverlet.collector''
+                    sh 'dotnet add package coverlet.collector'
                     sh 'dotnet test --collect:\'Xplat Code Coverage\''
                 }
             }
