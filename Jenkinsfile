@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage {
+        stage ('test stage'){
             steps {
                 echo 'jenkins working !'
             }
