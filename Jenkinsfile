@@ -137,7 +137,6 @@ pipeline {
             agent any
             steps {
                 dir(path: 'SomeWhereCinema.Frontend') {
-                    withCredentials(
                     sh "firebase deploy --token ${firebase} "
                 }
             }
