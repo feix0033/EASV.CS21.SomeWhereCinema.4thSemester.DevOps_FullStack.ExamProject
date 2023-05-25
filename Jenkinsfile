@@ -9,7 +9,10 @@ pipeline {
     }
     stages {
         stage (test){
-            echo 'good'
+            steps{
+                  echo 'good'
+            }
+          
         }
         // stage ('Continuous Integration: Unit Test') {
         //     parallel {
