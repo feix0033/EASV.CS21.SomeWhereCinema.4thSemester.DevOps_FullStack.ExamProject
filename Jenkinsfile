@@ -38,7 +38,7 @@ pipeline {
                             )
                         ],
                         checksName: '',
-                        ,sourceFileResolver: sourceFile('NEVER_STORE')
+                        sourceFileResolver: sourcefiles('NEVER_STORE')
                     }
                 }
         }
