@@ -126,7 +126,7 @@ pipeline {
             }
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
-                    sh "docker-compose up -d"
+                    sh "docker run - p 7000:7000 evensnachi/somewhere-cinema"
                 }
                 dir(path: 'SomeWhereCinema.FrontEnd'){
                     sh 'npm i testcafe'
