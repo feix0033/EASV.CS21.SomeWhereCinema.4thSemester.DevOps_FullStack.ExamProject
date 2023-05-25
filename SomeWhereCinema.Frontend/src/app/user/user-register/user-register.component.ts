@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {FirebaseAuthService} from "../../firebaseService/firebase-auth.service";
-import {UserDto} from "../../dtoes/user-dto";
-import {FirestoreService} from "../../firebaseService/firestore.service";
+import {FirebaseAuthService} from "../../shard/services/firebaseService/firebase-auth.service";
+import {UserDto} from "../../shard/interfaces/user-dto";
+import {FirestoreService} from "../../shard/services/firebaseService/firestore.service";
 
 @Component({
   selector: 'app-user-register',

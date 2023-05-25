@@ -11,7 +11,7 @@ import {OrderingModule} from "../ordering/ordering.module";
 
 @NgModule({
     declarations: [
-        MovieComponent
+      MovieComponent
     ],
   imports: [
     CommonModule,

@@ -19,7 +19,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="coverlet.collector" Version="3.2.0">
+        <PackageReference Include="coverlet.collector" Version="6.0.0">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
@@ -29,7 +29,6 @@
       <ProjectReference Include="..\SomeWhereCinema.Application\SomeWhereCinema.Application\SomeWhereCinema.Application.csproj" />
       <ProjectReference Include="..\SomeWhereCinema.Core\SomeWhereCinema.Core.csproj" />
       <ProjectReference Include="..\SomeWhereCinema.DataAccess\SomeWhereCinema.DataAccess.csproj" />
-      <ProjectReference Include="..\SomeWhereCinema.WebApi\SomeWhereCinema.WebApi.csproj" />
     </ItemGroup>
 
 </Project>

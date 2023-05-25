@@ -13,6 +13,8 @@
   },
   "main": "index.js",
   "dependencies": {
+    "@tensorflow-models/toxicity": "^1.2.2",
+    "@tensorflow/tfjs": "^4.6.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "firebase-admin": "^11.8.0",

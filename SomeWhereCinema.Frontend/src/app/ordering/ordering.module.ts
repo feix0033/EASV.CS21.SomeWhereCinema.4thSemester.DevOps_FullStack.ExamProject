@@ -3,18 +3,17 @@ import { CommonModule } from '@angular/common';
 
 import { OrderingRoutingModule } from './ordering-routing.module';
 import { OrderingComponent } from './ordering.component';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
   declarations: [
-    OrderingComponent
-  ],
-  exports: [
-    OrderingComponent
+    OrderingComponent,
   ],
   imports: [
     CommonModule,
-    OrderingRoutingModule
+    OrderingRoutingModule,
+    FormsModule,
   ]
 })
 export class OrderingModule { }

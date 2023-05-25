@@ -5,7 +5,7 @@ import {OrderingComponent} from "../ordering/ordering.component";
 
 const routes: Routes = [
   {path: '', component: MovieComponent},
-  {path:'ordering', component:OrderingComponent}
+  {path:'ordering/:id', component:OrderingComponent}
 ];
 
 @NgModule({

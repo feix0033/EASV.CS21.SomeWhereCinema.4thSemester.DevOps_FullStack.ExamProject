@@ -1,66 +1,86 @@
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using SomeWhereCinema.Application.IRepository;
 using SomeWhereCinema.Core.Models;
+using SomeWhereCinema.DataAccess.Converter;
+using SomeWhereCinema.DataAccess.DbContext;
+using SomeWhereCinema.DataAccess.Entities;
 
 namespace SomeWhereCinema.DataAccess.Repository;
 
-public class MovieRepository: IMovieRepository
+public class MovieRepository : IMovieRepository
 {
-    private MovieDbContext _movieDbContext;
+    private readonly DBContext _dbContext;
 
-    public MovieRepository(MovieDbContext movieDbContext)
+    public MovieRepository(DBContext dbContext)
     {
-         _movieDbContext = movieDbContext ?? throw new InvalidDataException("The movieEntity repository should not be null.");
+        _dbContext = dbContext;
     }
+    
+    public void CreateDb()
+    {
+        _dbContext.Database.EnsureDeleted();
+        _dbContext.Database.EnsureCreated();
+    }
+
     public List<Movie> FindAll()
     {
-        return _movieDbContext.MOVIE.ToList();
+        var movies = new List<Movie>();
+        var movieEntities = _dbContext.MovieTable.ToList();
+        foreach (var movieEntity in movieEntities)
+        {
+            movies.Add(MovieConverter.Converter(movieEntity));
+        }
+
+        return movies;
     }
 
     public Movie CreateMovie(Movie movie)
     {
-        _movieDbContext.MOVIE.Add(movie);
-        _movieDbContext.SaveChanges();
-        return movie;
+        var movieEntity = _dbContext.MovieTable.Add(MovieConverter.Converter(movie)).Entity;
+        _dbContext.SaveChanges();
+        return MovieConverter.Converter(movieEntity);
     }
 
-    public Movie? ReadMovie(Movie movie)
+    public Movie ReadMovie(Movie movie)
     {
-        return _movieDbContext.MOVIE.Select(m => new Movie()
+        var movieEntity = new MovieEntity();
+
+        if (movie.Id == 0)
         {
-            Id = m.Id,
-            Name = m.Name,
-            PublishTime = m.PublishTime,
-            ReleaseDate = m.ReleaseDate,
-            OffDate = m.OffDate,
-            Price = m.Price
-        }).FirstOrDefault(m => m.Name == movie.Name);
+            movieEntity = _dbContext.MovieTable
+                .FirstOrDefault(m => m.Name == movie.Name);
+        }
+        
+        movieEntity = _dbContext.MovieTable
+            .FirstOrDefault(m => m.Id == movie.Id);
+        
+        if (movieEntity != null)
+        {
+            return MovieConverter.Converter(movieEntity);
+        }
 
-        // return _movieDbContext.MOVIE.Find(movie.Id)?? throw new InvalidDataException("we don't have this movie");
+        return new Movie() { Id = 0 };
     }
 
-    public Movie UpdataMovie(Movie movie)
+    public Movie UpdateMovie(Movie movie)
     {
-        var readMovie = ReadMovie(movie);
-        movie.Id = readMovie.Id;
-        _movieDbContext.MOVIE.Update(movie);
-        _movieDbContext.SaveChanges();
-        return movie;
+        var movieEntity = _dbContext.MovieTable.Update(MovieConverter.Converter(movie)).Entity;
+        _dbContext.SaveChanges();
+        return MovieConverter.Converter(movieEntity);
     }
 
     public Movie DeleteMovie(Movie movie)
     {
-        var readMovie = ReadMovie(movie);
-        movie.Id = readMovie.Id;
-        _movieDbContext.MOVIE.Remove(movie);
-        _movieDbContext.SaveChanges();
-        return movie;
-    }
-
-    public void CreateDb()
-    {
-        _movieDbContext.Database.EnsureDeleted();
-        _movieDbContext.Database.EnsureCreated();
+        try
+        {
+            var removedEntity = _dbContext.MovieTable.Remove(MovieConverter.Converter(movie)).Entity;
+            _dbContext.SaveChanges();
+            return MovieConverter.Converter(removedEntity);
+        }
+        catch (DbUpdateConcurrencyException e)
+        {
+            Console.WriteLine(e.Message);
+            throw new DbUpdateConcurrencyException();
+        }
     }
 }

@@ -8,4 +8,5 @@ public class Movie
     public DateTime? ReleaseDate { get; set; }
     public DateTime? OffDate { get; set; }
     public double? Price { get; set; }
+    public int? Length { get; set; }
 }

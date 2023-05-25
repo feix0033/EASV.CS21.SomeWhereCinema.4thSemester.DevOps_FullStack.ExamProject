@@ -3,6 +3,13 @@ const cors = require('cors');
 const functions = require('firebase-functions');
 const app = require('express')().use(cors());
 
+const toxicity = require('@tensorflow-models/toxicity');
+
+
+
+
+
+
 let db = [
   {name: "John Wick", price: 120},
   {name: "John Wick II", price: 120}

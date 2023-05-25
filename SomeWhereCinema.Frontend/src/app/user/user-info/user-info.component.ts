@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {FirebaseAuthService} from "../../firebaseService/firebase-auth.service";
-import {FirestoreService} from "../../firebaseService/firestore.service";
-import {UserDto} from "../../dtoes/user-dto";
+import {FirebaseAuthService} from "../../shard/services/firebaseService/firebase-auth.service";
+import {FirestoreService} from "../../shard/services/firebaseService/firestore.service";
+import {UserDto} from "../../shard/interfaces/user-dto";
 
 @Component({
   selector: 'app-user-info',

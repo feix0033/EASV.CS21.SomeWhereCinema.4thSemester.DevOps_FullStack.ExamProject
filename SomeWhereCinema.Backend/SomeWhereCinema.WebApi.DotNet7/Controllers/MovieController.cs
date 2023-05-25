@@ -1,7 +1,4 @@
-using AutoMapper;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.FeatureManagement.Mvc;
 using SomeWhereCinema.Core.IService;
 using SomeWhereCinema.Core.Models;
 
@@ -12,89 +9,84 @@ namespace SomeWhereCinema.WebApi.DotNet7.Controllers;
 public class MovieController:ControllerBase
 {
     private readonly IMovieService _movieService;
-    private readonly IValidator<MoiveDTO> _movieValidator;
-    private readonly IMapper _mapper;
+    // private readonly IValidator<MovieDto> _movieValidator;
+    // private readonly IMapper _mapper;
 
     // Dependency Injection Interface to call the real Service
-    public MovieController(IMovieService movieService, IMapper mapper, IValidator<MoiveDTO> movieValidator)
+    public MovieController(
+        IMovieService movieService
+        // IMapper mapper, 
+        // IValidator<MovieDto> movieValidator
+        )
     {
         _movieService = movieService;
-        _movieValidator = movieValidator;
-        _mapper = mapper;
+        // _movieValidator = movieValidator;
+        // _mapper = mapper;
     }
 
     [HttpGet]
     [Route("GetAllMovie")]
-    public ActionResult<List<Movie>> GetAll()
+    public List<Movie> GetAll()
     {
-        return Ok(_movieService.GetMovies());
+        return _movieService.GetAllMovies();
     }
 
     [HttpPost]
     [Route("CreateMovie")]
-    public ActionResult<Movie> CreateMovie(MoiveDTO dto)
+    public Movie CreateMovie(Movie movie)
     {
-        try
-        {
-            var movie = _movieService.CreateMovie(_mapper.Map<Movie>(dto));
-            return Created("Movie/" + movie.Id, movie);
-        }
-        catch (ValidationException e)
-        {
-            return BadRequest(e.Message);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
+        return _movieService.CreateMovie(movie);
+        // try
+        // {
+        //     var movie = _movieService.CreateMovie(_mapper.Map<Movie>(dto));
+        //     return Created("MovieTable/" + movie.Id, movie);
+        // }
+        // catch (ValidationException e)
+        // {
+        //     return BadRequest(e.Message);
+        // }
+        // catch (Exception e)
+        // {
+        //     return StatusCode(500, e.Message);
+        // }
     }
     
 
     [HttpPatch] // change some of preperties in database but not all record.
     [Route("ReadMovie")]
-    public ActionResult<Movie> ReadMovie(Movie movie)
+    public Movie ReadMovie(Movie movie)
     {
-        try
-        {
-            return Ok(_movieService.ReadMovie(movie));
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        return _movieService.ReadMovie(movie);
+        // try
+        // {
+        //     return Ok(_movieService.ReadMovie(_mapper.Map<Movie>(dto)));
+        // }
+        // catch (Exception e)
+        // {
+        //     return BadRequest(e.Message);
+        // }
     }
     
     
     
     [HttpPut]
     [Route("UpdateMovie")]
-    public ActionResult<Movie> UpdateMovie(MoiveDTO dto)
+    public Movie UpdateMovie(Movie movie)
     {
-        var validationResult = _movieValidator.Validate(dto);
-        if (validationResult.IsValid)
-        {
-            return Ok(_movieService.UpdateMovie(_mapper.Map<Movie>(dto)));
-        }
-        return BadRequest(validationResult.ToString());
+        return _movieService.UpdateMovie(movie);
+        // var validationResult = _movieValidator.Validate(dto);
+        // if (validationResult.IsValid)
+        // {
+        //     return Ok(_movieService.UpdateMovie(_mapper.Map<Movie>(dto)));
+        // }
+        // return BadRequest(validationResult.ToString());
     }
 
     [HttpDelete]
-    [Route("{name}")]
-    public ActionResult<Movie> DeleteMovie(string name)
+    [Route("DeleteMovie")]
+    public Movie DeleteMovie(Movie movie)
     {
-        var movie = new Movie()
-        {
-            Name = name
-        };
-        return Ok(_movieService.DeleteMovie(movie));
+        return _movieService.DeleteMovie(movie);
     }
-
-    [FeatureGate("ReSetDatabase")]
-    [HttpGet]
-    [Route("CreateDatabase")]
-    public ActionResult<string> CreateDb()
-    {
-        _movieService.ReInitDb();
-        return Ok("Database has been created");
-    }
+    
 }

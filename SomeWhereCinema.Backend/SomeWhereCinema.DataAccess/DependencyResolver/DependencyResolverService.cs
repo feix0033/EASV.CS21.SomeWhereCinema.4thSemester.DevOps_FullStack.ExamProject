@@ -8,6 +8,9 @@ public class DependencyResolverService
 {
     public static void RegisterInfrastructureLayer(IServiceCollection service)
     {
-        service.AddScoped<IMovieRepository, MovieRepository >();
+        service.AddScoped<IMovieRepository, MovieRepository>();
+        service.AddScoped<ITheatreRepository, TheatreRepository>();
+        service.AddScoped<IOrderRepository, OrderRepository>();
+        service.AddScoped<IProjectionPlanRepository, ProjectionPlanRepository>();
     }
 }

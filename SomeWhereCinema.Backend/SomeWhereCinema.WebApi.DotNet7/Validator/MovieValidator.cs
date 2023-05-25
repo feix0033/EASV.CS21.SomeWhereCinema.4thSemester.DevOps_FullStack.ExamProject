@@ -1,10 +1,9 @@
 using FluentValidation;
-using SomeWhereCinema.Core.Models;
-using SomeWhereCinema.WebApi.DotNet7.Controllers;
+using SomeWhereCinema.WebApi.DotNet7.DTOS;
 
-namespace SomeWhereCinema.WebApi.DotNet7;
+namespace SomeWhereCinema.WebApi.DotNet7.Validator;
 
-public class MovieValidator: AbstractValidator<MoiveDTO>
+public class MovieValidator: AbstractValidator<MovieDto>
 {
     public MovieValidator()
     {

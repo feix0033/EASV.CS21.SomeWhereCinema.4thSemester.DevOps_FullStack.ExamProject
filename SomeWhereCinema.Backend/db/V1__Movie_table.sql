@@ -1,8 +1,28 @@
-CREATE TABLE MOVIE(
+CREATE TABLE MovieTable(
     Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(30) NOT NULL,
     PublishTime DATETIME NULL,
     ReleaseDate DATETIME NULL,
     OffDate DATETIME NULL,
-    Price DOUBLE NULL
-)
+    Price DOUBLE NULL,
+    Length INT NULL
+);
+
+CREATE TABLE OrderTable(
+   Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   UserId INT NULL,
+   ProjectionPlan INT NULL,
+   SitNumber INT NULL
+);
+
+CREATE TABLE ProjectionPlanTable(
+    Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    MovieId INT NULL,
+    TheatreId INT NULL,
+    StartTime DATETIME NULL
+);
+
+CREATE TABLE TheatreTable(
+     Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+     SitNumber INT NULL
+);

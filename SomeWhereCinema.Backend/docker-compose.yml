@@ -3,7 +3,7 @@ services:
   database:
     image: mysql:latest
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_RANDOM_ROOT_PASSWORD: 12345678
       MYSQL_DATABASE: somewherecinema
       MYSQL_USER: user
       MYSQL_PASSWORD: 12345678
@@ -12,6 +12,8 @@ services:
       - ./_MySQL_Init_Script:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
+    networks:
+      - net
     restart: always
 
   flyway:
@@ -22,16 +24,20 @@ services:
       - ./db:/flyway/conf
     depends_on:
       - database
-    restart: always
-
+    networks:
+      - net
   webapi:
+    image: evensnachi/somewhere-cinema
     depends_on:
       - database
-    image: evensnachi/somewhere-cinema
     build:
       context: .
     ports:
       - "7000:7000"
-    restart: always
+    networks:
+      - net
 volumes:
   data:
+networks:
+  net:
+    driver: bridge

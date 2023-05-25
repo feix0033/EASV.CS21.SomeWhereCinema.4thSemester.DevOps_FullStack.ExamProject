@@ -1,4 +1,6 @@
-<h1 style="margin:20px">Some Where Cinema</h1>
+
+<ion-header style="margin:20px" routerLink="">Some Where Cinema</ion-header>
+<hr>
 <div *ngIf="auth.currentUser">
   <a routerLink="" style="margin:5px">Home</a>
   <a routerLink="user" style="margin:5px">User</a>
@@ -6,11 +8,11 @@
   <a routerLink="ordering" style="margin:5px">Order</a>
   <button (click)="logout()">LogOut</button>
 </div>
+<div *ngIf="auth.currentUser == null">
+  <ion-nav-link routerLink="userRegister" style="margin:5px">Register</ion-nav-link>
+  <ion-nav-link routerLink="userLogin" style="margin:5px">Login</ion-nav-link>
+</div>
 <hr>
 
-<div *ngIf="auth.currentUser == null">
-  <a routerLink="userRegister" style="margin:5px">Register</a>
-  <a routerLink="userLogin" style="margin:5px">Login</a>
-</div>
-
 <router-outlet></router-outlet>
+

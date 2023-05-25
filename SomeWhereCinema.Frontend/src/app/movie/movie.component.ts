@@ -1,56 +1,49 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {MovieDto} from "../dtoes/movie-dto";
-import {HttpService} from "../httpService/http.service";
+import {Component, OnInit} from '@angular/core';
+import {MovieDto} from "../shard/interfaces/movie-dto";
+import {HttpService} from "../shard/services/httpService/http.service";
 import {OrderingComponent} from "../ordering/ordering.component";
+import {MovieService} from "../shard/services/movie.service";
 
 @Component({
   selector: 'app-movie',
   templateUrl: './movie.component.html',
   styleUrls: ['./movie.component.scss']
 })
-export class MovieComponent {
+
+export class MovieComponent implements OnInit{
   movies: MovieDto[] = [];
-  newMovie: MovieDto = {name:'',price:120};
-  constructor(private httpService:HttpService) {
+  movie: MovieDto = {id:3, name:'', releaseDate: new Date(), publishDate: new Date(), offDate:new Date(),price:120};
+
+
+  constructor(
+    private movieService:MovieService) {
+  }
+
+  public getAllMoives() {
+    this.movieService.getAllMovies().then(m => {
+      for (let movie of m) {
+        this.movies.push({
+          id : movie.id,
+          name : movie.name,
+          releaseDate : movie.releaseDate,
+          publishDate : movie.publishDate,
+          offDate : movie.offDate,
+          price : movie.price,
+          length : movie.length,
+        })
+      }
+    });
+  }
+
+  deleteMovie(dto: MovieDto) {
+    this.movieService.deleteMovie(dto);
     this.getAllMoives();
   }
-  public async getAllMoives() {
-    await this.httpService.getAll('movie/GetAllMovie')
-      .then(movie => {
-        for (let m of movie) {
-          this.movies.push({
-            name: m.name,
-            price: m.price
-          })
-        }
-      });
-  }
-  deleteMovie(dto) {
-    this.httpService.delete('movie/delete/',dto)
-      .then(movie => {
-        this.movies = [];
-        for (let m of movie) {
-          this.movies.push({
-            name: m.name,
-            price: m.price
-          })
-        };
-      });
-  }
   createMovie() {
-    this.httpService.create('movie/CreateMovie',this.newMovie)
-      .then(movie => {
-        for (let m of movie) {
-          this.movies.push({
-            name: m.name,
-            price: m.price
-          })
-        }
-      });
+    this.movieService.createMovie(this.movie);
+    this.getAllMoives();
   }
-  chooseMovie(m: MovieDto) {
-
+  ngOnInit(): void {
+    this.getAllMoives();
   }
-
-  protected readonly OrderingComponent = OrderingComponent;
 }

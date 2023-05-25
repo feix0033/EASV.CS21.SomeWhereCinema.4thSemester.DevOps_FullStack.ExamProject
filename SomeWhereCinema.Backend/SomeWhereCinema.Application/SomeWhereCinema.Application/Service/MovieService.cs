@@ -6,40 +6,35 @@ namespace SomeWhereCinema.Application.Service;
 
 public class MovieService : IMovieService
 {
-    private IMovieRepository _movieRepostitory;
+    private IMovieRepository _movieRepository;
 
     public MovieService(IMovieRepository movieRepository)
     {
-        _movieRepostitory = movieRepository ?? throw new InvalidDataException("movieRepository can not be null");
+        _movieRepository = movieRepository ?? throw new InvalidDataException("movieRepository can not be null");
     }
 
-    public List<Movie> GetMovies()
+    public List<Movie> GetAllMovies()
     {
-        return _movieRepostitory.FindAll();
+        return _movieRepository.FindAll();
     }
 
     public Movie CreateMovie(Movie movie)
     {
-        return _movieRepostitory.CreateMovie(movie);
+        return _movieRepository.CreateMovie(movie);
     }
 
-    public Movie? ReadMovie(Movie movie)
+    public Movie ReadMovie(Movie movie)
     {
-        return _movieRepostitory.ReadMovie(movie);
+        return _movieRepository.ReadMovie(movie);
     }
 
     public Movie UpdateMovie(Movie movie)
     {
-        return _movieRepostitory.UpdataMovie(movie);
+        return _movieRepository.UpdateMovie(movie);
     }
 
     public Movie DeleteMovie(Movie movie)
     {
-        return _movieRepostitory.DeleteMovie(movie);
-    }
-
-    public void ReInitDb()
-    {
-        _movieRepostitory.CreateDb();
+        return _movieRepository.DeleteMovie(movie);
     }
 }
