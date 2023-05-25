@@ -68,7 +68,11 @@ pipeline {
         // }
 
         stage('CI_Build_BackEnd') {
-            agent any
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/dotnet/aspnet:7.0'
+                }
+            }
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh 'dotnet build'
