@@ -138,7 +138,7 @@ pipeline {
             steps {
                 dir(path: 'SomeWhereCinema.Frontend') {
                     withCredentials(
-                    sh "firebase deploy --token'${firebase}' "
+                    sh "firebase deploy --token ${firebase} "
                 }
             }
         }
