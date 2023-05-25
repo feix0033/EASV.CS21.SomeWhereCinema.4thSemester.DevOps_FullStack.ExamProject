@@ -126,6 +126,7 @@ pipeline {
             }
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
+                    sh "docker -v"
                     sh "docker run - p 7000:7000 evensnachi/somewhere-cinema"
                 }
                 dir(path: 'SomeWhereCinema.FrontEnd'){
