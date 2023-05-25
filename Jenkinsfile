@@ -29,22 +29,18 @@ pipeline {
                             dir(path: 'SomeWhereCinema.Backend'){
                                 archiveArtifacts 'SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
 
-                                publishCoverage adapters: 
-                                [
-                                    istanbulCoberturaAdapter
-                                    (
+                                publishCoverage adapters: [
+                                    istanbulCoberturaAdapter(
                                         path: 'SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml', 
-                                        thresholds:
-                                        [[
-                                        failUnhealthy: true,
-                                        thresholdTarget: 'Conditional',
-                                        unhealthyThreshold: 80.0, // below 80%
-                                        unstableThreshold: 50.0  // below 50%
+                                        thresholds:[[
+                                            failUnhealthy: true,
+                                            thresholdTarget: 'Conditional',
+                                            unhealthyThreshold: 80.0, // below 80%
+                                            unstableThreshold: 50.0  // below 50%
                                         ]]
                                     )
                                 ],
                                 checksName: ''
-                                }
                             }
                         }
                     }
@@ -82,8 +78,7 @@ pipeline {
                     }
                     steps {
                         dir(path: 'SomeWhereCinema.Backend') {
-                            sh 'dotnet build'
-                            
+                            sh 'dotnet build'  
                         }
                     }
                 }
@@ -116,7 +111,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage("CR_IntegrationTest") {
             agent any
             steps {
@@ -160,8 +155,7 @@ pipeline {
                                 [usernamePassword(
                                     credentialsId: 'docker',
                                     passwordVariable: 'PASSWORD', 
-                                    usernameVariable: 'USERNAME')])
-                            {
+                                    usernameVariable: 'USERNAME')]){
                                 sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
                             }
                             sh "docker push evensnachi/somewhere-cinema"
@@ -172,15 +166,13 @@ pipeline {
         }
 
         stage ('CD_Performancetesting'){
-            when {
-                branch 'main'
-            }
             agent any
             steps {
                 echo 'performance test'
             }
         }
     }
+
     post {
         always {
             echo '====++++All stages finish++++===='
