@@ -70,7 +70,7 @@ pipeline {
         stage('CI_Build_BackEnd') {
             agent {
                 docker {
-                    image 'mcr.microsoft.com/dotnet/aspnet:7.0'
+                    image 'mcr.microsoft.com/dotnet/sdk:7.0'
                 }
             }
             steps {
