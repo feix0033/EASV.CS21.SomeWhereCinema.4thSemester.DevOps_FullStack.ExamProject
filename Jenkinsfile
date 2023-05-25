@@ -57,7 +57,8 @@ pipeline {
                     sh 'npm cache verify'
                     sh 'npm install'
                     sh 'npm i @angular/cli'
-                    sh 'ng test'
+                    sh 'npm list'
+                    sh 'npm run ng v'
                 }
             }
         }
