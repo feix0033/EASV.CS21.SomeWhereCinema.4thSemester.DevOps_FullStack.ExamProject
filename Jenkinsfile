@@ -113,7 +113,6 @@ pipeline {
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker -v"
-                    sh "docker-compose version"
                     sh "docker compose version"
                     sh "docker compose up -d"
                 }
