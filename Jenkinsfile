@@ -39,6 +39,7 @@ pipeline {
                             )
                         ],
                         checksName: ''
+                        sourceCodeRetention(NEVER)
                         }
                     }
                 }
