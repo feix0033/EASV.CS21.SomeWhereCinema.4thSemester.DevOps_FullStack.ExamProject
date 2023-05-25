@@ -1,8 +1,8 @@
 pipeline {
     agent any
-    triggers {
-        pollSCM('* * * * *')
-    }
+    // triggers {
+    //     pollSCM('* * * * *')
+    // }
     environment {
         DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
         HOME = "/tmp/DOTNET_CLI_HOME"
@@ -93,7 +93,7 @@ pipeline {
                     sh 'npm cache verify'
                     sh 'npm install'
                     sh 'npm i @angular/cli'
-                    sh 'npm run ng build --prod'
+                    sh 'npm run ng build --omit=dev'
                 }
             }
         }
@@ -105,7 +105,7 @@ pipeline {
                     sh "docker build -t evensnachi/somewhere-cinema ."
                     withCredentials(
                         [usernamePassword(
-                            credentialsId: 'dockerHub',
+                            credentialsId: 'docker',
                             passwordVariable: 'PASSWORD', 
                             usernameVariable: 'USERNAME')])
                     {
