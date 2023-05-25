@@ -118,9 +118,7 @@ pipeline {
         }
 
         stage("CR_IntegrationTest") {
-            agent { 
-                docker { dockerfile true} 
-            }
+            agent { dockerfile true }
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker -v"
