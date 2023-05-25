@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    triggers {
+        pollSCM('* * * * *')
+    }
     environment {
         DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
         HOME = "/tmp/DOTNET_CLI_HOME"
@@ -58,7 +61,7 @@ pipeline {
                     sh 'npm install'
                     sh 'npm i @angular/cli'
                     sh 'npm list'
-                    sh 'npm run ng v'
+                    sh 'npm run test --no-watch --np-progress --code-coverage'
                 }
             }
         }
