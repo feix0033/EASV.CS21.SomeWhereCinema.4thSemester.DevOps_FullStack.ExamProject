@@ -3,6 +3,7 @@ pipeline {
     stages {
         stage ('test stage'){
             steps {
+                sh 'dotnet -v'
                 sh 'node -v'
                 echo 'jenkins working !'
             }
