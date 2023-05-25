@@ -70,7 +70,7 @@ pipeline {
                     }
                 }
             }
-
+        }
 
         stage ('Continuous Integration: Build') {
             parallel {
@@ -116,7 +116,7 @@ pipeline {
                 }
             }
         }
-
+        
         stage("CR_IntegrationTest") {
             agent any
             steps {
