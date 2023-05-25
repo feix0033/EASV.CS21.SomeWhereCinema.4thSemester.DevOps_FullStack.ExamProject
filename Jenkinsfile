@@ -113,7 +113,9 @@ pipeline {
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker -v"
-                    sh "docker-compose up -d"
+                    sh "docker- compose version"
+                    sh "docker compose version"
+                    sh "docker compose up -d"
                 }
                 dir(path: 'SomeWhereCinema.FrontEnd'){
                     sh 'npm i testcafe'
