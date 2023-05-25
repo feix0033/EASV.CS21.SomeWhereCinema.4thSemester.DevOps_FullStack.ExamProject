@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        DOTNET_CLI_HOME = "tep/DOTNET_CLI_HOME"
+    }
     stages {
         stage ('CI_UnitTest_Backend'){
             agent {
