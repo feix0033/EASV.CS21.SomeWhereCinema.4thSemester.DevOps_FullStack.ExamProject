@@ -22,13 +22,13 @@ pipeline {
             post {
                     success {
                         dir(path: 'SomeWhereCinema.Backend'){
-                            archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
+                            archiveArtifacts 'SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
 
                         publishCoverage adapters: 
                         [
                             istanbulCoberturaAdapter
                             (
-                                path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml', 
+                                path: 'SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml', 
                                 thresholds:
                                 [[
                                 failUnhealthy: true,
