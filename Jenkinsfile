@@ -67,7 +67,7 @@ pipeline {
             }
         }
 
-        stage('CI_Build_BackEnd') {
+        stage('CI_Build_BackEnd_DotNet') {
             agent {
                 docker {
                     image 'mcr.microsoft.com/dotnet/sdk:7.0'
@@ -76,6 +76,15 @@ pipeline {
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     sh 'dotnet build'
+                    
+                }
+            }
+        }
+
+        stage ('CI_Build_BackEnd_DockerImage') {
+            agent any
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
                     sh "docker build -t evensnachi/somewhere-cinema ."
                 }
             }
@@ -148,7 +157,6 @@ pipeline {
             agent any
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
-                    
                     withCredentials(
                         [usernamePassword(
                             credentialsId: 'docker',
@@ -157,7 +165,6 @@ pipeline {
                     {
                          sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
                     }
-                     //这里应该用 私有 register
                     sh "docker push evensnachi/somewhere-cinema"
                 }
             }
