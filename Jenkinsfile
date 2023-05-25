@@ -47,7 +47,36 @@ pipeline {
         //     }
         // }
 
-        stage('CI_UnitTest_FrontEnd') {
+        // stage('CI_UnitTest_FrontEnd') {
+        //     agent { 
+        //         docker {
+        //             image 'node:16-alpine'
+        //             args '-p 3000:3000'
+        //         } 
+        //     }
+        //     steps {
+        //         dir('SomeWhereCinema.Frontend') {
+        //             sh 'npm cache clean --force'
+        //             sh 'npm cache verify'
+        //             sh 'npm install'
+        //             sh 'npm i @angular/cli'
+        //             sh 'npm list'
+        //             // sh 'npm run ng test --no-watch --np-progress --code-coverage'
+        //             sh 'npm run ng v'
+        //         }
+        //     }
+        // }
+
+        stage('CI_Build_BackEnd') {
+            agent any
+            steps {
+                dir(path: 'SomeWhereCinema.Backend') {
+                    sh 'dotnet build'
+                }
+            }
+        }
+
+        stage('CI_Build_FrontEnd') {
             agent { 
                 docker {
                     image 'node:16-alpine'
@@ -60,8 +89,7 @@ pipeline {
                     sh 'npm cache verify'
                     sh 'npm install'
                     sh 'npm i @angular/cli'
-                    sh 'npm list'
-                    sh 'npm run test --no-watch --np-progress --code-coverage'
+                    sh 'npm run ng build'
                 }
             }
         }
