@@ -83,19 +83,11 @@ pipeline {
                     }
                     steps {
                         dir(path: 'SomeWhereCinema.Backend') {
-                            sh 'dotnet build'  
-                        }
-                    }
-                }
-
-                stage ('CI_Build_BackEnd_DockerImage') {
-                    steps {
-                        dir(path: 'SomeWhereCinema.Backend') {
+                            sh 'dotnet build'
                             sh "docker build -t evensnachi/somewhere-cinema ."
                         }
                     }
                 }
-
                 stage('CI_Build_FrontEnd') {
                     agent {
                         docker {
