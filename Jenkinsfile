@@ -52,12 +52,12 @@ pipeline {
                 }
 
                 stage('CI_UnitTest_FrontEnd') {
-                    // agent { 
-                    //     docker {
-                    //         image 'node:16-alpine'
-                    //         args '-p 3000:3000'
-                    //     } 
-                    // }
+                    agent {
+                        docker {
+                            image 'node:16-alpine'
+                            args '-p 3000:3000'
+                        }
+                    }
                     steps {
                         dir('SomeWhereCinema.Frontend') {
                             sh 'npm cache clean --force'
@@ -76,11 +76,11 @@ pipeline {
         stage ('Continuous Integration: Build') {
             parallel {
                 stage('CI_Build_BackEnd_DotNet') {
-                    // agent {
-                    //     docker {
-                    //         image 'mcr.microsoft.com/dotnet/sdk:7.0'
-                    //     }
-                    // }
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/dotnet/sdk:7.0'
+                        }
+                    }
                     steps {
                         dir(path: 'SomeWhereCinema.Backend') {
                             sh 'dotnet build'  
@@ -97,12 +97,12 @@ pipeline {
                 }
 
                 stage('CI_Build_FrontEnd') {
-                    // agent { 
-                    //     docker {
-                    //         image 'node:16-alpine'
-                    //         args '-p 3000:3000'
-                    //     } 
-                    // }
+                    agent {
+                        docker {
+                            image 'node:16-alpine'
+                            args '-p 3000:3000'
+                        }
+                    }
                     steps {
                         dir('SomeWhereCinema.Frontend') {
                             sh 'npm cache clean --force'
