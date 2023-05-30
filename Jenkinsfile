@@ -47,12 +47,12 @@ pipeline {
                 }
 
                 stage('CI_UnitTest_FrontEnd') {
-                    agent { 
-                        docker {
-                            image 'node:16-alpine'
-                            args '-p 3000:3000'
-                        } 
-                    }
+                    // agent { 
+                    //     docker {
+                    //         image 'node:16-alpine'
+                    //         args '-p 3000:3000'
+                    //     } 
+                    // }
                     steps {
                         dir('SomeWhereCinema.Frontend') {
                             sh 'npm cache clean --force'
