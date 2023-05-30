@@ -3,19 +3,20 @@ pipeline {
     triggers {
         pollSCM('* * * * *')
     }
-//     environment {
-//         DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
-//         HOME = "/tmp/DOTNET_CLI_HOME"
-//     }
     stages {
+        stage ('clean workspace') {
+            steps {
+                cleanWs()
+            }
+        }
         stage ('Continuous Integration: Unit Test') {
             parallel {
                 stage ('CI_UnitTest_Backend'){
-                    // agent {
-                    //     docker {
-                    //         image 'mcr.microsoft.com/dotnet/sdk:7.0'
-                    //     }       
-                    // }
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/dotnet/sdk:7.0'
+                        }
+                    }
                     steps {
                         dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
                             echo 'remove histiory test results'
