@@ -4,7 +4,8 @@ pipeline {
         pollSCM('* * * * *')
     }
     environment {
-        DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
+            DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
+            HOME = "/tmp/DOTNET_CLI_HOME"
     }
     stages {
         stage ('clean workspace') {
