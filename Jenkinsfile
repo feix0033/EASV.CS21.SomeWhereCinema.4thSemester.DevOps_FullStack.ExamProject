@@ -73,7 +73,7 @@ pipeline {
             }
         }
 
-        stage ('Continuous Integration: Build') {
+        stage ('Continuous Delivery: Build') {
             parallel {
                 stage('CI_Build_BackEnd_DotNet') {
                     agent {
@@ -88,7 +88,7 @@ pipeline {
                         }
                     }
                 }
-                stage('CI_Build_FrontEnd') {
+                stage('CD_Build_FrontEnd') {
                     agent {
                         docker {
                             image 'node:16-alpine'
@@ -108,7 +108,7 @@ pipeline {
             }
         }
 
-        stage("CR_IntegrationTest") {
+        stage("Continuous Release IntegrationTest") {
             agent any
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
@@ -130,7 +130,7 @@ pipeline {
             }
         }
 
-        stage ('Continuous Delivery') {
+        stage ('Continuous Deploy') {
             parallel {
                 stage ('CD_FrontEnd_To_Firebase') {
                     agent any
