@@ -90,6 +90,12 @@ pipeline {
                             sh "docker build -t evensnachi/somewhere-cinema ."
                             // here should push the image to private registry
                         }
+                        sh 'pwd'
+                        sh 'git version'
+                        sh 'git checkout main'
+                        sh 'git fetch --all'
+                        sh 'git merge Backend'
+                        sh 'git push'
                     }
                 }
                 stage('CD_Build_FrontEnd') {
