@@ -1,185 +1,178 @@
 pipeline {
     agent any
-
     triggers {
         pollSCM('* * * * *')
     }
-
     environment {
-        CI = 'true'
-        DOTNET_ROOT = '/usr/bin/dotnet'
-        PATH = "/usr/bin/dotnet:$PATH"
+            DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
+            HOME = "/tmp/DOTNET_CLI_HOME"
     }
-
     stages {
-        stage('CI_UnitTest_BackEnd') {
-            agent any
-
-            when {
-                branch 'BackEnd*'
-            }
-
+        stage ('clean workspace') {
             steps {
-                dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
-                    echo 'remove histiory test results'
-                    sh 'rm -rf TestResults'
-                    sh 'dotnet add package coverlet.collector'
-                    sh 'dotnet test --collect:\'Xplat Code Coverage\''
-                }
-            }
-
-            post {
-                success {
-                    archiveArtifacts 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
-
-                    // publishCoverage adapters: 
-                    // [
-                    //     istanbulCoberturaAdapter
-                    //     (
-                    //         path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml', 
-                    //         thresholds:
-                    //         [[
-                    //         failUnhealthy: true,
-                    //         thresholdTarget: 'Conditional',
-                    //         unhealthyThreshold: 80.0, // below 80%
-                    //         unstableThreshold: 50.0  // below 50%
-                    //         ]]
-                    //     )
-                    // ],
-                    // checksName: '',
-                    // sourceFileResolver: sourceFile('NEVER_STORE')
-                }
+                cleanWs()
             }
         }
-
-        stage('CI_Build_BackEnd') {
-            agent any
-            when {
-                branch 'BackEnd*'
-            }
-            steps {
-                dir(path: 'SomeWhereCinema.Backend') {
-                sh 'dotnet build'
-                }
-            }
-        }
-
-        stage('CI_UnitTest_FrontEnd') {
-            when {
-                branch('FrontEnd*')
-            }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                    args '-p 3000:3000'
-                }
-            }
-            steps {
-                echo "Test will later......."
-            }
-        }
-
-        stage('CI_Build_FrontEnd') {
-            when {
-                branch('FrontEnd*')
-            }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                    args '-p 3000:3000'
-                }
-            }
-            steps {
-                dir('SomeWhereCinema.Frontend') {
-                    sh 'npm cache clean --force'
-                    sh 'npm cache verify'
-                    // sh 'npm install npm'
-                    sh 'npm install'
-                    sh 'npm i -g @angular/cli'
-                    sh 'ng build'
-                }
-            }
-        }
-
-        stage('CD_BackEnd_To_DockerHub') {
-            when {
-                branch 'main'
-            }
-            agent any
-            steps {
-                dir(path: 'SomeWhereCinema.Backend') {
-                    sh "docker build -t evensnachi/somewhere-cinema ."
-                    withCredentials(
-                        [usernamePassword(
-                            credentialsId: 'usernamepasswordMultibinding',
-                            passwordVariable: 'PASSWORD', 
-                            usernameVariable: 'USERNAME')])
-                    {
-                         sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+        stage ('Continuous Integration: Unit Test') {
+            parallel {
+                stage ('CI_UnitTest_Backend'){
+                    when { branch 'BackEnd*' }
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/dotnet/sdk:7.0'
+                        }
                     }
-                    sh "docker push evensnachi/somewhere-cinema"
+                    steps {
+                        dir(path: 'SomeWhereCinema.Backend/SomeWhereCinema.UnitTest') {
+                            echo 'remove histiory test results'
+                            sh 'rm -rf TestResults'
+                            sh 'dotnet add package coverlet.collector'
+                            sh 'dotnet test --collect:\'Xplat Code Coverage\''
+                        }
+                    }
+                    post {
+                        success {
+                            dir(path: 'SomeWhereCinema.Backend'){
+                                archiveArtifacts 'SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml'
+
+                                publishCoverage adapters: [
+                                    istanbulCoberturaAdapter(
+                                        path: 'SomeWhereCinema.UnitTest/TestResults/*/coverage.cobertura.xml', 
+                                        thresholds:[[
+                                            failUnhealthy: true,
+                                            thresholdTarget: 'Conditional',
+                                            unhealthyThreshold: 80.0, // below 80%
+                                            unstableThreshold: 50.0  // below 50%
+                                        ]]
+                                    )
+                                ],
+                                checksName: ''
+                            }
+                        }
+                    }
+                }
+
+                stage('CI_UnitTest_FrontEnd') {
+                    when { branch 'FrontEnd*' }
+                    agent {
+                        docker {
+                            image 'node:16-alpine'
+                            args '-p 3000:3000'
+                        }
+                    }
+                    steps {
+                        dir('SomeWhereCinema.Frontend') {
+                            sh 'npm cache clean --force'
+                            sh 'npm cache verify'
+                            sh 'npm install'
+                            sh 'npm i @angular/cli'
+                            sh 'npm list'
+                            // sh 'npm run ng test --no-watch --np-progress --code-coverage'
+                            sh 'npm run ng v'
+                        }
+                    }
                 }
             }
         }
-        
-        stage("CR_IntegrationTest") {
-            when {
-                branch('main')
-            }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                    args '-p 3000:3000'
+
+        stage ('Continuous Delivery: Build') {
+            parallel {
+                stage('CI_Build_BackEnd_DotNet') {
+                    when { branch 'BackEnd*' }
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/dotnet/sdk:7.0'
+                        }
+                    }
+                    steps {
+                        dir(path: 'SomeWhereCinema.Backend') {
+                            sh 'dotnet build'
+                            sh "docker build -t evensnachi/somewhere-cinema ."
+                            // here should push the image to private registry
+                        }
+                    }
+                }
+                stage('CD_Build_FrontEnd') {
+                    when { branch 'FrontEnd*' }
+                    agent {
+                        docker {
+                            image 'node:16-alpine'
+                            args '-p 3000:3000'
+                        }
+                    }
+                    steps {
+                        dir('SomeWhereCinema.Frontend') {
+                            sh 'npm cache clean --force'
+                            sh 'npm cache verify'
+                            sh 'npm install'
+                            sh 'npm i @angular/cli'
+                            sh 'npm i firebase-tools'
+                            sh 'npm run ng build --omit=dev'
+                            // here should copy all my frontend code to test environment.
+                        }
+                    }
                 }
             }
+        }
+
+        stage("Continuous Release IntegrationTest") {
+            when { branch 'main' }
+            agent any
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
-                    sh 'pwd'
-                    echo "docker setup"
-                    sh "docker-compose up -d"
+                    // here should pull from private registry
+                    sh "docker-compose up"
                 }
-                dir(path: 'SomeWhereCinema.FrontEnd/E2ETest'){
+                dir(path: 'SomeWhereCinema.FrontEnd'){
+                    sh 'firebase emulator:start'
                     sh 'npm i testcafe'
                     sh 'testcafe --list-browsers'
-                    sh 'testcafe all test.ts'
+                    sh 'testcafe all E2ETest/test.ts' 
                 }
             }
             post {
                 always {
                     dir(path: 'SomeWhereCinema.Backend') {
-                        sh script:"docker-compose down", returnStatus: true
+                        sh script:"docker compose down", returnStatus: true
                     }
                     
                 }
             }
         }
 
-        // stage ('CD_FrontEnd_To_Firebase') {
-        //     agent any
-        //     when {
-        //         branch 'main'
-        //     }
-        //     steps {
-        //         dir(path: 'SomeWhereCinema.Frontend') {
-        //             // could that working like this?
-        //             withCredentials(
-        //                 [usernamePassword(
-        //                     credentialsId: 'firebase',
-        //                     passwordVariable: 'PASSWORD', 
-        //                     usernameVariable: 'USERNAME')])
-        //             {
-        //                  sh 'firebase login -u ${USERNAME} -p ${PASSWORD}'
-        //             }
-        //             sh "firebase deploy"
-        //         }
-        //     }
-        // }
+        stage ('Continuous Deploy') {
+            when { branch 'main' }
+            parallel {
+                stage ('CD_FrontEnd_To_Firebase') {
+                    agent any
+                    steps {
+                        dir(path: 'SomeWhereCinema.Frontend') {
+                            sh "firebase deploy --token ${firebase} "
+                        }
+                    }
+                }
+
+                stage('CD_BackEnd_To_DockerHub') {
+                    agent any
+                    steps {
+                        dir(path: 'SomeWhereCinema.Backend') {
+                            withCredentials(
+                                [usernamePassword(
+                                    credentialsId: 'docker',
+                                    passwordVariable: 'PASSWORD', 
+                                    usernameVariable: 'USERNAME')]){
+                                sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+                            }
+                            sh "docker push evensnachi/somewhere-cinema"
+                        }
+                    }
+                }
+            }
+        }
 
         stage ('CD_Performancetesting'){
+            when { branch 'main' }
             agent any
-            when {
-                branch 'main'
-            }
             steps {
                 echo 'performance test'
             }

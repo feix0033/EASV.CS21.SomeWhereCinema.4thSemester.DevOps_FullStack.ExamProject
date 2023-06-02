@@ -3,8 +3,8 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.FeatureManagement;
 using SomeWhereCinema.Core.Models;
-using SomeWhereCinema.DataAccess;
-using SomeWhereCinema.WebApi.DotNet7.Controllers;
+using SomeWhereCinema.DataAccess.DbContext;
+using SomeWhereCinema.WebApi.DotNet7.DTOS;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +16,9 @@ builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssembli
 builder.Services.AddSingleton(
     new MapperConfiguration(conf => 
         { 
-            conf.CreateMap<MoiveDTO, Movie>(); 
+            conf.CreateMap<MovieDto, Movie>();
+            conf.CreateMap<TheatreDto, Theatre>();
+            conf.CreateMap<OrderDto, Order>();
         })
             .CreateMapper()
     );
@@ -29,14 +31,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); 
 
 // Setup Database Context
-builder.Services.AddDbContext<MovieDbContext>(
+builder.Services.AddDbContext<DBContext>(
     // options => options.UseSqlite("Data source=db.db")
-    options => options.UseMySql(
-        "server=database;Port=3306;uid=user;pwd=12345678;database=somewherecinema",
-        new MySqlServerVersion(new Version(8,0,33))
-        )
-    );
-
+    options => options.UseMySql("server=localhost;port=3306;uid=user;pwd=12345678;database=somewherecinema",
+        new MySqlServerVersion(new Version(8,0,33)))
+);
 
 
 // Add Dependency Injection into web application

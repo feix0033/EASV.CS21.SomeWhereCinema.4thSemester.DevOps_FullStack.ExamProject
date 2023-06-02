@@ -13,7 +13,8 @@ RUN dotnet restore
 
 # copy whole project into docker image builder
 ## the path is from current workdir which is webapi up to solution dir and copy everything
-COPY ../. .
+# COPY ../. .
+COPY . . 
 
 ## run publish commend with pasth point to webapi project
 RUN dotnet publish ./SomeWhereCinema.WebApi.DotNet7/*.csproj -c Release -o /publish
@@ -24,7 +25,7 @@ WORKDIR /publish
 
 COPY --from=build-env /publish .
 
-ENV ASPNETCORE_URLS="http://0.0.0.0:7000"
+ENV ASPNETCORE_URLS="https://0.0.0.0:7000"
 EXPOSE 80
 
 ENTRYPOINT ["dotnet", "SomeWhereCinema.WebApi.DotNet7.dll"]

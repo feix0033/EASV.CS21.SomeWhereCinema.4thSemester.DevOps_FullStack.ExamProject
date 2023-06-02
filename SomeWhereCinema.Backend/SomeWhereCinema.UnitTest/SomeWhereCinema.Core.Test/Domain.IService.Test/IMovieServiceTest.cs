@@ -19,11 +19,11 @@ public class IMovieServiceTest
         var mock = new Mock<IMovieService>();
         var movieList = new List<Movie>();
         
-        mock.Setup(s => s.GetMovies())
+        mock.Setup(s => s.GetAllMovies())
             .Returns(movieList);
 
         var movieService = mock.Object;
-        Assert.Equal(movieList, movieService.GetMovies());
+        Assert.Equal(movieList, movieService.GetAllMovies());
     }
     
     

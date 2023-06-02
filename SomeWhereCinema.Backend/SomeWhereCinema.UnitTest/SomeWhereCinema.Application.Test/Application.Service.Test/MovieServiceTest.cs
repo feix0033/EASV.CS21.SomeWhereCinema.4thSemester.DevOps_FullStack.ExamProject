@@ -43,7 +43,7 @@ public class MovieServiceTest
     [Fact]
     public void MovieService_InvokeMovieRepositoryFindAll_ExactlyOnce()
     {
-        var movies = _movieService.GetMovies();
+        var movies = _movieService.GetAllMovies();
         _mock.Verify(r => r.FindAll(), Times.Once);
     }
 
@@ -51,7 +51,7 @@ public class MovieServiceTest
     public void MovieService_NoFilter_ReturnsListOfAllProducts()
     {
         _mock.Setup(r => r.FindAll()).Returns(_movies);
-        Assert.Equal(_movies,_movieService.GetMovies());
+        Assert.Equal(_movies,_movieService.GetAllMovies());
     }
     
 }

@@ -1,6 +1,8 @@
-08:48:47.719 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
-08:48:48.184 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
-08:49:21.287 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - somewherecinema-76ded-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 386ms, init: 0ms
-08:49:21.464 [NamespaceSystem-blocking-namespace-operation-dispatcher-7] INFO com.firebase.core.namespace.StateManager - Namespace somewherecinema-76ded-default-rtdb status Active to Active
-09:58:34.987 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
-09:58:35.424 [NamespaceSystem-akka.actor.default-dispatcher-12] INFO com.firebase.core.namespace.Terminator$Terminator - 1 actors left to terminate: somewherecinema-76ded-default-rtdb
+21:47:31.666 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+21:47:32.358 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
+21:47:48.878 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - somewherecinema-76ded-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 291ms, init: 0ms
+21:47:49.029 [NamespaceSystem-blocking-namespace-operation-dispatcher-7] INFO com.firebase.core.namespace.StateManager - Namespace somewherecinema-76ded-default-rtdb status Active to Active
+00:55:50.304 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+00:55:51.316 [NamespaceSystem-akka.actor.default-dispatcher-14] INFO com.firebase.core.namespace.Terminator$Terminator - 1 actors left to terminate: somewherecinema-76ded-default-rtdb
+00:55:51.666 [NamespaceSystem-akka.actor.default-dispatcher-12] INFO com.firebase.core.namespace.NamespaceActor - stopped namespace actor for somewherecinema-76ded-default-rtdb
+00:55:51.699 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FirebaseAuthService} from "../../firebaseService/firebase-auth.service";
+import {FirebaseAuthService} from "../../shard/services/firebaseService/firebase-auth.service";
 
 @Component({
   selector: 'app-user-login',
@@ -12,5 +12,11 @@ export class UserLoginComponent {
   constructor(public firebaseAuthService:FirebaseAuthService) {
   }
 
+  userLogin(){
+
+  }
+  userLogout(){
+
+  }
 }
 

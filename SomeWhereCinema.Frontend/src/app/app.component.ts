@@ -1,19 +1,18 @@
-import {Component, OnDestroy} from '@angular/core';
-import {FirebaseAuthService} from "./firebaseService/firebase-auth.service";
+import {Component} from '@angular/core';
+import {FirebaseAuthService} from "./shard/services/firebaseService/firebase-auth.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnDestroy{
+export class AppComponent {
   title = 'SomeWhereCinema.Frontend';
-
-
+  public auth;
   constructor(private firebaseAuthService:FirebaseAuthService) {
+    this.auth = this.firebaseAuthService.auth;
   }
-
-  ngOnDestroy(): void {
-    // this.firebaseAuthService.logOut();
+  logout() {
+    this.auth.signOut();
   }
 }
