@@ -121,7 +121,7 @@ pipeline {
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
                     // here should pull from private registry
-                    sh "docker compose up"
+                    sh "docker-compose up"
                 }
                 dir(path: 'SomeWhereCinema.FrontEnd'){
                     sh 'firebase emulator:start'
