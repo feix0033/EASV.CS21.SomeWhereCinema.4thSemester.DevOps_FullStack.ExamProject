@@ -90,11 +90,11 @@ pipeline {
                             sh "docker build -t evensnachi/somewhere-cinema ."
                             // here should push the image to private registry
                         }
-                        sh 'git remote add staging https://github.com/feix0033/EASV.CS21.SomeWhereCinema.4thSemester.DevOps_FullStack.ExamProject.git'
-                        sh 'git checkout origin/main'
-                        sh 'git fetch --all'
-                        sh 'git merge Backend'
-                        sh 'git push'
+                        // sh 'git remote add staging https://github.com/feix0033/EASV.CS21.SomeWhereCinema.4thSemester.DevOps_FullStack.ExamProject.git'
+                        // sh 'git checkout origin/main'
+                        // sh 'git fetch --all'
+                        // sh 'git merge Backend'
+                        // sh 'git push'
                     }
                 }
                 stage('CD_Build_FrontEnd') {
