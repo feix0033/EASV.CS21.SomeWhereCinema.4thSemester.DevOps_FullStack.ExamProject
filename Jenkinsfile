@@ -112,7 +112,7 @@ pipeline {
             agent any
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
-                    sh "docker compose up -d"
+                    sh "docker-compose up -d"
                 }
                 dir(path: 'SomeWhereCinema.FrontEnd'){
                     sh 'npm i testcafe'
