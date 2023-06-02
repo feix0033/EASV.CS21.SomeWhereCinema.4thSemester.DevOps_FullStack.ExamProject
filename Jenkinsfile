@@ -92,6 +92,7 @@ pipeline {
                         }
                         sh 'pwd'
                         sh 'git version'
+                        sh 'git branch --list'
                         sh 'git checkout main'
                         sh 'git fetch --all'
                         sh 'git merge Backend'
