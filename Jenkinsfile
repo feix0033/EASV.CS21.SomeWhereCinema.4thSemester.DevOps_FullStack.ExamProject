@@ -16,6 +16,7 @@ pipeline {
         stage ('Continuous Integration: Unit Test') {
             parallel {
                 stage ('CI_UnitTest_Backend'){
+                    when { branch 'BackEnd*' }
                     agent {
                         docker {
                             image 'mcr.microsoft.com/dotnet/sdk:7.0'
@@ -52,6 +53,7 @@ pipeline {
                 }
 
                 stage('CI_UnitTest_FrontEnd') {
+                    when { branch 'FrontEnd*' }
                     agent {
                         docker {
                             image 'node:16-alpine'
@@ -76,6 +78,7 @@ pipeline {
         stage ('Continuous Delivery: Build') {
             parallel {
                 stage('CI_Build_BackEnd_DotNet') {
+                    when { branch 'BackEnd*' }
                     agent {
                         docker {
                             image 'mcr.microsoft.com/dotnet/sdk:7.0'
@@ -90,6 +93,7 @@ pipeline {
                     }
                 }
                 stage('CD_Build_FrontEnd') {
+                    when { branch 'FrontEnd*' }
                     agent {
                         docker {
                             image 'node:16-alpine'
@@ -112,9 +116,11 @@ pipeline {
         }
 
         stage("Continuous Release IntegrationTest") {
+            when { branch 'main' }
             agent any
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
+                    // here should pull from private registry
                     sh "docker-compose up"
                 }
                 dir(path: 'SomeWhereCinema.FrontEnd'){
@@ -135,6 +141,7 @@ pipeline {
         }
 
         stage ('Continuous Deploy') {
+            when { branch 'main' }
             parallel {
                 stage ('CD_FrontEnd_To_Firebase') {
                     agent any
@@ -164,6 +171,7 @@ pipeline {
         }
 
         stage ('CD_Performancetesting'){
+            when { branch 'main' }
             agent any
             steps {
                 echo 'performance test'
