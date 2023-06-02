@@ -1,7 +1,7 @@
 pipeline {
     agent any
     // triggers {
-    //     pollSCM('* * * * *')
+    //     pollSCM('0-60 * * * *')
     // }
     environment {
             DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
@@ -90,12 +90,10 @@ pipeline {
                             sh "docker build -t evensnachi/somewhere-cinema ."
                             // here should push the image to private registry
                         }
-                        sh 'pwd'
-                        sh 'git version'
-                        sh 'git checkout origin/main'
-                        sh 'git fetch --all'
-                        sh 'git merge Backend'
-                        sh 'git push'
+                        // sh 'git checkout origin/main'
+                        // sh 'git fetch --all'
+                        // sh 'git merge Backend'
+                        // sh 'git push'
                     }
                 }
                 stage('CD_Build_FrontEnd') {
