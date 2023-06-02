@@ -1,8 +1,8 @@
 pipeline {
     agent any
-    triggers {
-        pollSCM('* * * * *')
-    }
+    // triggers {
+    //     pollSCM('* * * * *')
+    // }
     environment {
             DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
             HOME = "/tmp/DOTNET_CLI_HOME"
