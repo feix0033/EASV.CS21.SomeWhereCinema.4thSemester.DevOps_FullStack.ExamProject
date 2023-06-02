@@ -85,6 +85,7 @@ pipeline {
                         dir(path: 'SomeWhereCinema.Backend') {
                             sh 'dotnet build'
                             sh "docker build -t evensnachi/somewhere-cinema ."
+                            // here should push the image to private registry
                         }
                     }
                 }
@@ -101,7 +102,9 @@ pipeline {
                             sh 'npm cache verify'
                             sh 'npm install'
                             sh 'npm i @angular/cli'
+                            sh 'npm i firebase-tools'
                             sh 'npm run ng build --omit=dev'
+                            // here should copy all my frontend code to test environment.
                         }
                     }
                 }
@@ -112,9 +115,10 @@ pipeline {
             agent any
             steps {
                 dir(path: 'SomeWhereCinema.Backend') {
-                    sh "docker compose up"
+                    sh "docker-compose up"
                 }
                 dir(path: 'SomeWhereCinema.FrontEnd'){
+                    sh 'firebase emulator:start'
                     sh 'npm i testcafe'
                     sh 'testcafe --list-browsers'
                     sh 'testcafe all E2ETest/test.ts' 
