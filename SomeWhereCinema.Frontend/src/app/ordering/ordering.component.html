@@ -1,12 +1,7 @@
 <h2>{{movie.name}}</h2><br>
-
 <hr>
 
-<p>Please choose which day you want to come: </p>
-<input type="date" [(ngModel)]="chooseDate" >
-<p *ngFor="let p of projectionPlan"></p>
-<hr>
-<div *ngFor="let p of projectionPlan">
+<div *ngFor="let p of projectionPlans">
   <button (click)="getSitList(p)" >
     <div>Theatre: {{p.theatreId}}</div>
     <div>Time: {{p.startTime}}</div>
@@ -14,6 +9,8 @@
   <hr>
 </div>
 
-<button *ngFor="let s of sitsNumbers">
-  {{s}}
-</button>
+<span *ngFor="let s of sitsNumbers">
+  <button mat-stroked-button (click)="setOrder(s)">
+    {{s}}
+  </button>
+</span>

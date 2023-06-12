@@ -12,6 +12,8 @@ public class OrderRepository : IOrderRepository
     public OrderRepository(DBContext dbContext)
     {
         _dbContext = dbContext;
+        // _dbContext.Database.EnsureDeleted();
+        // _dbContext.Database.EnsureCreated();
     }
 
     private void createDb()

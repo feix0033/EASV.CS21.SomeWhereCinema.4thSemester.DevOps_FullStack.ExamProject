@@ -4,11 +4,13 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {catchError} from "rxjs";
 
 export const customAxios = axios.create({
-  baseURL: 'http://127.0.0.1:5001/somewherecinema-76ded/us-central1/api'
+  // baseURL: 'http://127.0.0.1:5001/somewherecinema-76ded/us-central1/api'
 });
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class HttpService {
   constructor(private matSnackbar: MatSnackBar) {
     customAxios.interceptors.response.use(
@@ -29,12 +31,15 @@ export class HttpService {
       }
     )
   }
+
   async getAll(url) {
     return (await customAxios.get(url)).data;
   }
+
   async create(url, dto) {
     return (await customAxios.post(url,dto)).data;
   }
+
   async get(url,dto) {
     console.log("require url: " + url);
     console.log("require dto: " + dto.id);
@@ -47,5 +52,4 @@ export class HttpService {
   async delete(url,dto) {
     return (await customAxios.delete(url,dto)).data;
   }
-
 }

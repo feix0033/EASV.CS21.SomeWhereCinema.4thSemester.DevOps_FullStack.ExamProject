@@ -6,7 +6,7 @@ import {TheatreDto} from "../interfaces/theatre-dto";
   providedIn: 'root'
 })
 export class TheatreService {
-  theatreUrl = 'https://localhost:7000/api/Theatre/';
+  theatreUrl = 'http://localhost:7001/api/Theatre/'; // this is backend url
   constructor(private httpService:HttpService) { }
 
   getTheatre(id: number | undefined) {

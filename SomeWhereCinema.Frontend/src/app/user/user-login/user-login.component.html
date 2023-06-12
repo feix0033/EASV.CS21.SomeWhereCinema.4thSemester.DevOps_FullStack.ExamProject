@@ -1,18 +1,15 @@
 <h1>Please Log in</h1>
 
-<div *ngIf="firebaseAuthService.auth.currentUser != null else loginTemplet">
-  You have been login!
-  <a routerLink="/">
-    Home
-  </a><br>
+<div *ngIf="auth.currentUser != null else loginTemplet">
+  <p>You have been login!</p>
   <a routerLink="../user">
-    {{firebaseAuthService.auth.currentUser.displayName}}
+    {{auth.currentUser.displayName}}
   </a>
 </div>
 
-
 <ng-template #loginTemplet>
-  <input type="email" [(ngModel)]="email">
+  <input type="email" [(ngModel)]="user.email">
   <input type="password" [(ngModel)]="password">
-  <button (click)="firebaseAuthService.auth.signInWithEmailAndPassword(email,password)" routerLink="/">Log In</button>
+  <button (click)="userLogin(user,password)">Log In</button>
+  <button routerLink="/userRegister">Register</button>
 </ng-template>

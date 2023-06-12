@@ -12,6 +12,8 @@ public class TheatreRepository : ITheatreRepository
     public TheatreRepository(DBContext dbContext)
     {
         _dbContext = dbContext;
+        // _dbContext.Database.EnsureDeleted();
+        // _dbContext.Database.EnsureCreated();
     }
     
     private void CreateDb()

@@ -14,6 +14,8 @@ public class MovieRepository : IMovieRepository
     public MovieRepository(DBContext dbContext)
     {
         _dbContext = dbContext;
+        // _dbContext.Database.EnsureDeleted();
+        // _dbContext.Database.EnsureCreated();
     }
     
     public void CreateDb()

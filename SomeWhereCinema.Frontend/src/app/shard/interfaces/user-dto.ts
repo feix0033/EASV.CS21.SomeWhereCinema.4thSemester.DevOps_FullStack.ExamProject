@@ -1,6 +1,6 @@
 export interface UserDto {
-  name: '',
-  email: '',
+  name: string,
+  email: string,
   tel: number,
   orderHistory?:[]
 }

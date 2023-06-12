@@ -24,6 +24,7 @@
     "@ionic/cli": "^7.1.1",
     "axios": "^1.4.0",
     "firebase": "^9.22.0",
+    "firebase-admin": "^11.9.0",
     "firebase-functions": "^4.4.0",
     "firebase-tools": "^12.1.0",
     "npm": "^9.6.6",
@@ -36,6 +37,7 @@
     "@angular-devkit/build-angular": "^15.2.6",
     "@angular/cli": "~15.2.6",
     "@angular/compiler-cli": "^15.2.0",
+    "@ionic/angular-toolkit": "latest",
     "@types/jasmine": "~4.3.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
@@ -43,7 +45,6 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
-    "typescript": "~4.9.4",
-    "@ionic/angular-toolkit": "latest"
+    "typescript": "~4.9.4"
   }
 }

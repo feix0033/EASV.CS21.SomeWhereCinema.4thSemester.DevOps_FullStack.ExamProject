@@ -8,22 +8,32 @@ import {UserDto} from "../../interfaces/user-dto";
 })
 
 export class FirebaseAuthService {
-  auth;
+
+  auth: any;
+
   constructor(public firebaseService:FirebaseService) {
     this.auth = firebaseService.firebaseApplication.auth();
     this.auth.useEmulator('http://127.0.0.1:9099');
   }
-   register(user: UserDto, password: string) {
-     this.auth.createUserWithEmailAndPassword(user.email, password)
+
+   register(email: string, password: string, userDto:UserDto) {
+     this.auth.createUserWithEmailAndPassword(email, password)
+       .then(success => {
+         this.auth.currentUser.updateProfile({
+           displayName: userDto.name,
+           phoneNumber: userDto.tel
+         })
+       })
+       .catch(err => {console.log("user register failed : " + err)})
   }
-  logIn(user:UserDto, password:string){
-    this.auth.signInWithEmailAndPassword(user.email, password)
-      .then(success => {
-      console.log('logged in')
-    }).catch(err => {
-      console.log('not logged in' + err)
-    })
+
+  logIn(email, password:string){
+    this.auth
+      .signInWithEmailAndPassword(email, password)
+      .then(success => { console.log('logged in!')})
+      .catch(err => { console.log('not logged in: ' + err)})
   }
+
   logOut(){
     this.auth.signOut();
   }

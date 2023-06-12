@@ -22,15 +22,12 @@ export class UserRegisterComponent {
   }
 
   register(user: UserDto, password: string) {
-    this.firebaseAuthService.register(user, password);
-    this.firestoreService.create(
-      'UserInfo',
-      {
-        name: user.name,
-        email: user.email,
-        tel: user.tel,
+    this.firebaseAuthService.register(user.email, password, user);
+    this.firestoreService.create('UserInfo', {
+        email: this.user.email
       });
   }
+
   signOut() {
     this.firebaseAuthService.logOut();
   }

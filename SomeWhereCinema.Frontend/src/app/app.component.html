@@ -1,17 +1,21 @@
+<mat-toolbar color="primary">
+  <h1>Some Where Cinema</h1>
+  <div *ngIf="auth.currentUser else login">
+    <button mat-button color="basic" (click)="routeToUserInfo()">Welcome : {{auth.currentUser.displayName}}</button>
+    <button class="button" mat-raised-button color="basic" (click)="logout()">logout</button>
+  </div>
+  <ng-template #login>
+    <button class="button" mat-raised-button color="primary" routerLink="userLogin">Login</button>
+  </ng-template>
+</mat-toolbar>
 
-<ion-header style="margin:20px" routerLink="">Some Where Cinema</ion-header>
-<hr>
-<div *ngIf="auth.currentUser">
+<div>
   <a routerLink="" style="margin:5px">Home</a>
   <a routerLink="user" style="margin:5px">User</a>
   <a routerLink="movie" style="margin:5px">Movie</a>
   <a routerLink="ordering" style="margin:5px">Order</a>
-  <button (click)="logout()">LogOut</button>
 </div>
-<div *ngIf="auth.currentUser == null">
-  <ion-nav-link routerLink="userRegister" style="margin:5px">Register</ion-nav-link>
-  <ion-nav-link routerLink="userLogin" style="margin:5px">Login</ion-nav-link>
-</div>
+
 <hr>
 
 <router-outlet></router-outlet>

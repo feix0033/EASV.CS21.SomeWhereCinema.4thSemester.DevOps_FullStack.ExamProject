@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {MovieDto} from "../shard/interfaces/movie-dto";
-import {HttpService} from "../shard/services/httpService/http.service";
-import {OrderingComponent} from "../ordering/ordering.component";
 import {MovieService} from "../shard/services/movie.service";
 
 @Component({

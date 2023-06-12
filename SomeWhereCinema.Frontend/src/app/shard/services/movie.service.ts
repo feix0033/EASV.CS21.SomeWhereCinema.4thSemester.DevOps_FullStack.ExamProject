@@ -12,7 +12,7 @@ export class MovieService {
 
   public async getAllMovies():Promise<MovieDto[]> {
     console.log("get all moive info ...");
-    return await this.httpService.getAll('https://localhost:7000/Movie/GetAllMovie');
+    return await this.httpService.getAll('http://localhost:7001/Movie/GetAllMovie');
   }
 
   deleteMovie(m: MovieDto) {
@@ -48,6 +48,6 @@ export class MovieService {
 
   async getMovieById(id: any) {
     console.log("get movie by id : ",id);
-    return await this.httpService.get('https://localhost:7000/Movie/ReadMovie', {id: id});
+    return await this.httpService.get('http://localhost:7001/Movie/ReadMovie', {id: id});
   }
 }

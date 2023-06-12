@@ -2,17 +2,16 @@
   <h2>
     {{auth.currentUser.email}}
   </h2>
-  <button (click)="firebaseAuthService.logOut()">LogOut</button>
-
-  <p *ngFor="let info of firestoreService.values">
-    {{info | json}}
-  </p>
+  User : {{auth.currentUser.displayName}}<br>
+  tel : {{auth.currentUser.phoneNumber}}
 </div>
+
 <div *ngIf="auth.currentUser == null">
   Your are not login yet...
   <button routerLink="userLogIn">LogIn</button>
 </div>
 
+<div *ngFor="let o of orders">{{o|json}}</div>
 
 
 

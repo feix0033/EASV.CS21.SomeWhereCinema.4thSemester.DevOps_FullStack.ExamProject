@@ -1,54 +1,26 @@
 const admin = require("firebase-admin");
-const cors = require('cors');
 const functions = require('firebase-functions');
-const app = require('express')().use(cors());
+const cors = require('cors');
+const app = require('express')();
 
-const toxicity = require('@tensorflow-models/toxicity');
+app.use(cors());
+admin.initializeApp();
 
-
-
-
-
-
-let db = [
-  {name: "John Wick", price: 120},
-  {name: "John Wick II", price: 120}
-];
-
-// admin.initializeApp({projectId: 'SomeWhereCinema'});
-
-app.get('/movie/GetAllMovie',
-  (req, res) =>
-  {
-    functions.logger.log(req.body);
-    return res.json(db);
-  });
-
-app.post('/movie/CreateMovie',
-  (req, res) =>
-  {
-    functions.logger.log(req.body);
-    db.push({"name":req.body.name,"price":req.body.price});
-    return res.json([{"name":req.body.name,"price":req.body.price}]);
-    // db.push(req);
-  });
-
-app.delete('/Movie/delete',
-  (req, res) =>
-  {
-    functions.logger.log(req.body.name);
-    db = db.splice(db.indexOf(req.body),1);
-    return res.json(db);
-  }
-);
-
+app.post("/order/creatOrder",
+  (res,req) =>{
+    let order = res.body;
+    functions.logger.log(order);
+    admin.firestore()
+      .collection(order.userId)
+      .doc(order.orderId)
+      .set({orderHistory:order});
+});
 
 exports.api = functions.https.onRequest(app);
 
 
-//
 // exports.authTriggeredFunction = functions.auth
-//   .user.onCreate(
+//   .user().onCreate(
 //   (user,context) => {
 //     admin
 //       .firestore()

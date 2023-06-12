@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {UserRegisterComponent} from "./user/user-register/user-register.component";
 import {UserLoginComponent} from "./user/user-login/user-login.component";
-import {OrderingModule} from "./ordering/ordering.module";
 
 const routes: Routes = [
   {path: '', loadChildren: () => import('./movie/movie.module').then(l => l.MovieModule)},

@@ -7,7 +7,7 @@ import {ProjectionPlanDto} from "../interfaces/projection-plan-dto";
   providedIn: 'root'
 })
 export class ProjectionPlanService {
-  private projectionPlanUrl: string = 'https://localhost:7000/api/ProjectionPlan/';
+  private projectionPlanUrl: string = 'http://localhost:7001/api/ProjectionPlan/';
 
   constructor(private httpService:HttpService) { }
 

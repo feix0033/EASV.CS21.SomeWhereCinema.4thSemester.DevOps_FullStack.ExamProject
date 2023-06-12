@@ -19,6 +19,7 @@ builder.Services.AddSingleton(
             conf.CreateMap<MovieDto, Movie>();
             conf.CreateMap<TheatreDto, Theatre>();
             conf.CreateMap<OrderDto, Order>();
+            conf.CreateMap<ProjectionPlanDto, ProjectionPlan>();
         })
             .CreateMapper()
     );
@@ -32,9 +33,9 @@ builder.Services.AddSwaggerGen();
 
 // Setup Database Context
 builder.Services.AddDbContext<DBContext>(
-    // options => options.UseSqlite("Data source=db.db")
-    options => options.UseMySql("server=localhost;port=3306;uid=user;pwd=12345678;database=somewherecinema",
-        new MySqlServerVersion(new Version(8,0,33)))
+    options => options.UseSqlite("Data source=db.db")
+    // options => options.UseMySql("server=localhost;port=3306;uid=user;pwd=12345678;database=somewherecinema",
+    //     new MySqlServerVersion(new Version(8,0,33)))
 );
 
 

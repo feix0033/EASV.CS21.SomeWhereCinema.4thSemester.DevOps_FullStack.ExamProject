@@ -7,6 +7,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import { MovieComponent } from './movie.component';
 import {OrderingModule} from "../ordering/ordering.module";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatChipsModule} from "@angular/material/chips";
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import {OrderingModule} from "../ordering/ordering.module";
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    OrderingModule
+    OrderingModule,
+    MatGridListModule,
+    MatChipsModule
   ],
 
     exports: [
